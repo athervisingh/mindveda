@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
+import Image from 'next/image'
 
 export default function Header() {
   const { user, logout } = useAuth()
@@ -14,7 +15,14 @@ export default function Header() {
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white font-semibold text-sm">MV</div>
+          <div className="w-12 h-12 relative">
+            <Image 
+              src="/logo.jpeg" 
+              alt="MindVeda Logo" 
+              fill 
+              className="object-contain"
+            />
+          </div>
           <div>
             <div className="font-semibold text-sm">MindVeda</div>
             <div className="text-xs text-gray-500">by Babita</div>
@@ -22,10 +30,12 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
+          <Link href="/" className="text-sm hover:text-brand transition-colors">Home</Link>
+          <Link href="/services" className="text-sm hover:text-brand transition-colors">Services</Link>
           <Link href="/packages" className="text-sm hover:text-brand transition-colors">Packages</Link>
           <Link href="/blog" className="text-sm hover:text-brand transition-colors">Blog</Link>
           <Link href="/resources" className="text-sm hover:text-brand transition-colors">Resources</Link>
-          <Link href="/about" className="text-sm hover:text-brand transition-colors">About</Link>
+          <Link href="/expert" className="text-sm hover:text-brand transition-colors">Expert</Link>
           <Link href="/contact" className="text-sm hover:text-brand transition-colors">Contact</Link>
         </nav>
 
