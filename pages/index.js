@@ -65,7 +65,7 @@ export default function Home() {
                     </Link>
                   </motion.div>
                   <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
-                    <Link href="/packages" className="inline-flex items-center gap-2 rounded-full border-2 border-gray-400 bg-white px-8 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50">
+                    <Link href="/services" className="inline-flex items-center gap-2 rounded-full border-2 border-gray-400 bg-white px-8 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50">
                       Explore Services
                     </Link>
                   </motion.div>
