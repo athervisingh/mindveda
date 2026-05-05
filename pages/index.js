@@ -48,7 +48,7 @@ export default function Home() {
               className="flex items-center gap-2 mb-5"
             >
               <div className="flex items-center">
-                <div className="h-px w-36 bg-[#4a5e3a]/60" />
+                <div className="h-px w-44 bg-[#4a5e3a]/60" />
                 <svg width="20" height="20" viewBox="0 0 12 12" fill="none" className="text-[#4a5e3a]">
                   <path d="M6 10C6 10 2 7.5 2 4.5C2 3 3.5 2 5 3C5 2 5.5 1 6 1C6.5 1 7 2 7 3C8.5 2 10 3 10 4.5C10 7.5 6 10 6 10Z" stroke="currentColor" strokeWidth="0.9" fill="none" />
                 </svg>
@@ -60,7 +60,7 @@ export default function Home() {
                 <svg width="20" height="20" viewBox="0 0 12 12" fill="none" className="text-[#4a5e3a] scale-x-[-1]">
                   <path d="M6 10C6 10 2 7.5 2 4.5C2 3 3.5 2 5 3C5 2 5.5 1 6 1C6.5 1 7 2 7 3C8.5 2 10 3 10 4.5C10 7.5 6 10 6 10Z" stroke="currentColor" strokeWidth="0.9" fill="none" />
                 </svg>
-                <div className="h-px w-36 bg-[#4a5e3a]/60" />
+                <div className="h-px w-44 bg-[#4a5e3a]/60" />
               </div>
             </motion.div>
 
@@ -69,7 +69,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.1 }}
-              className="leading-none text-[#1a3520]"
+              className="leading-none text-[#2d4f3a]"
               style={{
                 fontFamily: 'Playfair Display, Georgia, serif',
                 fontSize: 'clamp(4.5rem, 10vw, 8.5rem)',
@@ -186,25 +186,62 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.9 }}
-            className="absolute bottom-0 left-0 z-10 pl-[10%] pb-[4%]"
+            className="absolute bottom-6 left-[4%] z-10"
           >
-            <div className="flex items-start gap-0 divide-x divide-[#1a3520]/15 border-t border-[#1a3520]/10 pt-5 w-fit">
+            <div className="backdrop-blur-sm rounded-2xl shadow-md flex items-center divide-x divide-[#c9b97a]/40 px-2 py-5">
               {[
                 {
                   label1: 'Mindfulness', label2: 'Practices',
-                  icon: <svg width="46" height="46" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><path d="M14 4C14 4 8 8 8 14C8 17.31 10.69 20 14 20C17.31 20 20 17.31 20 14C20 8 14 4 14 4Z" /><path d="M14 20V24M10 24H18" /><path d="M7 10C5 10 3 12 3 14M21 10C23 10 25 12 25 14" /></svg>
+                  icon: (
+                    <svg width="54" height="54" viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="22" cy="8.5" r="3.2"/>
+                      <path d="M22 11.7 L22 20"/>
+                      <path d="M15 17.5 Q10 19 8 23"/>
+                      <path d="M29 17.5 Q34 19 36 23"/>
+                      <path d="M8 33 Q11 25 18 22 Q20 21.5 22 21.5 Q24 21.5 26 22 Q33 25 36 33"/>
+                      <path d="M8 33 Q13 29 18 31 Q20 32 22 32 Q24 32 26 31 Q31 29 36 33"/>
+                    </svg>
+                  ),
                 },
                 {
                   label1: 'Emotional', label2: 'Wellbeing',
-                  icon: <svg width="46" height="46" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><circle cx="14" cy="10" r="5" /><path d="M6 24C6 19.58 9.58 16 14 16C18.42 16 22 19.58 22 24" /></svg>
+                  icon: (
+                    <svg width="54" height="54" viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 10 C16 10 11 14.5 11 20 C11 23 12.5 25.5 15 27 L15 32 L29 32 L29 27 C31.5 25.5 33 23 33 20 C33 14.5 28 10 22 10Z"/>
+                      <path d="M22 10 C22 10 22 15 22 20"/>
+                      <path d="M11.5 18 Q14 16 16 18 Q18 20 20 18"/>
+                      <path d="M24 18 Q26 20 28 18 Q30 16 32.5 18"/>
+                      <path d="M17 27 L17 32 M27 27 L27 32"/>
+                    </svg>
+                  ),
                 },
                 {
                   label1: 'Holistic', label2: 'Healing',
-                  icon: <svg width="46" height="46" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><path d="M14 6L16 10H21L17 13L19 18L14 15L9 18L11 13L7 10H12L14 6Z" /><circle cx="14" cy="14" r="11" strokeWidth="1" /></svg>
+                  icon: (
+                    <svg width="54" height="54" viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 7 C22 7 10 14 10 24 C10 30 15.5 35 22 35 C28.5 35 34 30 34 24 C34 14 22 7 22 7Z"/>
+                      <path d="M22 35 L22 7"/>
+                      <path d="M22 18 Q17 21 15 26"/>
+                      <path d="M22 22 Q27 19 29 24"/>
+                      <path d="M22 26 Q18 28 17 31"/>
+                    </svg>
+                  ),
                 },
                 {
                   label1: 'Personal', label2: 'Growth',
-                  icon: <svg width="46" height="46" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><path d="M6 22C6 22 8 14 14 10C20 6 22 6 22 6C22 6 22 8 18 14C14 20 6 22 6 22Z" /><path d="M6 22L12 16" /><circle cx="14" cy="10" r="1.5" fill="currentColor" /></svg>
+                  icon: (
+                    <svg width="54" height="54" viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="22" cy="22" r="7"/>
+                      <line x1="22" y1="7" x2="22" y2="11"/>
+                      <line x1="22" y1="33" x2="22" y2="37"/>
+                      <line x1="7" y1="22" x2="11" y2="22"/>
+                      <line x1="33" y1="22" x2="37" y2="22"/>
+                      <line x1="11.5" y1="11.5" x2="14.3" y2="14.3"/>
+                      <line x1="29.7" y1="29.7" x2="32.5" y2="32.5"/>
+                      <line x1="32.5" y1="11.5" x2="29.7" y2="14.3"/>
+                      <line x1="14.3" y1="29.7" x2="11.5" y2="32.5"/>
+                    </svg>
+                  ),
                 },
               ].map(({ label1, label2, icon }, i) => (
                 <motion.div
@@ -213,12 +250,12 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1 + i * 0.07 }}
                   whileHover={{ y: -2 }}
-                  className="flex flex-col items-center gap-1.5 px-6 cursor-default text-[#4a5e3a]"
+                  className="flex flex-col items-center gap-2 px-8 cursor-default text-[#8a7040]"
                 >
                   {icon}
                   <div className="text-center" style={{ fontFamily: 'Lato, sans-serif' }}>
-                    <div className="text-[11px] font-semibold text-[#1a3520]">{label1}</div>
-                    <div className="text-[11px] font-light text-[#5a5a3a]">{label2}</div>
+                    <div className="text-[18px] font-semibold text-[#1f1d17]">{label1}</div>
+                    <div className="text-[18px] font-normal text-[#1f1d17]">{label2}</div>
                   </div>
                 </motion.div>
               ))}
@@ -265,7 +302,7 @@ export default function Home() {
             className="text-center mb-12"
           >
             <p className="text-brand text-sm uppercase tracking-[0.28em] font-semibold">What we offer</p>
-            <h2 className="mt-3 text-3xl md:text-4xl font-semibold text-[#2d2343]">Support for every chapter of life</h2>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold text-[#1a3520]">Support for every chapter of life</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-5 gap-6">
@@ -303,7 +340,7 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">About Babita</p>
-              <h2 className="mt-3 text-3xl md:text-4xl font-semibold text-[#2d2343]">Hi, I'm Babita</h2>
+              <h2 className="mt-3 text-3xl md:text-4xl font-semibold text-[#1a3520]">Hi, I'm Babita</h2>
               <p className="mt-2 text-lg text-gray-600">Your partner in healing and growth.</p>
               <p className="mt-6 text-gray-600 leading-8 max-w-2xl">
                 With 15+ years of experience in clinical psychology and holistic wellness, I blend science-backed therapy with mindful practices to help people heal deeply and live fully.
@@ -334,7 +371,7 @@ export default function Home() {
           <div className="flex items-center justify-between mb-10">
             <div>
               <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">From our blog</p>
-              <h2 className="mt-2 text-3xl font-semibold text-[#2d2343]">Practical articles and emotional support</h2>
+              <h2 className="mt-2 text-3xl font-semibold text-[#1a3520]">Practical articles and emotional support</h2>
             </div>
             <Link href="/blog" className="text-sm font-medium text-brand">View all articles →</Link>
           </div>
@@ -355,8 +392,8 @@ export default function Home() {
               >
                 <ImagePlaceholder width="w-full" height="h-52" label="" />
                 <div className="p-6">
-                  <div className="inline-flex rounded-full bg-[#f4edf8] px-3 py-1 text-xs font-medium text-brand">Mindfulness</div>
-                  <h3 className="mt-4 text-xl font-semibold text-[#2d2343] group-hover:text-brand transition-colors">{title}</h3>
+                  <div className="inline-flex rounded-full bg-[#edf5ee] px-3 py-1 text-xs font-medium text-brand">Mindfulness</div>
+                  <h3 className="mt-4 text-xl font-semibold text-[#1a3520] group-hover:text-brand transition-colors">{title}</h3>
                   <p className="mt-3 text-sm leading-7 text-gray-600">A dummy article card with a premium layout, perfect for your later real content.</p>
                   <Link href="/blog" className="mt-5 inline-flex text-sm font-medium text-brand">Read more →</Link>
                 </div>
@@ -369,7 +406,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 items-stretch">
             <div className="rounded-[32px] bg-[#fffaf0] p-8 shadow-soft">
               <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">Begin your journey today</p>
-              <h2 className="mt-3 text-3xl font-semibold text-[#2d2343]">A calm first step for booking and support</h2>
+              <h2 className="mt-3 text-3xl font-semibold text-[#1a3520]">A calm first step for booking and support</h2>
               <p className="mt-4 text-gray-600 leading-8 max-w-2xl">
                 You can book a session, choose a package, or simply send a message. The experience should feel warm, premium, and reassuring from the first click.
               </p>

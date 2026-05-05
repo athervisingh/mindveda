@@ -80,7 +80,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 pt-8 text-center text-sm">
           <p>© {new Date().getFullYear()} MindVeda by Babita. All rights reserved.</p>
-          <p className="mt-2">Designed with 💜 for your well-being</p>
+          <p className="mt-2">Designed with 💚 for your well-being</p>
         </div>
       </div>
     </footer>

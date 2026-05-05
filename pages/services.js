@@ -22,7 +22,7 @@ export default function Services() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-br from-[#2d2343] to-brand py-20 md:py-28 relative overflow-hidden">
+        <section className="bg-gradient-to-br from-[#1a3520] to-brand py-20 md:py-28 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-white blur-3xl" />
             <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-brand-accent blur-3xl" />
@@ -113,7 +113,7 @@ export default function Services() {
                 {/* Content */}
                 <div className="px-6 py-5 flex flex-col flex-1">
                   <span className="text-xs font-medium text-brand/60 uppercase tracking-wider mb-1">{service.category}</span>
-                  <h3 className="text-xl font-semibold text-[#2d2343] mb-2 leading-snug">{service.title}</h3>
+                  <h3 className="text-xl font-semibold text-[#1a3520] mb-2 leading-snug">{service.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed flex-1">{service.shortDescription}</p>
 
                   {/* Price & Duration */}
@@ -157,7 +157,7 @@ export default function Services() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-gradient-to-r from-brand to-[#2d2343] py-16 md:py-20 text-white">
+        <section className="bg-gradient-to-r from-brand to-[#1a3520] py-16 md:py-20 text-white">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-4xl md:text-5xl font-semibold mb-4">Not Sure Where to Start?</h2>
             <p className="text-lg mb-8 text-white/80 max-w-xl mx-auto">

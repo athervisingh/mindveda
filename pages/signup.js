@@ -41,7 +41,7 @@ export default function Signup() {
             className="rounded-[34px] bg-white p-8 shadow-soft border border-gray-100"
           >
             <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">Create account</p>
-            <h1 className="mt-3 text-3xl font-semibold text-[#2d2343]">Start your healing journey</h1>
+            <h1 className="mt-3 text-3xl font-semibold text-[#1a3520]">Start your healing journey</h1>
             <p className="mt-2 text-gray-600">Create your account to save packages, book sessions, and get personalized support.</p>
             {error && <div className="mt-5 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>}
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -90,7 +90,7 @@ export default function Signup() {
             </p>
           </motion.div>
 
-          <div className="rounded-[34px] bg-[#221c33] p-8 text-white shadow-2xl shadow-[#221c33]/20">
+          <div className="rounded-[34px] bg-[#1a3520] p-8 text-white shadow-2xl shadow-[#1a3520]/20">
             <div className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.24em] text-white/70">Why sign up</div>
             <h2 className="mt-5 text-4xl font-semibold leading-tight">Keep your packages, sessions, and booking flow in one place.</h2>
             <p className="mt-5 text-white/75 leading-8">This panel keeps the premium visual language consistent while giving users a clear reason to create an account.</p>

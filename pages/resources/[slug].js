@@ -11,7 +11,7 @@ export default function ResourcePage({ resource }) {
       <main className="max-w-4xl mx-auto px-6 py-16">
         <Link href="/resources" className="text-sm font-medium text-brand">← Back to resources</Link>
         <div className="mt-5 inline-flex rounded-full bg-[#f1ebdb] px-3 py-1 text-xs font-medium text-[#8b6f2b]">{resource.type}</div>
-        <h1 className="mt-4 text-4xl md:text-5xl font-semibold leading-tight text-[#2d2343]">{resource.title}</h1>
+        <h1 className="mt-4 text-4xl md:text-5xl font-semibold leading-tight text-[#1a3520]">{resource.title}</h1>
         <p className="mt-4 text-gray-600 leading-8">{resource.description}</p>
         <div className="mt-8 rounded-[32px] overflow-hidden shadow-soft">
           <ImagePlaceholder width="w-full" height="h-[380px]" label="Resource preview placeholder" />

@@ -32,7 +32,7 @@ export default function Cart() {
         {/* Page header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-semibold text-[#2d2343]">Your Cart</h1>
+            <h1 className="text-3xl font-semibold text-[#1a3520]">Your Cart</h1>
             <p className="text-gray-500 text-sm mt-1">
               {cart.length === 0 ? 'No items yet' : `${cart.length} item${cart.length > 1 ? 's' : ''} — review before checkout`}
             </p>
@@ -49,7 +49,7 @@ export default function Cart() {
             className="text-center py-24 bg-white rounded-3xl border border-gray-100 shadow-sm"
           >
             <div className="text-6xl mb-4">🛒</div>
-            <h2 className="text-xl font-semibold text-[#2d2343] mb-2">Your cart is empty</h2>
+            <h2 className="text-xl font-semibold text-[#1a3520] mb-2">Your cart is empty</h2>
             <p className="text-gray-500 mb-6">Add a service or package to get started with your healing journey.</p>
             <div className="flex gap-3 justify-center">
               <Link href="/services" className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity">
@@ -86,7 +86,7 @@ export default function Cart() {
                           <span className="text-xs font-medium text-brand/60 uppercase tracking-wider">
                             {item.type === 'package' ? 'Package' : 'Service'}
                           </span>
-                          <h3 className="text-base font-semibold text-[#2d2343] mt-0.5">{item.title}</h3>
+                          <h3 className="text-base font-semibold text-[#1a3520] mt-0.5">{item.title}</h3>
                         </div>
                         <span className="text-lg font-bold text-brand flex-shrink-0">
                           ₹{item.price.toLocaleString('en-IN')}
@@ -139,7 +139,7 @@ export default function Cart() {
             {/* Order Summary */}
             <div className="sticky top-24">
               <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-                <div className="bg-[#2d2343] px-6 py-4">
+                <div className="bg-[#1a3520] px-6 py-4">
                   <h2 className="text-white font-semibold text-lg">Order Summary</h2>
                 </div>
 
@@ -151,7 +151,7 @@ export default function Cart() {
                     </div>
                   ))}
 
-                  <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#2d2343]">
+                  <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#1a3520]">
                     <span>Total</span>
                     <span className="text-brand text-xl">₹{total.toLocaleString('en-IN')}</span>
                   </div>

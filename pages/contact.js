@@ -10,7 +10,7 @@ export default function ContactPage() {
         <div className="grid lg:grid-cols-[1fr_0.9fr] gap-10 items-start">
           <div>
             <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">Contact</p>
-            <h1 className="mt-3 text-4xl md:text-6xl font-semibold leading-tight text-[#2d2343]">Let's make the first step feel easy.</h1>
+            <h1 className="mt-3 text-4xl md:text-6xl font-semibold leading-tight text-[#1a3520]">Let's make the first step feel easy.</h1>
             <p className="mt-5 text-gray-600 leading-8">Use this section for your contact form or booking inquiry. The visual style stays calm, premium, and clear.</p>
             <div className="mt-8 rounded-[28px] bg-white p-6 shadow-soft space-y-4">
               <div className="grid md:grid-cols-2 gap-4">

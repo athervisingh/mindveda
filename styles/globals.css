@@ -18,8 +18,8 @@ body {
 .brand-hero {
   background:
     radial-gradient(circle at 15% 20%, rgba(217, 189, 122, 0.22), transparent 22%),
-    radial-gradient(circle at 80% 20%, rgba(91, 62, 138, 0.18), transparent 20%),
-    linear-gradient(135deg, rgba(250,248,244,1) 0%, rgba(245,241,255,1) 100%);
+    radial-gradient(circle at 80% 20%, rgba(45, 79, 58, 0.18), transparent 20%),
+    linear-gradient(135deg, rgba(250,248,244,1) 0%, rgba(240,247,242,1) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -47,7 +47,7 @@ body {
   height: 24rem;
   right: -8rem;
   bottom: -8rem;
-  background: rgba(91, 62, 138, 0.18);
+  background: rgba(45, 79, 58, 0.18);
 }
 
 .shadow-soft {
@@ -130,7 +130,7 @@ body {
 .animate-pulse-ring { animation: pulse-ring 2s ease-out infinite; }
 
 .text-shine {
-  background: linear-gradient(90deg, #5B3E8A 0%, #8C6FCF 30%, #DABF7A 50%, #8C6FCF 70%, #5B3E8A 100%);
+  background: linear-gradient(90deg, #2d4f3a 0%, #4a7c59 30%, #8a6914 50%, #4a7c59 70%, #2d4f3a 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -139,7 +139,7 @@ body {
 }
 
 .hero-image-glow {
-  filter: drop-shadow(0 30px 60px rgba(91,62,138,0.18)) drop-shadow(0 8px 24px rgba(91,62,138,0.12));
+  filter: drop-shadow(0 30px 60px rgba(45,79,58,0.18)) drop-shadow(0 8px 24px rgba(45,79,58,0.12));
 }
 
 .glass-card {
@@ -150,12 +150,11 @@ body {
 }
 
 .blob-1 {
-  background: radial-gradient(circle, rgba(91,62,138,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(45,79,58,0.18) 0%, transparent 70%);
 }
 .blob-2 {
   background: radial-gradient(circle, rgba(218,191,122,0.22) 0%, transparent 70%);
 }
 .blob-3 {
-  background: radial-gradient(circle, rgba(140,111,207,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(74,124,89,0.15) 0%, transparent 70%);
 }
-

@@ -63,7 +63,7 @@ export default function Expert() {
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <h1 className="text-5xl md:text-6xl font-semibold text-[#2d2343] mb-4">
+              <h1 className="text-5xl md:text-6xl font-semibold text-[#1a3520] mb-4">
                 Meet Our Expert
               </h1>
               <p className="text-2xl text-brand font-light">
@@ -99,7 +99,7 @@ export default function Expert() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-semibold text-[#2d2343] mb-6">
+              <h2 className="text-4xl font-semibold text-[#1a3520] mb-6">
                 About {expertData.name}
               </h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-8">
@@ -107,7 +107,7 @@ export default function Expert() {
               </p>
 
               <div className="mb-8">
-                <h3 className="text-2xl font-semibold text-[#2d2343] mb-4">Qualifications</h3>
+                <h3 className="text-2xl font-semibold text-[#1a3520] mb-4">Qualifications</h3>
                 <ul className="space-y-3">
                   {expertData.qualifications.map((qual, index) => (
                     <li key={index} className="flex items-start gap-3">
@@ -139,7 +139,7 @@ export default function Expert() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-semibold text-[#2d2343] mb-4">
+            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">
               Areas of Specialization
             </h2>
             <p className="text-lg text-gray-600">
@@ -172,7 +172,7 @@ export default function Expert() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-semibold text-[#2d2343] mb-4">
+            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">
               Professional Journey
             </h2>
           </motion.div>
@@ -195,7 +195,7 @@ export default function Expert() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-brand">{exp.year}</p>
-                    <h3 className="text-2xl font-semibold text-[#2d2343] mt-2">
+                    <h3 className="text-2xl font-semibold text-[#1a3520] mt-2">
                       {exp.role}
                     </h3>
                     <p className="text-lg text-gray-600 mt-1">{exp.organization}</p>
@@ -215,7 +215,7 @@ export default function Expert() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-semibold text-[#2d2343] mb-4">
+            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">
               Achievements & Recognition
             </h2>
           </motion.div>
@@ -230,7 +230,7 @@ export default function Expert() {
                 viewport={{ once: true }}
                 className="bg-gradient-to-br from-brand/10 to-brand/5 rounded-2xl p-6 border border-brand/20 text-center"
               >
-                <p className="text-xl font-semibold text-[#2d2343]">
+                <p className="text-xl font-semibold text-[#1a3520]">
                   {achievement}
                 </p>
               </motion.div>

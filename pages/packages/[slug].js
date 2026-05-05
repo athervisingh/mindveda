@@ -73,7 +73,7 @@ export default function PackageDetail() {
               <div className="inline-flex rounded-full bg-brand/10 px-3 py-1 text-xs font-medium text-brand mb-4">
                 {pkg.featured ? '⭐ Most Popular Package' : 'Healing Package'}
               </div>
-              <h1 className="text-4xl md:text-5xl font-semibold leading-tight text-[#2d2343]">{pkg.title}</h1>
+              <h1 className="text-4xl md:text-5xl font-semibold leading-tight text-[#1a3520]">{pkg.title}</h1>
               <p className="mt-4 text-gray-600 leading-8">{pkg.excerpt}</p>
 
               <div className="mt-8 grid grid-cols-2 gap-4 max-w-md">
@@ -84,13 +84,13 @@ export default function PackageDetail() {
                 </div>
                 <div className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100">
                   <div className="text-xs uppercase tracking-[0.2em] text-gray-400">Duration</div>
-                  <div className="mt-2 text-2xl font-semibold text-[#2d2343]">{pkg.duration}</div>
+                  <div className="mt-2 text-2xl font-semibold text-[#1a3520]">{pkg.duration}</div>
                   <div className="text-xs text-gray-400 mt-1">per session</div>
                 </div>
               </div>
 
               <div className="mt-8 rounded-[28px] bg-white p-6 shadow-sm border border-gray-100">
-                <h2 className="text-lg font-semibold text-[#2d2343]">What's Included</h2>
+                <h2 className="text-lg font-semibold text-[#1a3520]">What's Included</h2>
                 <ul className="mt-4 space-y-3 text-sm text-gray-600">
                   {[
                     'Initial assessment and personalised support plan',
@@ -115,7 +115,7 @@ export default function PackageDetail() {
                   ['3. Start Healing', 'Checkout and join your session.'],
                 ].map(([title, desc]) => (
                   <div key={title} className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100 text-center">
-                    <p className="text-sm font-semibold text-[#2d2343]">{title}</p>
+                    <p className="text-sm font-semibold text-[#1a3520]">{title}</p>
                     <p className="mt-1.5 text-xs text-gray-500 leading-relaxed">{desc}</p>
                   </div>
                 ))}
