@@ -96,7 +96,7 @@ export default function BookingPage() {
               <span className="text-6xl">{service.icon}</span>
               <div>
                 <span className="text-xs font-semibold text-brand uppercase tracking-wider">{service.category}</span>
-                <h1 className="text-3xl font-semibold text-[#2d2343] mt-1 leading-snug">{service.title}</h1>
+                <h1 className="text-3xl font-semibold text-[#1a3520] mt-1 leading-snug">{service.title}</h1>
                 <div className="flex items-center gap-4 mt-3">
                   <span className="text-2xl font-bold text-brand">₹{service.price.toLocaleString('en-IN')}</span>
                   <span className="text-gray-500 text-sm">per session</span>
@@ -113,14 +113,14 @@ export default function BookingPage() {
 
             {/* Description */}
             <div className="bg-white rounded-2xl p-6 mb-5 shadow-sm border border-gray-100">
-              <h2 className="text-lg font-semibold text-[#2d2343] mb-3">About This Service</h2>
+              <h2 className="text-lg font-semibold text-[#1a3520] mb-3">About This Service</h2>
               <p className="text-gray-600 leading-relaxed">{service.description}</p>
             </div>
 
             {/* Benefits + What to Expect */}
             <div className="grid sm:grid-cols-2 gap-5">
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h3 className="text-base font-semibold text-[#2d2343] mb-4 flex items-center gap-2">
+                <h3 className="text-base font-semibold text-[#1a3520] mb-4 flex items-center gap-2">
                   <span className="w-7 h-7 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
                   Key Benefits
                 </h3>
@@ -135,7 +135,7 @@ export default function BookingPage() {
               </div>
 
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h3 className="text-base font-semibold text-[#2d2343] mb-4 flex items-center gap-2">
+                <h3 className="text-base font-semibold text-[#1a3520] mb-4 flex items-center gap-2">
                   <span className="w-7 h-7 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm">ℹ</span>
                   What to Expect
                 </h3>

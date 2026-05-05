@@ -17,7 +17,7 @@ export default function ServiceCard({ icon, title, description }) {
       <h3 className="font-semibold text-lg mb-2">{title}</h3>
       <p className="text-gray-600 text-sm">{description}</p>
       <motion.button
-        whileHover={{ color: '#5B3E8A' }}
+        whileHover={{ color: '#2d4f3a' }}
         className="text-sm text-gray-500 mt-3 inline-block"
       >
         Learn More →

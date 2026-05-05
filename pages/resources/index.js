@@ -14,7 +14,7 @@ export default function ResourcesIndex() {
           <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center">
             <div>
               <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">Resources</p>
-              <h1 className="mt-3 text-4xl md:text-6xl font-semibold leading-tight text-[#2d2343]">Guides, worksheets, and calm tools for daily support.</h1>
+              <h1 className="mt-3 text-4xl md:text-6xl font-semibold leading-tight text-[#1a3520]">Guides, worksheets, and calm tools for daily support.</h1>
               <p className="mt-5 max-w-2xl text-gray-600 leading-8">This section is styled like a polished library of resources with dummy data, strong visual hierarchy, and a premium card grid.</p>
             </div>
             <ImagePlaceholder width="w-full" height="h-[380px]" label="Resources hero image placeholder" />
@@ -33,7 +33,7 @@ export default function ResourcesIndex() {
                 className="rounded-[28px] bg-white border border-gray-100 shadow-soft p-6"
               >
                 <div className="inline-flex rounded-full bg-[#f1ebdb] px-3 py-1 text-xs font-medium text-[#8b6f2b]">{resource.type}</div>
-                <h2 className="mt-4 text-xl font-semibold text-[#2d2343]">{resource.title}</h2>
+                <h2 className="mt-4 text-xl font-semibold text-[#1a3520]">{resource.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-gray-600">{resource.description}</p>
                 <div className="mt-6 overflow-hidden rounded-2xl">
                   <ImagePlaceholder width="w-full" height="h-40" label="" />

@@ -34,7 +34,7 @@ export default function Login() {
       <Header />
       <main className="flex-1 max-w-6xl mx-auto px-6 py-16 w-full">
         <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-10 items-stretch">
-          <div className="rounded-[34px] bg-[#221c33] p-8 text-white shadow-2xl shadow-[#221c33]/20">
+          <div className="rounded-[34px] bg-[#1a3520] p-8 text-white shadow-2xl shadow-[#1a3520]/20">
             <div className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.24em] text-white/70">Secure login</div>
             <h1 className="mt-5 text-4xl md:text-6xl font-semibold leading-tight">Welcome back to your healing space.</h1>
             <p className="mt-5 text-white/75 leading-8">Sign in to manage packages, bookings, and support messages. The auth flow already works with mock mode and is ready for Supabase credentials.</p>
@@ -54,7 +54,7 @@ export default function Login() {
             className="rounded-[34px] bg-white p-8 shadow-soft border border-gray-100"
           >
             <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">Login</p>
-            <h2 className="mt-3 text-3xl font-semibold text-[#2d2343]">Good to see you again</h2>
+            <h2 className="mt-3 text-3xl font-semibold text-[#1a3520]">Good to see you again</h2>
             <p className="mt-2 text-gray-600">Sign in to continue your session.</p>
             {error && <div className="mt-5 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>}
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">

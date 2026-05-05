@@ -10,8 +10,8 @@ export default function BlogArticlePage({ article }) {
       <Header />
       <main className="max-w-4xl mx-auto px-6 py-16">
         <Link href="/blog" className="text-sm font-medium text-brand">← Back to blog</Link>
-        <div className="mt-5 inline-flex rounded-full bg-[#f4edf8] px-3 py-1 text-xs font-medium text-brand">{article.category}</div>
-        <h1 className="mt-4 text-4xl md:text-5xl font-semibold leading-tight text-[#2d2343]">{article.title}</h1>
+        <div className="mt-5 inline-flex rounded-full bg-[#edf5ee] px-3 py-1 text-xs font-medium text-brand">{article.category}</div>
+        <h1 className="mt-4 text-4xl md:text-5xl font-semibold leading-tight text-[#1a3520]">{article.title}</h1>
         <p className="mt-4 text-gray-500 text-sm">{article.readTime}</p>
         <div className="mt-8 overflow-hidden rounded-[32px] shadow-soft">
           <ImagePlaceholder width="w-full" height="h-[420px]" label="Article hero image placeholder" />

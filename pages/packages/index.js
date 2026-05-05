@@ -14,7 +14,7 @@ export default function Packages() {
       <Header />
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-br from-[#2d2343] to-brand py-20 md:py-28 text-white relative overflow-hidden">
+        <section className="bg-gradient-to-br from-[#1a3520] to-brand py-20 md:py-28 text-white relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-white blur-3xl" />
             <div className="absolute bottom-10 right-20 w-80 h-80 rounded-full bg-brand-accent blur-3xl" />
@@ -63,7 +63,7 @@ export default function Packages() {
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center text-2xl flex-shrink-0">🧠</div>
                     <div>
-                      <h3 className="text-xl font-semibold text-[#2d2343]">{pkg.title}</h3>
+                      <h3 className="text-xl font-semibold text-[#1a3520]">{pkg.title}</h3>
                       <p className="text-sm text-gray-500 mt-1">{pkg.excerpt}</p>
                     </div>
                   </div>
@@ -111,7 +111,7 @@ export default function Packages() {
               ['3. Checkout & Start', 'Review your cart, pay securely, and begin your journey.'],
             ].map(([title, desc]) => (
               <div key={title} className="rounded-[28px] bg-white p-6 shadow-soft border border-gray-100">
-                <h3 className="text-lg font-semibold text-[#2d2343]">{title}</h3>
+                <h3 className="text-lg font-semibold text-[#1a3520]">{title}</h3>
                 <p className="mt-3 text-sm leading-7 text-gray-600">{desc}</p>
               </div>
             ))}

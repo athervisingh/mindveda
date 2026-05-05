@@ -11,7 +11,7 @@ export default function AboutPage() {
           <ImagePlaceholder width="w-full" height="h-[460px]" label="About Babita placeholder" />
           <div>
             <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">About</p>
-            <h1 className="mt-3 text-4xl md:text-6xl font-semibold leading-tight text-[#2d2343]">A healing practice built on calm, clarity, and trust.</h1>
+            <h1 className="mt-3 text-4xl md:text-6xl font-semibold leading-tight text-[#1a3520]">A healing practice built on calm, clarity, and trust.</h1>
             <p className="mt-5 text-gray-600 leading-8">Babita combines clinical psychology, mindful practices, and real-world experience to create a space that feels supportive, intelligent, and deeply human.</p>
             <div className="mt-8 grid md:grid-cols-3 gap-4">
               {[

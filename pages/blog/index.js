@@ -14,7 +14,7 @@ export default function BlogIndex() {
           <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
             <div>
               <p className="text-brand text-sm uppercase tracking-[0.24em] font-semibold">Blog</p>
-              <h1 className="mt-3 text-4xl md:text-6xl font-semibold leading-tight text-[#2d2343]">Thoughtful articles for healing, clarity, and calm.</h1>
+              <h1 className="mt-3 text-4xl md:text-6xl font-semibold leading-tight text-[#1a3520]">Thoughtful articles for healing, clarity, and calm.</h1>
               <p className="mt-5 max-w-2xl text-gray-600 leading-8">Dummy content is in place for now, but the layout is built like a premium editorial section with strong imagery, contrast, and clean reading flow.</p>
             </div>
             <ImagePlaceholder width="w-full" height="h-[380px]" label="Blog hero image placeholder" />
@@ -34,8 +34,8 @@ export default function BlogIndex() {
               >
                 <ImagePlaceholder width="w-full" height="h-48" label="" />
                 <div className="p-6">
-                  <div className="inline-flex rounded-full bg-[#f4edf8] px-3 py-1 text-xs font-medium text-brand">{article.category}</div>
-                  <h2 className="mt-4 text-xl font-semibold text-[#2d2343]">{article.title}</h2>
+                  <div className="inline-flex rounded-full bg-[#edf5ee] px-3 py-1 text-xs font-medium text-brand">{article.category}</div>
+                  <h2 className="mt-4 text-xl font-semibold text-[#1a3520]">{article.title}</h2>
                   <p className="mt-3 text-sm leading-7 text-gray-600">{article.excerpt}</p>
                   <div className="mt-5 flex items-center justify-between text-sm text-gray-500">
                     <span>{article.readTime}</span>

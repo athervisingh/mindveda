@@ -56,7 +56,7 @@ export default function Checkout() {
             >
               ✓
             </motion.div>
-            <h2 className="text-3xl font-semibold text-[#2d2343] mb-2">Payment Confirmed!</h2>
+            <h2 className="text-3xl font-semibold text-[#1a3520] mb-2">Payment Confirmed!</h2>
             <p className="text-gray-500 mb-2">Your sessions have been booked successfully.</p>
             <p className="text-gray-500 text-sm mb-8">
               A confirmation will be sent to <span className="font-medium text-gray-700">{form.email}</span>. Our team will share the video call link before each session.
@@ -98,7 +98,7 @@ export default function Checkout() {
 
       <main className="flex-1 max-w-5xl mx-auto px-6 py-12 w-full">
         <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-[#2d2343]">Checkout</h1>
+          <h1 className="text-3xl font-semibold text-[#1a3520]">Checkout</h1>
           <p className="text-gray-500 text-sm mt-1">Review your sessions and complete payment</p>
         </div>
 
@@ -106,7 +106,7 @@ export default function Checkout() {
           {/* Left — Billing Details */}
           <div className="space-y-5">
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-[#2d2343] mb-5">Your Details</h2>
+              <h2 className="text-lg font-semibold text-[#1a3520] mb-5">Your Details</h2>
               <div className="space-y-4">
                 {[
                   { field: 'name', label: 'Full Name', type: 'text', placeholder: 'e.g. Priya Sharma' },
@@ -130,7 +130,7 @@ export default function Checkout() {
 
             {/* Booked sessions */}
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-[#2d2343] mb-4">Your Booked Sessions</h2>
+              <h2 className="text-lg font-semibold text-[#1a3520] mb-4">Your Booked Sessions</h2>
               <div className="space-y-4">
                 {cart.map((item) => (
                   <div key={item.cartId} className="flex gap-4 pb-4 border-b border-gray-50 last:border-0 last:pb-0">
@@ -139,7 +139,7 @@ export default function Checkout() {
                     </div>
                     <div className="flex-1">
                       <div className="flex justify-between items-start gap-2">
-                        <p className="text-sm font-semibold text-[#2d2343]">{item.title}</p>
+                        <p className="text-sm font-semibold text-[#1a3520]">{item.title}</p>
                         <span className="text-sm font-bold text-brand">₹{item.price.toLocaleString('en-IN')}</span>
                       </div>
                       <div className="mt-1.5 flex flex-wrap gap-1.5">
@@ -173,7 +173,7 @@ export default function Checkout() {
           {/* Right — Payment Summary */}
           <div className="sticky top-24">
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-              <div className="bg-[#2d2343] px-6 py-4">
+              <div className="bg-[#1a3520] px-6 py-4">
                 <h2 className="text-white font-semibold text-lg">Payment Summary</h2>
               </div>
               <div className="p-5">
@@ -186,7 +186,7 @@ export default function Checkout() {
                   ))}
                 </div>
 
-                <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#2d2343] mb-5">
+                <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#1a3520] mb-5">
                   <span>Total</span>
                   <span className="text-brand text-2xl">₹{total.toLocaleString('en-IN')}</span>
                 </div>
