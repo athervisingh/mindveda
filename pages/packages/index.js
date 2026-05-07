@@ -1,4 +1,5 @@
 import Header from '../../components/Header'
+import { CartIcon, LotusIcon, StarIcon, ArrowRightIcon } from '../../components/Icons'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -32,7 +33,7 @@ export default function Packages() {
               </p>
               <div className="flex gap-4">
                 <Link href="/cart" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand shadow-lg hover:shadow-xl transition-shadow">
-                  View Cart 🛒
+                  View Cart
                 </Link>
                 <Link href="/services" className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-all">
                   Individual Services
@@ -55,13 +56,13 @@ export default function Packages() {
                 className="bg-white rounded-3xl shadow-sm hover:shadow-lg transition-all border border-gray-100 overflow-hidden flex flex-col"
               >
                 {pkg.featured && (
-                  <div className="bg-brand px-5 py-1.5 text-xs font-semibold text-white text-center tracking-wide">
-                    ⭐ Most Popular
+                  <div className="bg-brand px-5 py-1.5 text-xs font-semibold text-white text-center tracking-wide flex items-center justify-center gap-1.5">
+                    <StarIcon className="w-3.5 h-3.5" /> Most Popular
                   </div>
                 )}
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center text-2xl flex-shrink-0">🧠</div>
+                    <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center text-brand flex-shrink-0"><LotusIcon className="w-8 h-8" /></div>
                     <div>
                       <h3 className="text-xl font-semibold text-[#1a3520]">{pkg.title}</h3>
                       <p className="text-sm text-gray-500 mt-1">{pkg.excerpt}</p>

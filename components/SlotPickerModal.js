@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
+import { LotusIcon, CalendarIcon, ClockIcon } from './Icons'
 
 const TIME_SLOTS = [
   '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
@@ -49,7 +50,7 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
       type: item.type || 'service',
       slug: item.slug,
       title: item.title,
-      icon: item.icon || '🧠',
+      icon: item.icon || 'lotus',
       price: item.price,
       duration: item.duration,
       bookingDate: selectedDay.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
@@ -81,7 +82,10 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
             {/* Header */}
             <div className="bg-brand px-6 py-5 flex items-start justify-between">
               <div>
-                <p className="text-white/70 text-xs uppercase tracking-wider mb-1">Booking slot for</p>
+                <div className="flex items-center gap-2 mb-1">
+                  <LotusIcon className="w-4 h-4 text-white/70" />
+                  <p className="text-white/70 text-xs uppercase tracking-wider">Booking slot for</p>
+                </div>
                 <h3 className="text-white font-semibold text-xl leading-snug">{item?.title}</h3>
                 <div className="flex items-center gap-3 mt-2 text-white/80 text-sm">
                   <span className="font-bold text-white">₹{item?.price?.toLocaleString('en-IN')}</span>
@@ -99,7 +103,9 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
 
             <div className="p-5">
               {/* Date picker */}
-              <p className="text-sm font-semibold text-gray-700 mb-3">Select Date <span className="text-gray-400 font-normal">(Sundays off)</span></p>
+              <p className="text-sm font-semibold text-gray-700 mb-3">
+                Select Date <span className="text-gray-400 font-normal">(Sundays off)</span>
+              </p>
               <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
                 {days.map((d, i) => {
                   const isSelected = selectedDay && selectedDay.toDateString() === d.toDateString()

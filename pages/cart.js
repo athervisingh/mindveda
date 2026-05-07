@@ -3,6 +3,7 @@ import Footer from '../components/Footer'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { CartIcon, LotusIcon, CalendarIcon, ClockIcon, CheckIcon, ArrowRightIcon, ArrowLeftIcon } from '../components/Icons'
 
 export default function Cart() {
   const [cart, setCart] = useState([])
@@ -29,7 +30,6 @@ export default function Cart() {
       <Header />
 
       <main className="flex-1 max-w-5xl mx-auto px-6 py-12 w-full">
-        {/* Page header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-semibold text-[#1a3520]">Your Cart</h1>
@@ -37,7 +37,7 @@ export default function Cart() {
               {cart.length === 0 ? 'No items yet' : `${cart.length} item${cart.length > 1 ? 's' : ''} — review before checkout`}
             </p>
           </div>
-          <Link href="/services" className="text-sm text-brand hover:underline">
+          <Link href="/services" className="text-sm text-brand hover:underline inline-flex items-center gap-1">
             + Add More Services
           </Link>
         </div>
@@ -48,7 +48,9 @@ export default function Cart() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-24 bg-white rounded-3xl border border-gray-100 shadow-sm"
           >
-            <div className="text-6xl mb-4">🛒</div>
+            <div className="w-16 h-16 mx-auto mb-4 text-gray-300 flex items-center justify-center">
+              <CartIcon className="w-14 h-14" />
+            </div>
             <h2 className="text-xl font-semibold text-[#1a3520] mb-2">Your cart is empty</h2>
             <p className="text-gray-500 mb-6">Add a service or package to get started with your healing journey.</p>
             <div className="flex gap-3 justify-center">
@@ -62,7 +64,6 @@ export default function Cart() {
           </motion.div>
         ) : (
           <div className="grid lg:grid-cols-[1fr_340px] gap-6 items-start">
-            {/* Cart Items */}
             <div className="space-y-4">
               <AnimatePresence>
                 {cart.map((item) => (
@@ -74,12 +75,10 @@ export default function Cart() {
                     transition={{ duration: 0.3 }}
                     className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex gap-4"
                   >
-                    {/* Icon */}
-                    <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center text-2xl flex-shrink-0">
-                      {item.icon || '🧠'}
+                    <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center text-brand flex-shrink-0">
+                      <LotusIcon className="w-7 h-7" />
                     </div>
 
-                    {/* Details */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div>
@@ -93,26 +92,24 @@ export default function Cart() {
                         </span>
                       </div>
 
-                      {/* Booking slot details */}
                       <div className="mt-3 flex flex-wrap gap-2">
                         {item.bookingDate && (
                           <span className="flex items-center gap-1.5 bg-brand/5 border border-brand/10 text-brand text-xs font-medium px-3 py-1.5 rounded-full">
-                            📅 {item.bookingDate}
+                            <CalendarIcon className="w-3 h-3" /> {item.bookingDate}
                           </span>
                         )}
                         {item.bookingTime && (
                           <span className="flex items-center gap-1.5 bg-brand/5 border border-brand/10 text-brand text-xs font-medium px-3 py-1.5 rounded-full">
-                            🕐 {item.bookingTime} IST
+                            <ClockIcon className="w-3 h-3" /> {item.bookingTime} IST
                           </span>
                         )}
                         {item.duration && (
                           <span className="flex items-center gap-1.5 bg-gray-50 border border-gray-200 text-gray-500 text-xs font-medium px-3 py-1.5 rounded-full">
-                            ⏱ {item.duration}
+                            <ClockIcon className="w-3 h-3" /> {item.duration}
                           </span>
                         )}
                       </div>
 
-                      {/* Remove */}
                       <button
                         onClick={() => removeItem(item.cartId)}
                         className="mt-3 text-xs text-red-400 hover:text-red-600 transition-colors"
@@ -124,15 +121,12 @@ export default function Cart() {
                 ))}
               </AnimatePresence>
 
-              {/* Continue shopping */}
               <div className="flex gap-3 pt-2">
                 <Link href="/services" className="text-sm text-brand hover:underline flex items-center gap-1">
-                  ← Browse more services
+                  <ArrowLeftIcon className="w-3.5 h-3.5" /> Browse more services
                 </Link>
                 <span className="text-gray-300">·</span>
-                <Link href="/packages" className="text-sm text-brand hover:underline flex items-center gap-1">
-                  View packages
-                </Link>
+                <Link href="/packages" className="text-sm text-brand hover:underline">View packages</Link>
               </div>
             </div>
 
@@ -157,21 +151,22 @@ export default function Cart() {
                   </div>
 
                   <div className="pt-1 space-y-2 text-xs text-gray-400">
-                    <div className="flex items-center gap-1.5"><span className="text-green-500">✓</span> All sessions are 100% confidential</div>
-                    <div className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Flexible rescheduling available</div>
-                    <div className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Secure payment checkout</div>
+                    {['All sessions are 100% confidential', 'Flexible rescheduling available', 'Secure payment checkout'].map(t => (
+                      <div key={t} className="flex items-center gap-1.5">
+                        <CheckIcon className="w-3.5 h-3.5 text-green-500 flex-shrink-0" /> {t}
+                      </div>
+                    ))}
                   </div>
 
                   <Link
                     href="/checkout"
-                    className="mt-2 block w-full text-center rounded-full bg-brand py-3.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                    className="mt-2 flex items-center justify-center gap-2 w-full rounded-full bg-brand py-3.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
                   >
-                    Proceed to Checkout →
+                    Proceed to Checkout <ArrowRightIcon className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
 
-              {/* Need help */}
               <div className="mt-4 text-center text-sm text-gray-500">
                 Need help?{' '}
                 <Link href="/contact" className="text-brand hover:underline">Contact us</Link>

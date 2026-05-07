@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { allServices } from '../lib/siteContent'
 import { useState } from 'react'
 import SlotPickerModal from '../components/SlotPickerModal'
+import { ServiceCategoryIcon, ArrowRightIcon, PhoneIcon } from '../components/Icons'
 
 const categories = ['All', 'Personal', 'Children', 'Family', 'Career', 'Relationships', 'Performance', 'Group']
 
@@ -43,11 +44,13 @@ export default function Services() {
               <p className="text-lg text-white/75 max-w-2xl mx-auto leading-relaxed">
                 From individual therapy to group support, our certified psychologists offer evidence-based counseling for every stage of your mental wellness journey.
               </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-white/70">
-                <div className="flex items-center gap-2"><span className="w-2 h-2 bg-green-400 rounded-full" /> 100% Confidential</div>
-                <div className="flex items-center gap-2"><span className="w-2 h-2 bg-green-400 rounded-full" /> Certified Psychologists</div>
-                <div className="flex items-center gap-2"><span className="w-2 h-2 bg-green-400 rounded-full" /> Flexible Online Sessions</div>
-                <div className="flex items-center gap-2"><span className="w-2 h-2 bg-green-400 rounded-full" /> Multi-lingual Support</div>
+              <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-white/70">
+                {['100% Confidential', 'Certified Psychologists', 'Flexible Online Sessions', 'Multi-lingual Support'].map(t => (
+                  <div key={t} className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-brand-accent rounded-full" />
+                    {t}
+                  </div>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -100,9 +103,11 @@ export default function Services() {
                 viewport={{ once: true }}
                 className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100 flex flex-col"
               >
-                {/* Top gradient band */}
+                {/* Top gradient band with SVG icon */}
                 <div className={`bg-gradient-to-r ${service.color} px-6 pt-6 pb-4 flex items-start justify-between`}>
-                  <span className="text-4xl">{service.icon}</span>
+                  <div className="w-14 h-14 rounded-2xl bg-white/60 backdrop-blur-sm flex items-center justify-center text-brand shadow-sm">
+                    <ServiceCategoryIcon type={service.icon} className="w-8 h-8" />
+                  </div>
                   {service.badge && (
                     <span className="text-xs font-semibold bg-brand text-white px-2.5 py-1 rounded-full">
                       {service.badge}
@@ -116,7 +121,6 @@ export default function Services() {
                   <h3 className="text-xl font-semibold text-[#1a3520] mb-2 leading-snug">{service.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed flex-1">{service.shortDescription}</p>
 
-                  {/* Price & Duration */}
                   <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
                     <div>
                       <span className="text-2xl font-bold text-brand">₹{service.price.toLocaleString('en-IN')}</span>
@@ -131,7 +135,6 @@ export default function Services() {
                     </div>
                   </div>
 
-                  {/* CTAs */}
                   <div className="mt-4 flex gap-3">
                     <button
                       onClick={() => setModalItem({ ...service, type: 'service' })}
@@ -168,13 +171,13 @@ export default function Services() {
                 href="/contact"
                 className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-brand shadow-lg hover:shadow-xl transition-shadow"
               >
-                Get Free Consultation <span>→</span>
+                Get Free Consultation <ArrowRightIcon className="w-4 h-4" />
               </Link>
               <a
                 href="tel:+917980925582"
                 className="inline-flex items-center gap-2 rounded-full border-2 border-white/40 px-8 py-4 text-base font-semibold text-white hover:bg-white/10 transition-all"
               >
-                📞 Call Us
+                <PhoneIcon className="w-4 h-4" /> Call Us
               </a>
             </div>
           </div>

@@ -3,6 +3,7 @@ import Footer from '../components/Footer'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { CartIcon, LotusIcon, CalendarIcon, ClockIcon, CheckIcon, ArrowLeftIcon, ArrowRightIcon } from '../components/Icons'
 
 export default function Checkout() {
   const [cart, setCart] = useState([])
@@ -30,7 +31,6 @@ export default function Checkout() {
     const e = validate()
     if (Object.keys(e).length) { setErrors(e); return }
     setErrors({})
-    // Mock: clear cart and show success
     localStorage.setItem('mv_cart', '[]')
     window.dispatchEvent(new Event('cartUpdated'))
     setPaid(true)
@@ -52,9 +52,9 @@ export default function Checkout() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-              className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl"
+              className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600"
             >
-              ✓
+              <CheckIcon className="w-10 h-10" />
             </motion.div>
             <h2 className="text-3xl font-semibold text-[#1a3520] mb-2">Payment Confirmed!</h2>
             <p className="text-gray-500 mb-2">Your sessions have been booked successfully.</p>
@@ -82,7 +82,9 @@ export default function Checkout() {
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="text-5xl mb-4">🛒</div>
+            <div className="w-16 h-16 mx-auto mb-4 text-gray-300 flex items-center justify-center">
+              <CartIcon className="w-14 h-14" />
+            </div>
             <p className="text-xl font-semibold text-gray-700 mb-4">Your cart is empty</p>
             <Link href="/services" className="text-brand underline">Browse services</Link>
           </div>
@@ -95,7 +97,6 @@ export default function Checkout() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
       <Header />
-
       <main className="flex-1 max-w-5xl mx-auto px-6 py-12 w-full">
         <div className="mb-8">
           <h1 className="text-3xl font-semibold text-[#1a3520]">Checkout</h1>
@@ -103,7 +104,6 @@ export default function Checkout() {
         </div>
 
         <div className="grid lg:grid-cols-[1fr_380px] gap-6 items-start">
-          {/* Left — Billing Details */}
           <div className="space-y-5">
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
               <h2 className="text-lg font-semibold text-[#1a3520] mb-5">Your Details</h2>
@@ -128,14 +128,13 @@ export default function Checkout() {
               </div>
             </div>
 
-            {/* Booked sessions */}
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
               <h2 className="text-lg font-semibold text-[#1a3520] mb-4">Your Booked Sessions</h2>
               <div className="space-y-4">
                 {cart.map((item) => (
                   <div key={item.cartId} className="flex gap-4 pb-4 border-b border-gray-50 last:border-0 last:pb-0">
-                    <div className="w-11 h-11 rounded-xl bg-brand/10 flex items-center justify-center text-xl flex-shrink-0">
-                      {item.icon || '🧠'}
+                    <div className="w-11 h-11 rounded-xl bg-brand/10 flex items-center justify-center text-brand flex-shrink-0">
+                      <LotusIcon className="w-6 h-6" />
                     </div>
                     <div className="flex-1">
                       <div className="flex justify-between items-start gap-2">
@@ -144,18 +143,18 @@ export default function Checkout() {
                       </div>
                       <div className="mt-1.5 flex flex-wrap gap-1.5">
                         {item.bookingDate && (
-                          <span className="text-xs bg-brand/5 text-brand border border-brand/10 px-2.5 py-1 rounded-full">
-                            📅 {item.bookingDate}
+                          <span className="flex items-center gap-1 text-xs bg-brand/5 text-brand border border-brand/10 px-2.5 py-1 rounded-full">
+                            <CalendarIcon className="w-3 h-3" /> {item.bookingDate}
                           </span>
                         )}
                         {item.bookingTime && (
-                          <span className="text-xs bg-brand/5 text-brand border border-brand/10 px-2.5 py-1 rounded-full">
-                            🕐 {item.bookingTime}
+                          <span className="flex items-center gap-1 text-xs bg-brand/5 text-brand border border-brand/10 px-2.5 py-1 rounded-full">
+                            <ClockIcon className="w-3 h-3" /> {item.bookingTime}
                           </span>
                         )}
                         {item.duration && (
-                          <span className="text-xs bg-gray-50 text-gray-500 border border-gray-200 px-2.5 py-1 rounded-full">
-                            ⏱ {item.duration}
+                          <span className="flex items-center gap-1 text-xs bg-gray-50 text-gray-500 border border-gray-200 px-2.5 py-1 rounded-full">
+                            <ClockIcon className="w-3 h-3" /> {item.duration}
                           </span>
                         )}
                       </div>
@@ -166,11 +165,10 @@ export default function Checkout() {
             </div>
 
             <Link href="/cart" className="flex items-center gap-1 text-sm text-brand hover:underline">
-              ← Edit Cart
+              <ArrowLeftIcon className="w-3.5 h-3.5" /> Edit Cart
             </Link>
           </div>
 
-          {/* Right — Payment Summary */}
           <div className="sticky top-24">
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="bg-[#1a3520] px-6 py-4">
@@ -193,9 +191,9 @@ export default function Checkout() {
 
                 <button
                   onClick={handlePay}
-                  className="w-full rounded-full bg-brand py-4 text-white font-semibold text-sm hover:opacity-90 active:scale-[0.98] transition-all"
+                  className="w-full rounded-full bg-brand py-4 text-white font-semibold text-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
-                  Pay ₹{total.toLocaleString('en-IN')} →
+                  Pay ₹{total.toLocaleString('en-IN')} <ArrowRightIcon className="w-4 h-4" />
                 </button>
 
                 <p className="text-center text-xs text-gray-400 mt-3">
@@ -203,16 +201,17 @@ export default function Checkout() {
                 </p>
 
                 <div className="mt-4 space-y-2 text-xs text-gray-400">
-                  <div className="flex items-center gap-1.5"><span className="text-green-500">✓</span> 100% confidential sessions</div>
-                  <div className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Flexible rescheduling up to 24hrs before</div>
-                  <div className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Certified psychologists</div>
+                  {['100% confidential sessions', 'Flexible rescheduling up to 24hrs before', 'Certified psychologists'].map(t => (
+                    <div key={t} className="flex items-center gap-1.5">
+                      <CheckIcon className="w-3.5 h-3.5 text-green-500 flex-shrink-0" /> {t}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   )
