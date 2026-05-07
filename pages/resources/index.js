@@ -1,4 +1,5 @@
 import Header from '../../components/Header'
+import { ArrowRightIcon } from '../../components/Icons'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
 import ImagePlaceholder from '../../components/ImagePlaceholder'
@@ -38,7 +39,7 @@ export default function ResourcesIndex() {
                 <div className="mt-6 overflow-hidden rounded-2xl">
                   <ImagePlaceholder width="w-full" height="h-40" label="" />
                 </div>
-                <Link href={`/resources/${resource.slug}`} className="mt-5 inline-flex text-sm font-medium text-brand">Open resource →</Link>
+                <Link href={`/resources/${resource.slug}`} className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-brand">Open resource <ArrowRightIcon className="w-3.5 h-3.5" /></Link>
               </motion.article>
             ))}
           </div>

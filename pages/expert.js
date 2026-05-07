@@ -2,6 +2,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { CheckIcon, ArrowRightIcon, LotusIcon } from '../components/Icons'
 
 const expertData = {
   name: 'Babita',
@@ -22,21 +23,9 @@ const expertData = {
     'Personal Growth Coaching'
   ],
   experience: [
-    {
-      year: '2009-2012',
-      role: 'Clinical Psychologist',
-      organization: 'Mental Health Research Institute'
-    },
-    {
-      year: '2012-2018',
-      role: 'Senior Counselor',
-      organization: 'Wellness Retreat Centers'
-    },
-    {
-      year: '2018-Present',
-      role: 'Founder & Lead Therapist',
-      organization: 'MindVeda by Babita'
-    }
+    { year: '2009–2012', role: 'Clinical Psychologist', organization: 'Mental Health Research Institute' },
+    { year: '2012–2018', role: 'Senior Counselor', organization: 'Wellness Retreat Centers' },
+    { year: '2018–Present', role: 'Founder & Lead Therapist', organization: 'MindVeda by Babita' }
   ],
   achievements: [
     '1000+ Lives Transformed',
@@ -54,7 +43,7 @@ export default function Expert() {
       <Header />
 
       <main className="flex-1">
-        {/* Hero Section */}
+        {/* Hero */}
         <section className="bg-gradient-to-r from-brand/10 to-brand/5 py-16 md:py-24">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
@@ -63,15 +52,9 @@ export default function Expert() {
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <h1 className="text-5xl md:text-6xl font-semibold text-[#1a3520] mb-4">
-                Meet Our Expert
-              </h1>
-              <p className="text-2xl text-brand font-light">
-                {expertData.name}
-              </p>
-              <p className="text-lg text-gray-600 mt-2">
-                {expertData.title}
-              </p>
+              <h1 className="text-5xl md:text-6xl font-semibold text-[#1a3520] mb-4">Meet Our Expert</h1>
+              <p className="text-2xl text-brand font-light">{expertData.name}</p>
+              <p className="text-lg text-gray-600 mt-2">{expertData.title}</p>
             </motion.div>
           </div>
         </section>
@@ -85,9 +68,11 @@ export default function Expert() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="bg-gradient-to-br from-brand/20 to-brand/10 rounded-3xl h-96 flex items-center justify-center">
+              <div className="bg-gradient-to-br from-brand/10 to-brand/5 rounded-3xl h-96 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="text-7xl mb-4">👩‍⚕️</div>
+                  <div className="w-24 h-24 mx-auto mb-4 text-brand flex items-center justify-center">
+                    <LotusIcon className="w-20 h-20" />
+                  </div>
                   <p className="text-gray-600 font-medium">{expertData.name}</p>
                 </div>
               </div>
@@ -99,19 +84,15 @@ export default function Expert() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-semibold text-[#1a3520] mb-6">
-                About {expertData.name}
-              </h2>
-              <p className="text-lg text-gray-700 leading-relaxed mb-8">
-                {expertData.bio}
-              </p>
+              <h2 className="text-4xl font-semibold text-[#1a3520] mb-6">About {expertData.name}</h2>
+              <p className="text-lg text-gray-700 leading-relaxed mb-8">{expertData.bio}</p>
 
               <div className="mb-8">
                 <h3 className="text-2xl font-semibold text-[#1a3520] mb-4">Qualifications</h3>
                 <ul className="space-y-3">
                   {expertData.qualifications.map((qual, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <span className="text-brand text-xl mt-1">✓</span>
+                      <span className="text-brand mt-1 flex-shrink-0"><CheckIcon className="w-5 h-5" /></span>
                       <span className="text-gray-700">{qual}</span>
                     </li>
                   ))}
@@ -123,7 +104,7 @@ export default function Expert() {
                   href="/packages"
                   className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg hover:shadow-xl"
                 >
-                  Book a Session with {expertData.name}
+                  Book a Session with {expertData.name} <ArrowRightIcon className="w-4 h-4" />
                 </Link>
               </motion.div>
             </motion.div>
@@ -139,12 +120,8 @@ export default function Expert() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">
-              Areas of Specialization
-            </h2>
-            <p className="text-lg text-gray-600">
-              Expert guidance across diverse wellness domains
-            </p>
+            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">Areas of Specialization</h2>
+            <p className="text-lg text-gray-600">Expert guidance across diverse wellness domains</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,7 +134,12 @@ export default function Expert() {
                 viewport={{ once: true }}
                 className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-shadow"
               >
-                <p className="text-lg font-semibold text-gray-800">{spec}</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand flex-shrink-0">
+                    <CheckIcon className="w-4 h-4" />
+                  </div>
+                  <p className="text-lg font-semibold text-gray-800">{spec}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -172,9 +154,7 @@ export default function Expert() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">
-              Professional Journey
-            </h2>
+            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">Professional Journey</h2>
           </motion.div>
 
           <div className="space-y-8">
@@ -189,15 +169,13 @@ export default function Expert() {
               >
                 <div className="flex items-start gap-6">
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-brand text-white font-bold">
+                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-brand text-white font-bold text-lg">
                       {index + 1}
                     </div>
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-brand">{exp.year}</p>
-                    <h3 className="text-2xl font-semibold text-[#1a3520] mt-2">
-                      {exp.role}
-                    </h3>
+                    <h3 className="text-2xl font-semibold text-[#1a3520] mt-2">{exp.role}</h3>
                     <p className="text-lg text-gray-600 mt-1">{exp.organization}</p>
                   </div>
                 </div>
@@ -215,9 +193,7 @@ export default function Expert() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">
-              Achievements & Recognition
-            </h2>
+            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">Achievements & Recognition</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -230,20 +206,16 @@ export default function Expert() {
                 viewport={{ once: true }}
                 className="bg-gradient-to-br from-brand/10 to-brand/5 rounded-2xl p-6 border border-brand/20 text-center"
               >
-                <p className="text-xl font-semibold text-[#1a3520]">
-                  {achievement}
-                </p>
+                <p className="text-xl font-semibold text-[#1a3520]">{achievement}</p>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* CTA */}
         <section className="bg-gradient-to-r from-brand to-brand/80 py-16 md:py-20 text-white">
           <div className="max-w-4xl mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-5xl font-semibold mb-6">
-              Begin Your Transformation Today
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-semibold mb-6">Begin Your Transformation Today</h2>
             <p className="text-lg mb-8 text-white/90">
               Work with {expertData.name} to achieve lasting wellness and personal growth.
             </p>
@@ -252,7 +224,7 @@ export default function Expert() {
                 href="/packages"
                 className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-brand shadow-lg hover:shadow-xl"
               >
-                Book Your Session <span>→</span>
+                Book Your Session <ArrowRightIcon className="w-4 h-4" />
               </Link>
             </motion.div>
           </div>
