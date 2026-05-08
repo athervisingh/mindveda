@@ -352,12 +352,21 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* ── SERVICES ── */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-16">
+        {/* ── FEATURED CARDS ── */}
+        <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-16">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-center mb-8 md:mb-12">
             <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.28em] font-semibold">What we offer</p>
             <h2 className="mt-2 md:mt-3 text-xl sm:text-2xl md:text-4xl font-semibold text-[#1a3520]">Support for every chapter of life</h2>
           </motion.div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+            {featuredCards.map((card, index) => (
+              <FeaturedService key={card.title} index={index} title={card.title} description={card.description} features={card.features} href={card.href} image={card.image} />
+            ))}
+          </div>
+        </section>
+
+        {/* ── SERVICES ── */}
+        <section className="max-w-[1800px] mx-auto px-4 sm:px-6 pb-10 md:pb-12">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-5">
             {homepageServices.map(service => (
               <ServiceCard key={service.title} icon={service.icon} title={service.title} description={service.description} href={service.href} />
@@ -365,17 +374,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── FEATURED CARDS ── */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-10 md:pb-12">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {featuredCards.map((card, index) => (
-              <FeaturedService key={card.title} index={index} title={card.title} description={card.description} features={card.features} href={card.href} image={card.image} />
-            ))}
-          </div>
-        </section>
-
         {/* ── ABOUT BABITA ── */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-20">
+        <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-20">
           <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-6 md:gap-12 items-center">
 
             {/* Image */}
@@ -416,7 +416,7 @@ export default function Home() {
         <TestimonialCarousel />
 
         {/* ── BLOG ── */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-20">
+        <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-20">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6 md:mb-10">
             <div>
               <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.24em] font-semibold">From our blog</p>
@@ -454,7 +454,7 @@ export default function Home() {
         </section>
 
         {/* ── CONTACT / CTA ── */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-12 md:pb-20">
+        <section className="max-w-[1800px] mx-auto px-4 sm:px-6 pb-12 md:pb-20">
           <div className="grid lg:grid-cols-2 gap-4 md:gap-6 items-stretch">
 
             <div className="rounded-2xl md:rounded-[32px] bg-[#fffaf0] p-5 md:p-8 border border-[#e8dfc0]">

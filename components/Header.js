@@ -97,6 +97,7 @@ export default function Header() {
             <div className="text-[#2d4f3a] leading-none font-semibold" style={{ fontFamily: 'Playfair Display, Georgia, serif', fontSize: 'clamp(0.9rem, 2.5vw, 1.5rem)' }}>
               Mind Veda
             </div>
+            <div className="mb-0.5" />
             <div className="text-[#8a6914] leading-none" style={{ fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(0.75rem, 2.1vw, 1.35rem)' }}>
               by Babita
             </div>
