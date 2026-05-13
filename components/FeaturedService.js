@@ -10,13 +10,13 @@ export default function FeaturedService({ title, description, features, href, in
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="bg-white rounded-2xl md:rounded-[20px] shadow-soft overflow-hidden hover:shadow-xl transition-shadow border border-gray-100 flex flex-col"
+      className="group bg-white rounded-2xl md:rounded-[20px] shadow-soft overflow-hidden hover:shadow-xl transition-shadow border border-gray-100 flex flex-col"
     >
       <div className="relative w-full h-52 md:h-60">
         <Image src={image} alt={title} fill className="object-cover" />
       </div>
       <div className="p-5 md:p-7 flex flex-col flex-1">
-        <h3 className="font-semibold text-lg md:text-xl mb-2 md:mb-2.5 text-[#1a3520]">{title}</h3>
+        <h3 className="font-semibold text-lg md:text-xl mb-2 md:mb-2.5 text-[#1a3520] group-hover:text-brand transition-colors">{title}</h3>
         <p className="text-sm md:text-base text-gray-500 mb-4 md:mb-5 leading-6 md:leading-7">{description}</p>
         <ul className="space-y-2 md:space-y-2.5 flex-1">
           {features.map((f, i) => (

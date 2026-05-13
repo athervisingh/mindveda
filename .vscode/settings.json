@@ -1,0 +1,19 @@
+{
+  "files.exclude": {
+    "node_modules": true,
+    ".next": true,
+    ".git": true
+  },
+  "search.exclude": {
+    "node_modules": true,
+    ".next": true,
+    "package-lock.json": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/public/**": true
+  }
+}

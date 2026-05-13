@@ -8,8 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { allServices } from '../../lib/siteContent'
 
 const TIME_SLOTS = [
-  '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-  '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM',
+  '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM',
+  '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM',
 ]
 
 function getNext14Days() {
@@ -32,7 +32,7 @@ function SlotPicker({ service, selectedDay, setSelectedDay, selectedTime, setSel
     <div className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
       <div className="bg-[#2d4f3a] px-5 py-4">
         <h2 className="text-white font-semibold text-base sm:text-lg">Pick Your Session Slot</h2>
-        <p className="text-white/70 text-xs sm:text-sm mt-0.5">All times in IST · Sundays off</p>
+        <p className="text-white/70 text-xs sm:text-sm mt-0.5">All times in IST · 11 AM – 6 PM · All days</p>
       </div>
       <div className="p-4 sm:p-5">
         {/* Date Picker */}
@@ -40,14 +40,11 @@ function SlotPicker({ service, selectedDay, setSelectedDay, selectedTime, setSel
         <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
           {days.map((d, i) => {
             const isSelected = selectedDay && selectedDay.toDateString() === d.toDateString()
-            const isSunday = d.getDay() === 0
             return (
               <button
                 key={i}
-                disabled={isSunday}
                 onClick={() => { setSelectedDay(d); setSelectedTime(null) }}
                 className={`flex-shrink-0 w-14 rounded-2xl py-3 flex flex-col items-center transition-all ${
-                  isSunday ? 'opacity-25 cursor-not-allowed bg-gray-50' :
                   isSelected ? 'bg-[#2d4f3a] text-white shadow-md' :
                   'bg-gray-50 hover:bg-[#2d4f3a]/10 text-gray-700'
                 }`}

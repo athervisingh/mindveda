@@ -2,7 +2,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { allServices } from '../lib/siteContent'
+import { orderedAllServices as allServices } from '../lib/siteContent'
 import { useState } from 'react'
 import SlotPickerModal from '../components/SlotPickerModal'
 import { ServiceCategoryIcon, ArrowRightIcon, PhoneIcon } from '../components/Icons'
@@ -65,7 +65,7 @@ export default function Services() {
               { val: '₹500', label: 'Starting Price' },
             ].map(s => (
               <div key={s.label}>
-                <div className="text-2xl font-bold text-brand">{s.val}</div>
+                <div className="bold-hover text-2xl font-bold text-brand">{s.val}</div>
                 <div className="text-xs text-gray-500 mt-0.5">{s.label}</div>
               </div>
             ))}
@@ -101,7 +101,7 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: (index % 6) * 0.07 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100 flex flex-col"
+                className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100 flex flex-col"
               >
                 {/* Top gradient band with SVG icon */}
                 <div className={`bg-gradient-to-r ${service.color} px-6 pt-6 pb-4 flex items-start justify-between`}>
@@ -118,20 +118,26 @@ export default function Services() {
                 {/* Content */}
                 <div className="px-6 py-5 flex flex-col flex-1">
                   <span className="text-xs font-medium text-brand/60 uppercase tracking-wider mb-1">{service.category}</span>
-                  <h3 className="text-xl font-semibold text-[#1a3520] mb-2 leading-snug">{service.title}</h3>
+                  <h3 className="text-xl font-semibold text-[#1a3520] mb-2 leading-snug group-hover:text-brand transition-colors">{service.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed flex-1">{service.shortDescription}</p>
 
                   <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
                     <div>
-                      <span className="text-2xl font-bold text-brand">₹{service.price.toLocaleString('en-IN')}</span>
+                      <span className="bold-hover text-2xl font-bold text-brand">₹{service.price.toLocaleString('en-IN')}</span>
                       <span className="text-gray-400 text-sm ml-1">/ session</span>
                     </div>
-                    <div className="text-sm text-gray-500 flex items-center gap-1.5">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" strokeWidth="2"/>
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6l4 2"/>
-                      </svg>
-                      {service.duration}
+                    <div className="flex flex-col items-end gap-1">
+                      <div className="text-sm text-gray-500 flex items-center gap-1.5">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="12" r="10" strokeWidth="2"/>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6l4 2"/>
+                        </svg>
+                        {service.duration}
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand bg-[#edf6ef] px-2 py-0.5 rounded-full">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse inline-block" />
+                        Online
+                      </span>
                     </div>
                   </div>
 

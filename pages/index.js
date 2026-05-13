@@ -110,7 +110,7 @@ export default function Home() {
                 className="mt-5 flex gap-3"
               >
                 <Link
-                  href="/packages"
+                  href="/yoga"
                   className="flex-1 flex items-center justify-center gap-2 rounded-full bg-[#2a6c39] text-white py-3 text-sm font-semibold shadow-md active:scale-95 transition-transform"
                 >
                   Start Journey
@@ -132,7 +132,7 @@ export default function Home() {
               >
                 {heroStats.map(stat => (
                   <div key={stat.label} className="bg-[#f7f4eb] rounded-xl p-3 text-center">
-                    <div className="text-lg font-bold text-brand">{stat.value}</div>
+                    <div className="bold-hover text-lg font-bold text-brand">{stat.value}</div>
                     <div className="text-[9px] text-gray-500 mt-0.5 leading-tight">{stat.label}</div>
                   </div>
                 ))}
@@ -289,7 +289,7 @@ export default function Home() {
               >
                 <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
                   <Link
-                    href="/packages"
+                    href="/yoga"
                     className="inline-flex items-center gap-1.5 rounded-full bg-[#2a6c39] text-white font-semibold hover:bg-[#243f2b] transition-all shadow-md"
                     style={{ fontFamily: 'Lato, sans-serif', fontSize: 'clamp(0.6rem, 0.85vw, 0.875rem)', padding: 'clamp(0.4rem, 0.7vh, 0.75rem) clamp(0.7rem, 1.4vw, 1.5rem)' }}
                   >
@@ -356,7 +356,7 @@ export default function Home() {
         <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-16">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-center mb-8 md:mb-12">
             <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.28em] font-semibold">What we offer</p>
-            <h2 className="mt-2 md:mt-3 text-xl sm:text-2xl md:text-4xl font-semibold text-[#1a3520]">Support for every chapter of life</h2>
+            <h2 className="heading-hover mt-2 md:mt-3 text-xl sm:text-2xl md:text-4xl font-semibold text-[#1a3520]">Support for every chapter of life</h2>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {featuredCards.map((card, index) => (
@@ -388,7 +388,7 @@ export default function Home() {
             {/* Text */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }}>
               <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.24em] font-semibold">About Babita</p>
-              <h2 className="mt-2 md:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1a3520]">Hi, I'm Babita</h2>
+              <h2 className="heading-hover mt-2 md:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1a3520]">Hi, I'm Babita</h2>
               <p className="mt-1.5 md:mt-2 text-sm md:text-lg text-gray-500">Your partner in healing and growth.</p>
               <p className="mt-4 md:mt-6 text-gray-600 leading-7 md:leading-8 text-sm md:text-base">
                 With 15+ years of experience in clinical psychology and holistic wellness, I blend science-backed therapy with mindful practices to help people heal deeply and live fully.
@@ -397,7 +397,7 @@ export default function Home() {
               <div className="mt-5 md:mt-8 grid grid-cols-3 gap-2 md:gap-4">
                 {heroStats.map(stat => (
                   <div key={stat.label} className="rounded-xl md:rounded-2xl bg-white p-3 md:p-4 text-center shadow-soft border border-gray-100">
-                    <div className="text-lg md:text-2xl font-bold text-brand">{stat.value}</div>
+                    <div className="bold-hover text-lg md:text-2xl font-bold text-brand">{stat.value}</div>
                     <div className="mt-0.5 text-[9px] md:text-xs text-gray-500 leading-tight">{stat.label}</div>
                   </div>
                 ))}
@@ -420,9 +420,9 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6 md:mb-10">
             <div>
               <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.24em] font-semibold">From our blog</p>
-              <h2 className="mt-1.5 md:mt-2 text-xl sm:text-2xl md:text-3xl font-semibold text-[#1a3520]">Articles & emotional support</h2>
+              <h2 className="heading-hover mt-1.5 md:mt-2 text-xl sm:text-2xl md:text-3xl font-semibold text-[#1a3520]">Articles & emotional support</h2>
             </div>
-            <Link href="/blog" className="text-xs sm:text-sm font-semibold text-brand inline-flex items-center gap-1 flex-shrink-0">
+            <Link href="/blog" className="text-xs sm:text-sm font-semibold text-brand inline-flex items-center gap-1 flex-shrink-0 hover:text-brand-light transition-colors highlight-hover">
               View all <ArrowRightIcon className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -478,7 +478,7 @@ export default function Home() {
               <h3 className="mt-3 md:mt-4 text-xl sm:text-2xl md:text-3xl font-semibold leading-snug">Let's talk about how we can help you feel better.</h3>
               <p className="mt-2 md:mt-4 text-white/75 leading-6 md:leading-7 text-xs sm:text-sm md:text-base">Razorpay-ready payment flow — no redesign needed when you're ready to go live.</p>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="mt-5 md:mt-8">
-                <Link href="/packages" className="inline-flex items-center gap-2 rounded-full bg-white px-5 md:px-6 py-2.5 md:py-3 font-semibold text-brand shadow-lg text-sm">
+                <Link href="/yoga" className="inline-flex items-center gap-2 rounded-full bg-white px-5 md:px-6 py-2.5 md:py-3 font-semibold text-brand shadow-lg text-sm">
                   Schedule now <ArrowRightIcon className="w-4 h-4" />
                 </Link>
               </motion.div>

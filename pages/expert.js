@@ -1,41 +1,79 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { CheckIcon, ArrowRightIcon, LotusIcon } from '../components/Icons'
+import { CheckIcon, ArrowRightIcon } from '../components/Icons'
 
-const expertData = {
-  name: 'Babita',
-  title: 'Clinical Psychologist & Wellness Coach',
-  bio: 'With over 15 years of experience in mental health and wellness, Babita has transformed the lives of 1000+ individuals across 18+ cities through evidence-based therapy, mindful practices, and transformational retreats.',
-  qualifications: [
-    'Ph.D. in Clinical Psychology',
-    'Certified Life Coach (ICF)',
-    'Yoga Instructor (RYT-200)',
-    'Meditation Practitioner'
-  ],
-  specializations: [
-    'Anxiety & Stress Management',
-    'Depression & Trauma Healing',
-    'Couples Counseling',
-    'Life Transitions',
-    'Mindfulness & Wellness',
-    'Personal Growth Coaching'
-  ],
-  experience: [
-    { year: '2009–2012', role: 'Clinical Psychologist', organization: 'Mental Health Research Institute' },
-    { year: '2012–2018', role: 'Senior Counselor', organization: 'Wellness Retreat Centers' },
-    { year: '2018–Present', role: 'Founder & Lead Therapist', organization: 'MindVeda by Babita' }
-  ],
-  achievements: [
-    '1000+ Lives Transformed',
-    '15+ Years of Clinical Experience',
-    '18+ Cities & Retreat Locations',
-    '100% Client Confidentiality Rating',
-    'Featured in 20+ Wellness Publications',
-    'TEDx Speaker on Mental Health'
-  ]
-}
+const pillars = [
+  {
+    years: '5',
+    unit: 'Years',
+    domain: 'Psychological Counseling',
+    description:
+      'Guiding individuals through stress, anxiety, emotional challenges, relationship concerns, and personal growth — with a compassionate, practical, and non-judgmental presence.',
+    icon: (
+      <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
+        <circle cx="22" cy="14" r="5" />
+        <path d="M12 38c0-5.5 4.5-10 10-10s10 4.5 10 10" />
+        <path d="M8 24c2-3 5-4.5 8-4" />
+        <path d="M36 24c-2-3-5-4.5-8-4" />
+      </svg>
+    ),
+    color: 'from-[#edf6ef] to-[#f7fbf8]',
+    border: 'border-[#b7d9c0]',
+    tag: 'Mental Health',
+  },
+  {
+    years: '10',
+    unit: 'Years',
+    domain: 'Social Counseling',
+    description:
+      'Through dedicated NGO work, supporting individuals and families in overcoming personal and social challenges — bringing empathy, clarity, and meaningful guidance to every interaction.',
+    icon: (
+      <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
+        <circle cx="15" cy="14" r="4" />
+        <circle cx="29" cy="14" r="4" />
+        <path d="M6 36c0-4.5 4-8 9-8" />
+        <path d="M38 36c0-4.5-4-8-9-8" />
+        <path d="M16 28c1.8-.7 3.7-1 6-1s4.2.3 6 1" />
+        <path d="M16 36c0-3.5 2.7-6 6-6s6 2.5 6 6" />
+      </svg>
+    ),
+    color: 'from-[#fdf6e8] to-[#fdf9f0]',
+    border: 'border-[#e8d09a]',
+    tag: 'NGO · Community',
+  },
+  {
+    years: '12+',
+    unit: 'Years',
+    domain: 'Yoga & Wellness',
+    description:
+      'Integrating holistic yoga and wellness practices to restore emotional balance, build inner resilience, and nurture lasting well-being — uniting body, mind, and spirit.',
+    icon: (
+      <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
+        <path d="M22 7C22 7 10 14 10 24c0 6 5.5 11 12 11s12-5 12-11c0-10-12-17-12-17Z" />
+        <path d="M22 35V7" />
+        <path d="M22 18q-5 3-7 8" />
+        <path d="M22 22q5-3 7 2" />
+      </svg>
+    ),
+    color: 'from-[#f0edf8] to-[#f8f6fc]',
+    border: 'border-[#c9bfde]',
+    tag: 'Holistic · Mindful',
+  },
+]
+
+const specializations = [
+  'Stress & Anxiety Management',
+  'Emotional Wellbeing',
+  'Relationship Counseling',
+  'Personal Growth & Resilience',
+  'Community & Family Support',
+  'Yoga & Mindful Wellness',
+  'Emotional Balance',
+  'Compassion-Led Healing',
+]
 
 export default function Expert() {
   return (
@@ -43,194 +81,258 @@ export default function Expert() {
       <Header />
 
       <main className="flex-1">
-        {/* Hero */}
-        <section className="bg-gradient-to-r from-brand/10 to-brand/5 py-16 md:py-24">
-          <div className="max-w-6xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <h1 className="text-5xl md:text-6xl font-semibold text-[#1a3520] mb-4">Meet Our Expert</h1>
-              <p className="text-2xl text-brand font-light">{expertData.name}</p>
-              <p className="text-lg text-gray-600 mt-2">{expertData.title}</p>
+
+        {/* ── HERO ─────────────────────────────────────── */}
+        <section className="relative bg-gradient-to-br from-[#1a3520] via-[#2d4f3a] to-[#1a3520] overflow-hidden py-20 md:py-28">
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-white blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#8a6914] blur-3xl" />
+          </div>
+          <div className="max-w-5xl mx-auto px-6 relative z-10 text-center">
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+              <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white/75 text-xs font-semibold tracking-widest uppercase mb-6 border border-white/20">
+                Meet Your Guide
+              </span>
+              <h1 className="text-5xl md:text-6xl font-semibold text-white leading-tight mb-3"
+                style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                Babita Kumari
+              </h1>
+              <p className="text-[#c9daa0] text-lg md:text-xl font-medium mb-4">
+                Counseling Psychologist · Social Counselor · Yoga & Wellness Expert
+              </p>
+              <p className="text-white/65 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+                Compassionate. Practical. Transformative — a holistic approach to healing the mind, strengthening relationships, and nurturing lasting well-being.
+              </p>
             </motion.div>
           </div>
         </section>
 
-        {/* About Expert */}
-        <section className="max-w-6xl mx-auto px-6 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        {/* ── ABOUT ────────────────────────────────────── */}
+        <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 md:gap-16 items-center">
+
+            {/* Photo */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              className="relative"
             >
-              <div className="bg-gradient-to-br from-brand/10 to-brand/5 rounded-3xl h-96 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 mx-auto mb-4 text-brand flex items-center justify-center">
-                    <LotusIcon className="w-20 h-20" />
-                  </div>
-                  <p className="text-gray-600 font-medium">{expertData.name}</p>
-                </div>
+              <div className="relative w-full h-[300px] sm:h-[380px] md:h-[460px] rounded-[28px] overflow-hidden shadow-xl">
+                <Image src="/hero.webp" alt="Babita Kumari – Mind Veda" fill className="object-cover object-top" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/30 to-transparent" />
               </div>
+              {/* Floating tag */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                viewport={{ once: true }}
+                className="absolute -bottom-5 left-6 right-6 bg-white rounded-2xl px-5 py-3.5 shadow-lg border border-gray-100 flex items-center gap-3"
+              >
+                <div className="w-9 h-9 rounded-full bg-[#edf6ef] flex items-center justify-center text-brand flex-shrink-0">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="w-4.5 h-4.5 w-5 h-5">
+                    <path d="M12 22C12 22 4 17 4 10a8 8 0 0 1 16 0c0 7-8 12-8 12Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-[#1a3520]">Holistic Healing Approach</p>
+                  <p className="text-[11px] text-gray-500">Psychology · Social Work · Yoga</p>
+                </div>
+              </motion.div>
             </motion.div>
 
+            {/* Text */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
+              className="pt-6 lg:pt-0"
             >
-              <h2 className="text-4xl font-semibold text-[#1a3520] mb-6">About {expertData.name}</h2>
-              <p className="text-lg text-gray-700 leading-relaxed mb-8">{expertData.bio}</p>
+              <p className="text-brand text-xs uppercase tracking-[0.26em] font-semibold mb-3">About Babita</p>
+              <h2 className="heading-hover text-3xl md:text-4xl font-semibold text-[#1a3520] leading-snug mb-6">
+                Healing through compassion, clarity & holistic wisdom
+              </h2>
 
-              <div className="mb-8">
-                <h3 className="text-2xl font-semibold text-[#1a3520] mb-4">Qualifications</h3>
-                <ul className="space-y-3">
-                  {expertData.qualifications.map((qual, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="text-brand mt-1 flex-shrink-0"><CheckIcon className="w-5 h-5" /></span>
-                      <span className="text-gray-700">{qual}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="space-y-4 text-gray-600 leading-7 text-sm md:text-base">
+                <p>
+                  Babita Kumari is a <strong>Counseling Psychologist</strong> with 5 years of dedicated experience helping individuals navigate stress, anxiety, emotional challenges, relationship concerns, and personal growth — through a compassionate and practical approach that creates lasting change.
+                </p>
+                <p>
+                  With <strong>10 years of social counseling</strong> through NGO work, she has walked alongside individuals and families from diverse backgrounds, supporting them in overcoming personal and social challenges with empathy, clarity, and grounded guidance.
+                </p>
+                <p>
+                  Deeply rooted in holistic well-being, Babita brings <strong>12+ years of yoga and wellness</strong> expertise — seamlessly integrating mindful practices to restore emotional balance, build inner resilience, and nurture overall well-being in every person she works with.
+                </p>
               </div>
 
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }} className="mt-8 inline-block">
                 <Link
-                  href="/packages"
-                  className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg hover:shadow-xl"
+                  href="/yoga"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#2d4f3a] text-white px-7 py-3.5 text-sm font-semibold shadow-lg hover:bg-[#1f3829] transition-colors"
                 >
-                  Book a Session with {expertData.name} <ArrowRightIcon className="w-4 h-4" />
+                  Book a Session with Babita <ArrowRightIcon className="w-4 h-4" />
                 </Link>
               </motion.div>
             </motion.div>
           </div>
         </section>
 
-        {/* Specializations */}
-        <section className="max-w-6xl mx-auto px-6 py-20">
+        {/* ── THREE EXPERIENCE PILLARS ─────────────────── */}
+        <section className="bg-white border-y border-gray-100 py-16 md:py-20">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <p className="text-brand text-xs uppercase tracking-[0.26em] font-semibold mb-2">Experience</p>
+              <h2 className="heading-hover text-3xl md:text-4xl font-semibold text-[#1a3520]">Three Pillars of Expertise</h2>
+              <p className="mt-3 text-gray-500 text-sm md:text-base max-w-lg mx-auto">
+                A rare combination of clinical psychology, community service, and holistic wellness — unified by one mission: your well-being.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {pillars.map((p, i) => (
+                <motion.div
+                  key={p.domain}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className={`group relative bg-gradient-to-br ${p.color} rounded-[24px] border ${p.border} p-7 hover:shadow-lg transition-shadow flex flex-col gap-4`}
+                >
+                  {/* Tag */}
+                  <span className="inline-flex self-start px-2.5 py-0.5 rounded-full bg-white/70 text-[11px] font-semibold text-gray-500 border border-white">
+                    {p.tag}
+                  </span>
+
+                  {/* Years badge */}
+                  <div className="flex items-end gap-1.5">
+                    <span className="bold-hover text-5xl font-bold text-[#1a3520] leading-none">{p.years}</span>
+                    <span className="text-sm text-gray-500 mb-1.5 font-medium">{p.unit}</span>
+                  </div>
+
+                  {/* Icon + title */}
+                  <div className="flex items-center gap-3 text-brand">
+                    {p.icon}
+                    <h3 className="text-lg font-semibold text-[#1a3520] group-hover:text-brand transition-colors leading-snug">
+                      {p.domain}
+                    </h3>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-sm text-gray-600 leading-6">{p.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SPECIALIZATIONS ──────────────────────────── */}
+        <section className="max-w-6xl mx-auto px-6 py-16 md:py-20">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-10"
           >
-            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">Areas of Specialization</h2>
-            <p className="text-lg text-gray-600">Expert guidance across diverse wellness domains</p>
+            <p className="text-brand text-xs uppercase tracking-[0.26em] font-semibold mb-2">Areas of Focus</p>
+            <h2 className="heading-hover text-3xl md:text-4xl font-semibold text-[#1a3520]">How Babita Can Help You</h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {expertData.specializations.map((spec, index) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {specializations.map((spec, i) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
+                key={spec}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: (i % 4) * 0.07 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-shadow"
+                className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand/20 transition-all p-5 flex items-center gap-3"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand flex-shrink-0">
-                    <CheckIcon className="w-4 h-4" />
-                  </div>
-                  <p className="text-lg font-semibold text-gray-800">{spec}</p>
-                </div>
+                <span className="w-7 h-7 rounded-full bg-[#edf6ef] flex items-center justify-center text-brand flex-shrink-0 group-hover:bg-brand group-hover:text-white transition-colors">
+                  <CheckIcon className="w-3.5 h-3.5" />
+                </span>
+                <p className="text-sm font-semibold text-gray-700 group-hover:text-[#1a3520] transition-colors leading-snug">{spec}</p>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* Experience Timeline */}
-        <section className="max-w-6xl mx-auto px-6 py-20">
+        {/* ── APPROACH / PHILOSOPHY ────────────────────── */}
+        <section className="max-w-6xl mx-auto px-6 pb-16 md:pb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="bg-gradient-to-br from-[#fffaf0] to-[#f7fbf5] rounded-[32px] border border-[#e8dfc0] p-8 md:p-12"
           >
-            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">Professional Journey</h2>
+            <div className="grid md:grid-cols-3 gap-6 md:gap-10">
+              {[
+                {
+                  title: 'Compassionate',
+                  desc: 'Every session is a safe, non-judgmental space — where your feelings are heard, respected, and understood.',
+                  icon: '🌿',
+                },
+                {
+                  title: 'Practical',
+                  desc: 'Guidance that is actionable and rooted in real-life experiences — tools you can use right away for lasting change.',
+                  icon: '🧭',
+                },
+                {
+                  title: 'Holistic',
+                  desc: 'Blending modern psychology with yoga and wellness traditions to heal the whole person — mind, heart, and body.',
+                  icon: '✨',
+                },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="text-center"
+                >
+                  <div className="text-3xl mb-3">{item.icon}</div>
+                  <h3 className="text-xl font-semibold text-[#1a3520] mb-2">{item.title}</h3>
+                  <p className="text-gray-600 text-sm leading-6">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
-
-          <div className="space-y-8">
-            {expertData.experience.map((exp, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm"
-              >
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-brand text-white font-bold text-lg">
-                      {index + 1}
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-brand">{exp.year}</p>
-                    <h3 className="text-2xl font-semibold text-[#1a3520] mt-2">{exp.role}</h3>
-                    <p className="text-lg text-gray-600 mt-1">{exp.organization}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </section>
 
-        {/* Achievements */}
-        <section className="max-w-6xl mx-auto px-6 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl font-semibold text-[#1a3520] mb-4">Achievements & Recognition</h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {expertData.achievements.map((achievement, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-gradient-to-br from-brand/10 to-brand/5 rounded-2xl p-6 border border-brand/20 text-center"
-              >
-                <p className="text-xl font-semibold text-[#1a3520]">{achievement}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="bg-gradient-to-r from-brand to-brand/80 py-16 md:py-20 text-white">
+        {/* ── CTA ──────────────────────────────────────── */}
+        <section className="bg-gradient-to-r from-[#1a3520] to-[#2d4f3a] py-16 md:py-20 text-white">
           <div className="max-w-4xl mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-5xl font-semibold mb-6">Begin Your Transformation Today</h2>
-            <p className="text-lg mb-8 text-white/90">
-              Work with {expertData.name} to achieve lasting wellness and personal growth.
+            <h2 className="text-3xl md:text-5xl font-semibold mb-4 leading-tight"
+              style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+              Ready to Begin Your Journey?
+            </h2>
+            <p className="text-lg mb-8 text-white/75 max-w-xl mx-auto leading-relaxed">
+              Take the first step toward emotional clarity, inner peace, and lasting well-being — with Babita by your side.
             </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-block">
               <Link
-                href="/packages"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-brand shadow-lg hover:shadow-xl"
+                href="/yoga"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-[#1a3520] shadow-xl hover:shadow-2xl transition-shadow"
               >
-                Book Your Session <ArrowRightIcon className="w-4 h-4" />
+                Book a Session <ArrowRightIcon className="w-4 h-4" />
               </Link>
             </motion.div>
           </div>
         </section>
-      </main>
 
+      </main>
       <Footer />
     </div>
   )

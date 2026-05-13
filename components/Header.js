@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { allServices, servicePackages } from '../lib/siteContent'
+import { orderedAllServices, yogaPackages } from '../lib/siteContent'
 
 function useCartCount() {
   const [count, setCount] = useState(0)
@@ -21,8 +21,8 @@ function useCartCount() {
 }
 
 const dropdownData = {
-  services: allServices.map(s => ({ label: s.title, href: `/book/${s.slug}` })),
-  packages: servicePackages.map(p => ({ label: p.title, href: `/packages/${p.slug}` })),
+  services: orderedAllServices.map(s => ({ label: s.title, href: `/book/${s.slug}` })),
+  yoga: yogaPackages.map(p => ({ label: p.title, href: `/yoga/${p.slug}` })),
 }
 
 function NavLink({ label, href, dropdown }) {
@@ -34,7 +34,7 @@ function NavLink({ label, href, dropdown }) {
     <div className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <Link
         href={href}
-        className={`group relative text-sm transition-colors pb-1 flex items-center gap-1 ${isActive ? 'text-[#2d4f3a] font-semibold' : 'text-gray-700 hover:text-gray-900'}`}
+        className={`group relative text-sm transition-all pb-1 flex items-center gap-1 rounded-md px-1.5 -mx-1.5 ${isActive ? 'text-[#2d4f3a] font-semibold bg-[#2d4f3a]/5' : 'text-gray-700 hover:text-[#2d4f3a] hover:bg-[#2d4f3a]/6'}`}
         style={{ fontFamily: 'Lato, sans-serif' }}
       >
         {label}
@@ -60,7 +60,8 @@ function NavLink({ label, href, dropdown }) {
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-l border-t border-gray-100 rotate-45" />
               <div className={`px-4 ${dropdown === 'services' ? 'grid grid-cols-2 gap-x-6 gap-y-1' : 'flex flex-col gap-1'}`}>
                 {dropdownData[dropdown].map(({ label, href }) => (
-                  <Link key={href} href={href} className="px-3 py-1.5 text-sm text-gray-700 hover:text-[#2d4f3a] hover:bg-[#f7f4eb] rounded-lg transition-colors" onClick={() => setOpen(false)}>
+                  <Link key={href} href={href} className="group/item px-3 py-2 text-sm text-gray-600 hover:text-[#2d4f3a] hover:bg-[#edf6ef] rounded-lg transition-colors flex items-center gap-2" onClick={() => setOpen(false)}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#2d4f3a]/20 group-hover/item:bg-[#2d4f3a] transition-colors flex-shrink-0" />
                     {label}
                   </Link>
                 ))}
@@ -109,7 +110,8 @@ export default function Header() {
           <NavLink label="Home"     href="/" />
           <NavLink label="Services" href="/services" dropdown="services" />
           <NavLink label="Expert"   href="/expert" />
-          <NavLink label="Packages" href="/packages" dropdown="packages" />
+          <NavLink label="Yoga"     href="/yoga"    dropdown="yoga" />
+          <NavLink label="Retreat"  href="/retreat" />
           <NavLink label="Blog"     href="/blog" />
           <NavLink label="Contact"  href="/contact" />
         </nav>
@@ -164,7 +166,7 @@ export default function Header() {
 
               {/* Book button — icon+short text at md, full text at lg */}
               <Link
-                href="/packages"
+                href="/yoga"
                 className="hidden md:inline-flex items-center gap-1.5 bg-[#2d4f3a] text-white rounded-full font-medium hover:bg-[#1f3829] transition-colors flex-shrink-0"
                 style={{ fontSize: 'clamp(0.7rem, 0.9vw, 0.875rem)', padding: 'clamp(0.3rem, 0.5vw, 0.5rem) clamp(0.6rem, 1vw, 1rem)' }}
               >
@@ -183,7 +185,7 @@ export default function Header() {
 
           {/* Mobile Book button — only < md */}
           {!user && (
-            <Link href="/packages" className="md:hidden inline-flex items-center gap-1 bg-[#2d4f3a] text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex-shrink-0">
+            <Link href="/yoga" className="md:hidden inline-flex items-center gap-1 bg-[#2d4f3a] text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex-shrink-0">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
@@ -222,7 +224,8 @@ export default function Header() {
                 { label: 'Home',     href: '/' },
                 { label: 'Services', href: '/services' },
                 { label: 'Expert',   href: '/expert' },
-                { label: 'Packages', href: '/packages' },
+                { label: 'Yoga',     href: '/yoga' },
+                { label: 'Retreat',  href: '/retreat' },
                 { label: 'Blog',     href: '/blog' },
                 { label: 'Contact',  href: '/contact' },
               ].map(({ label, href }) => {
@@ -231,7 +234,7 @@ export default function Header() {
                   <Link
                     key={label}
                     href={href}
-                    className={`text-sm py-3 px-3 rounded-xl flex items-center justify-between ${active ? 'text-[#2d4f3a] font-semibold bg-white shadow-sm' : 'text-gray-700'}`}
+                    className={`text-sm py-3 px-3 rounded-xl flex items-center justify-between transition-all ${active ? 'text-[#2d4f3a] font-semibold bg-white shadow-sm' : 'text-gray-700 hover:text-[#2d4f3a] hover:bg-white/70 hover:pl-5'}`}
                     onClick={() => setMenuOpen(false)}
                   >
                     {label}
@@ -272,7 +275,7 @@ export default function Header() {
               )}
 
               <Link
-                href="/packages"
+                href="/yoga"
                 className="mt-2 flex items-center justify-center gap-2 bg-[#2d4f3a] text-white py-3 rounded-xl text-sm font-semibold"
                 onClick={() => setMenuOpen(false)}
               >
