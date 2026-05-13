@@ -29,7 +29,7 @@ function formatFullDate(date) {
 
 function SlotPicker({ service, selectedDay, setSelectedDay, selectedTime, setSelectedTime, onAddToCart, days }) {
   return (
-    <div className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+    <div className="card-anim bg-white rounded-3xl shadow-lg border border-gray-100">
       <div className="bg-[#2d4f3a] px-5 py-4">
         <h2 className="text-white font-semibold text-base sm:text-lg">Pick Your Session Slot</h2>
         <p className="text-white/70 text-xs sm:text-sm mt-0.5">All times in IST · 11 AM – 6 PM · All days</p>
@@ -215,14 +215,14 @@ export default function BookingPage() {
               </div>
 
               {/* Description */}
-              <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
+              <div className="card-anim bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
                 <h2 className="text-base sm:text-lg font-semibold text-[#1a3520] mb-2 sm:mb-3">About This Service</h2>
                 <p className="text-gray-500 leading-relaxed text-sm sm:text-base">{service.description}</p>
               </div>
 
               {/* Benefits + What to Expect */}
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
+                <div className="card-anim bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
                   <h3 className="text-sm sm:text-base font-semibold text-[#1a3520] mb-3 sm:mb-4 flex items-center gap-2">
                     <span className="w-6 h-6 sm:w-7 sm:h-7 bg-green-100 text-green-600 rounded-full flex items-center justify-center flex-shrink-0">
                       <CheckIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -241,7 +241,7 @@ export default function BookingPage() {
                   </ul>
                 </div>
 
-                <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
+                <div className="card-anim bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
                   <h3 className="text-sm sm:text-base font-semibold text-[#1a3520] mb-3 sm:mb-4 flex items-center gap-2">
                     <span className="w-6 h-6 sm:w-7 sm:h-7 bg-[#edf5ee] text-[#2d4f3a] rounded-full flex items-center justify-center flex-shrink-0">
                       <InfoIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />

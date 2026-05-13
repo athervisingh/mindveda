@@ -99,9 +99,10 @@ export default function Services() {
                 key={service.id}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -5, scale: 1.01 }}
                 transition={{ duration: 0.45, delay: (index % 6) * 0.07 }}
                 viewport={{ once: true }}
-                className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100 flex flex-col"
+                className="card-anim group bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col"
               >
                 {/* Top gradient band with SVG icon */}
                 <div className={`bg-gradient-to-r ${service.color} px-6 pt-6 pb-4 flex items-start justify-between`}>

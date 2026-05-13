@@ -5,9 +5,9 @@ import { ServiceCategoryIcon, ArrowRightIcon } from './Icons'
 export default function ServiceCard({ icon, title, description, href }) {
   return (
     <motion.div
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.25 }}
-      className="group flex flex-col items-center text-center p-4 md:p-6 bg-white md:bg-transparent rounded-2xl md:rounded-none shadow-soft md:shadow-none border border-gray-100 md:border-none"
+      whileHover={{ y: -6, scale: 1.03 }}
+      transition={{ duration: 0.28, type: 'spring', stiffness: 260, damping: 18 }}
+      className="card-anim group flex flex-col items-center text-center p-4 md:p-6 bg-white md:bg-transparent rounded-2xl md:rounded-none shadow-soft md:shadow-none border border-gray-100 md:border-none"
     >
       <div className="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-brand flex items-center justify-center">
         <ServiceCategoryIcon type={icon} className="w-9 h-9 md:w-12 md:h-12" />

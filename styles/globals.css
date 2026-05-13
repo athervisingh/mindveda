@@ -253,3 +253,77 @@ strong:hover, b:hover {
   transform: scale(1.018);
   letter-spacing: 0.01em;
 }
+
+/* ── Custom Cursor ───────────────────────────────────────────── */
+@media (hover: hover) and (pointer: fine) {
+  .has-custom-cursor * {
+    cursor: none !important;
+  }
+  /* Restore text cursor for text inputs */
+  .has-custom-cursor input[type="text"],
+  .has-custom-cursor input[type="email"],
+  .has-custom-cursor input[type="password"],
+  .has-custom-cursor input[type="search"],
+  .has-custom-cursor input[type="tel"],
+  .has-custom-cursor textarea {
+    cursor: text !important;
+  }
+}
+
+/* ── Card Box Animation ──────────────────────────────────────── */
+.card-anim {
+  position: relative;
+  overflow: hidden;
+  /* Visible default — soft green border + layered shadow */
+  border-color: rgba(45, 79, 58, 0.16);
+  box-shadow:
+    0 2px 8px rgba(45, 79, 58, 0.07),
+    0 4px 20px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 0.5px rgba(45, 79, 58, 0.08);
+  transition: box-shadow 0.32s ease, border-color 0.32s ease;
+}
+
+/* Shimmer sweep */
+.card-anim::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.38) 50%,
+    transparent 100%
+  );
+  transform: skewX(-14deg);
+  pointer-events: none;
+  z-index: 2;
+  transition: left 0s;
+}
+
+.card-anim:hover::before {
+  left: 135%;
+  transition: left 0.6s ease;
+}
+
+/* Hover — stronger green glow, deeper shadow, brighter border */
+.card-anim:hover {
+  border-color: rgba(45, 79, 58, 0.30);
+  box-shadow:
+    0 8px 28px rgba(45, 79, 58, 0.13),
+    0 16px 48px rgba(45, 79, 58, 0.09),
+    0 0 0 1.5px rgba(45, 79, 58, 0.22),
+    inset 0 0 0 0.5px rgba(45, 79, 58, 0.12);
+}
+
+/* Variant for dark/colored background cards (no white shimmer) */
+.card-anim-dark::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 100%
+  );
+}

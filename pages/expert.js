@@ -204,9 +204,10 @@ export default function Expert() {
                   key={p.domain}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ y: -6, scale: 1.015 }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   viewport={{ once: true }}
-                  className={`group relative bg-gradient-to-br ${p.color} rounded-[24px] border ${p.border} p-7 hover:shadow-lg transition-shadow flex flex-col gap-4`}
+                  className={`card-anim group relative bg-gradient-to-br ${p.color} rounded-[24px] border ${p.border} p-7 flex flex-col gap-4`}
                 >
                   {/* Tag */}
                   <span className="inline-flex self-start px-2.5 py-0.5 rounded-full bg-white/70 text-[11px] font-semibold text-gray-500 border border-white">
