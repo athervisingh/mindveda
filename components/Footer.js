@@ -46,10 +46,11 @@ export default function Footer() {
           >
             <h3 className="font-semibold text-white mb-3 md:mb-4 text-sm md:text-base">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/" className="hover:text-brand transition-colors">Home</Link></li>
-              <li><Link href="/packages" className="hover:text-brand transition-colors">Packages</Link></li>
-              <li><Link href="/about" className="hover:text-brand transition-colors">About</Link></li>
-              <li><Link href="/blog" className="hover:text-brand transition-colors">Blog</Link></li>
+              <li><Link href="/" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Home</Link></li>
+              <li><Link href="/yoga" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Yoga</Link></li>
+              <li><Link href="/retreat" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Retreat</Link></li>
+              <li><Link href="/about" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">About</Link></li>
+              <li><Link href="/blog" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Blog</Link></li>
             </ul>
           </motion.div>
 
@@ -61,10 +62,10 @@ export default function Footer() {
           >
             <h3 className="font-semibold text-white mb-3 md:mb-4 text-sm md:text-base">Our Services</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/packages" className="hover:text-brand transition-colors">Individual Counseling</Link></li>
-              <li><Link href="/packages" className="hover:text-brand transition-colors">Couples Therapy</Link></li>
-              <li><Link href="/packages" className="hover:text-brand transition-colors">Yoga & Wellness</Link></li>
-              <li><Link href="/packages" className="hover:text-brand transition-colors">Retreats</Link></li>
+              <li><Link href="/services" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Individual Counseling</Link></li>
+              <li><Link href="/services" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Couples Therapy</Link></li>
+              <li><Link href="/yoga" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Yoga & Wellness</Link></li>
+              <li><Link href="/retreat" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Retreats</Link></li>
             </ul>
           </motion.div>
 
@@ -76,10 +77,10 @@ export default function Footer() {
           >
             <h3 className="font-semibold text-white mb-3 md:mb-4 text-sm md:text-base">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/contact" className="hover:text-brand transition-colors">Contact Us</Link></li>
-              <li><Link href="/resources" className="hover:text-brand transition-colors">Resources</Link></li>
-              <li><Link href="/about" className="hover:text-brand transition-colors">FAQ</Link></li>
-              <li><Link href="/" className="hover:text-brand transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/contact" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Contact Us</Link></li>
+              <li><Link href="/resources" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Resources</Link></li>
+              <li><Link href="/about" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">FAQ</Link></li>
+              <li><Link href="/" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Privacy Policy</Link></li>
             </ul>
           </motion.div>
         </div>

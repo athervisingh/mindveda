@@ -57,7 +57,7 @@ export default function Cart() {
               <Link href="/services" className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity">
                 Browse Services
               </Link>
-              <Link href="/packages" className="rounded-full border border-brand px-6 py-3 text-sm font-semibold text-brand hover:bg-brand hover:text-white transition-all">
+              <Link href="/yoga" className="rounded-full border border-brand px-6 py-3 text-sm font-semibold text-brand hover:bg-brand hover:text-white transition-all">
                 View Packages
               </Link>
             </div>
@@ -126,7 +126,7 @@ export default function Cart() {
                   <ArrowLeftIcon className="w-3.5 h-3.5" /> Browse more services
                 </Link>
                 <span className="text-gray-300">·</span>
-                <Link href="/packages" className="text-sm text-brand hover:underline">View packages</Link>
+                <Link href="/yoga" className="text-sm text-brand hover:underline">View packages</Link>
               </div>
             </div>
 

@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { LotusIcon, CalendarIcon, ClockIcon } from './Icons'
 
 const TIME_SLOTS = [
-  '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-  '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM',
+  '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM',
+  '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM',
 ]
 
 function getNext14Days() {
@@ -104,21 +104,17 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
             <div className="p-5">
               {/* Date picker */}
               <p className="text-sm font-semibold text-gray-700 mb-3">
-                Select Date <span className="text-gray-400 font-normal">(Sundays off)</span>
+                Select Date <span className="text-gray-400 font-normal">(11 AM – 6 PM · All days)</span>
               </p>
               <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
                 {days.map((d, i) => {
                   const isSelected = selectedDay && selectedDay.toDateString() === d.toDateString()
-                  const isSunday = d.getDay() === 0
                   return (
                     <button
                       key={i}
-                      disabled={isSunday}
                       onClick={() => { setSelectedDay(d); setSelectedTime(null) }}
                       className={`flex-shrink-0 w-14 rounded-2xl py-3 flex flex-col items-center transition-all ${
-                        isSunday
-                          ? 'opacity-25 cursor-not-allowed bg-gray-50'
-                          : isSelected
+                        isSelected
                           ? 'bg-brand text-white shadow-md'
                           : 'bg-gray-50 hover:bg-brand/10 text-gray-700'
                       }`}

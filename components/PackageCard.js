@@ -10,7 +10,7 @@ export default function PackageCard({ pkg }){
           <p className="text-sm text-gray-500 mt-2">{pkg.excerpt}</p>
           <div className="mt-4 flex items-center justify-between">
             <div className="text-brand font-semibold">₹{pkg.price}</div>
-            <Link href={`/packages/${pkg.slug}`} className="text-sm text-[#2d4f3a]">View</Link>
+            <Link href={`/yoga/${pkg.slug}`} className="text-sm text-[#2d4f3a]">View</Link>
           </div>
         </div>
       </div>

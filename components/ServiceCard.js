@@ -7,12 +7,12 @@ export default function ServiceCard({ icon, title, description, href }) {
     <motion.div
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25 }}
-      className="flex flex-col items-center text-center p-4 md:p-6 bg-white md:bg-transparent rounded-2xl md:rounded-none shadow-soft md:shadow-none border border-gray-100 md:border-none"
+      className="group flex flex-col items-center text-center p-4 md:p-6 bg-white md:bg-transparent rounded-2xl md:rounded-none shadow-soft md:shadow-none border border-gray-100 md:border-none"
     >
       <div className="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-brand flex items-center justify-center">
         <ServiceCategoryIcon type={icon} className="w-9 h-9 md:w-12 md:h-12" />
       </div>
-      <h3 className="font-semibold text-sm md:text-lg mb-1 md:mb-2 leading-tight">{title}</h3>
+      <h3 className="font-semibold text-sm md:text-lg mb-1 md:mb-2 leading-tight group-hover:text-brand transition-colors">{title}</h3>
       <p className="text-gray-500 text-xs md:text-sm leading-5 hidden md:block">{description}</p>
       {href && (
         <motion.div whileHover={{ color: '#2d4f3a' }} className="mt-2 md:mt-3">
