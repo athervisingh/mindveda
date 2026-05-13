@@ -396,7 +396,7 @@ export default function Home() {
 
               <div className="mt-5 md:mt-8 grid grid-cols-3 gap-2 md:gap-4">
                 {heroStats.map(stat => (
-                  <div key={stat.label} className="rounded-xl md:rounded-2xl bg-white p-3 md:p-4 text-center shadow-soft border border-gray-100">
+                  <div key={stat.label} className="card-anim rounded-xl md:rounded-2xl bg-white p-3 md:p-4 text-center shadow-soft border border-gray-100">
                     <div className="bold-hover text-lg md:text-2xl font-bold text-brand">{stat.value}</div>
                     <div className="mt-0.5 text-[9px] md:text-xs text-gray-500 leading-tight">{stat.label}</div>
                   </div>
@@ -433,9 +433,10 @@ export default function Home() {
                 key={article.slug}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -5, scale: 1.01 }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 viewport={{ once: true }}
-                className="group overflow-hidden rounded-2xl md:rounded-[28px] border border-gray-100 bg-white shadow-soft active:scale-[0.99] transition-transform"
+                className="card-anim group rounded-2xl md:rounded-[28px] border border-gray-100 bg-white shadow-soft"
               >
                 <div className="relative w-full h-40 md:h-52">
                   <Image src={article.image} alt={article.title} fill className="object-cover" />
@@ -457,7 +458,7 @@ export default function Home() {
         <section className="max-w-[1800px] mx-auto px-4 sm:px-6 pb-12 md:pb-20">
           <div className="grid lg:grid-cols-2 gap-4 md:gap-6 items-stretch">
 
-            <div className="rounded-2xl md:rounded-[32px] bg-[#fffaf0] p-5 md:p-8 border border-[#e8dfc0]">
+            <div className="card-anim rounded-2xl md:rounded-[32px] bg-[#fffaf0] p-5 md:p-8 border border-[#e8dfc0]">
               <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.24em] font-semibold">Begin your journey today</p>
               <h2 className="mt-2 md:mt-3 text-xl sm:text-2xl md:text-3xl font-semibold text-[#1a3520] leading-snug">A calm first step for booking and support</h2>
               <p className="mt-3 md:mt-4 text-gray-600 leading-7 text-xs sm:text-sm md:text-base">
@@ -471,8 +472,8 @@ export default function Home() {
             </div>
 
             <motion.div
-              whileHover={{ y: -4 }}
-              className="rounded-2xl md:rounded-[32px] bg-gradient-to-br from-brand to-brand-light p-5 md:p-8 text-white shadow-xl shadow-brand/20"
+              whileHover={{ y: -5, scale: 1.01 }}
+              className="card-anim card-anim-dark rounded-2xl md:rounded-[32px] bg-gradient-to-br from-brand to-brand-light p-5 md:p-8 text-white shadow-xl shadow-brand/20"
             >
               <div className="text-[10px] sm:text-xs uppercase tracking-[0.24em] text-white/70">Schedule a free 15-min consultation</div>
               <h3 className="mt-3 md:mt-4 text-xl sm:text-2xl md:text-3xl font-semibold leading-snug">Let's talk about how we can help you feel better.</h3>

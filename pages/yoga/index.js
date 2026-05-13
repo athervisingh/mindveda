@@ -52,9 +52,10 @@ export default function Yoga() {
                 key={pkg.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -5, scale: 1.012 }}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
                 viewport={{ once: true }}
-                className="group bg-white rounded-3xl shadow-sm hover:shadow-lg transition-all border border-gray-100 overflow-hidden flex flex-col"
+                className="card-anim group bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col"
               >
                 {pkg.featured && (
                   <div className="bg-brand px-5 py-1.5 text-xs font-semibold text-white text-center tracking-wide flex items-center justify-center gap-1.5">

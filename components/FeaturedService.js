@@ -6,11 +6,12 @@ import { CheckIcon, ArrowRightIcon } from './Icons'
 export default function FeaturedService({ title, description, features, href, index, image }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -6, scale: 1.012 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="group bg-white rounded-2xl md:rounded-[20px] shadow-soft overflow-hidden hover:shadow-xl transition-shadow border border-gray-100 flex flex-col"
+      className="card-anim group bg-white rounded-2xl md:rounded-[20px] shadow-soft border border-gray-100 flex flex-col"
     >
       <div className="relative w-full h-52 md:h-60">
         <Image src={image} alt={title} fill className="object-cover" />
