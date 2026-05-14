@@ -254,22 +254,6 @@ strong:hover, b:hover {
   letter-spacing: 0.01em;
 }
 
-/* ── Custom Cursor ───────────────────────────────────────────── */
-@media (hover: hover) and (pointer: fine) {
-  .has-custom-cursor * {
-    cursor: none !important;
-  }
-  /* Restore text cursor for text inputs */
-  .has-custom-cursor input[type="text"],
-  .has-custom-cursor input[type="email"],
-  .has-custom-cursor input[type="password"],
-  .has-custom-cursor input[type="search"],
-  .has-custom-cursor input[type="tel"],
-  .has-custom-cursor textarea {
-    cursor: text !important;
-  }
-}
-
 /* ── Card Box Animation ──────────────────────────────────────── */
 .card-anim {
   position: relative;
