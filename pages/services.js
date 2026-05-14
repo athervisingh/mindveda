@@ -1,6 +1,7 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { orderedAllServices as allServices } from '../lib/siteContent'
 import { useState } from 'react'
@@ -23,36 +24,40 @@ export default function Services() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-br from-[#1a3520] to-brand py-20 md:py-28 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-white blur-3xl" />
-            <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-brand-accent blur-3xl" />
-          </div>
-          <div className="max-w-5xl mx-auto px-6 relative z-10 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-            >
-              <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white/80 text-sm font-medium mb-6 border border-white/20">
-                Online Counselling Services
-              </span>
-              <h1 className="text-5xl md:text-6xl font-semibold text-white mb-6 leading-tight">
-                Every Mind Deserves<br />
-                <span className="text-brand-accent">Expert Care</span>
-              </h1>
-              <p className="text-lg text-white/75 max-w-2xl mx-auto leading-relaxed">
-                From individual therapy to group support, our certified psychologists offer evidence-based counseling for every stage of your mental wellness journey.
-              </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-white/70">
-                {['100% Confidential', 'Certified Psychologists', 'Flexible Online Sessions', 'Multi-lingual Support'].map(t => (
-                  <div key={t} className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-brand-accent rounded-full" />
-                    {t}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+        <section className="relative overflow-hidden">
+          {/* Background image — full natural size */}
+          <Image
+            src="/service.webp"
+            alt="Online Counselling Services"
+            width={1536}
+            height={1024}
+            className="w-full h-auto block"
+            priority
+          />
+          {/* Overlay + content */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1a3520]/85 via-[#2d4f3a]/80 to-[#1a3520]/75 flex items-center">
+            <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 text-center">
+              <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+                <span className="hidden sm:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 text-white/80 text-xs sm:text-sm font-medium mb-3 sm:mb-6 border border-white/20">
+                  Online Counselling Services
+                </span>
+                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-2 sm:mb-4 md:mb-6 leading-tight">
+                  Every Mind Deserves<br />
+                  <span className="text-brand-accent">Expert Care</span>
+                </h1>
+                <p className="hidden sm:block text-sm sm:text-base md:text-lg text-white/75 max-w-2xl mx-auto leading-relaxed px-2">
+                  From individual therapy to group support, our certified psychologists offer evidence-based counseling for every stage of your mental wellness journey.
+                </p>
+                <div className="hidden sm:flex mt-6 sm:mt-8 flex-wrap justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-white/70">
+                  {['100% Confidential', 'Certified Psychologists', 'Flexible Online Sessions', 'Multi-lingual Support'].map(t => (
+                    <div key={t} className="flex items-center gap-1.5 sm:gap-2">
+                      <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-brand-accent rounded-full flex-shrink-0" />
+                      {t}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 

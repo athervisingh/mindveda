@@ -1,6 +1,7 @@
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckIcon, ArrowRightIcon, CartIcon } from '../../components/Icons'
 import { retreatPackage } from '../../lib/siteContent'
@@ -151,31 +152,39 @@ export default function Retreat() {
       <main className="flex-1 pb-24 lg:pb-0">
 
         {/* Hero */}
-        <section className="bg-gradient-to-br from-[#1a3520] via-[#2d4f3a] to-[#1a3520] py-20 md:py-28 text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-white blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#8a6914] blur-3xl" />
-          </div>
-          <div className="max-w-5xl mx-auto px-6 relative z-10">
-            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-              <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white/80 text-sm font-medium mb-6 border border-white/20">
-                Healing Retreat
-              </span>
-              <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-5"
-                style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-                Immersive Retreat<br /><span className="text-[#c9daa0]">in Nature</span>
-              </h1>
-              <p className="text-lg text-white/75 max-w-xl mb-3">
-                A transformational 2–3 day retreat — combining deep counseling, yoga, meditation, and nature immersion for profound healing and self-discovery.
-              </p>
-              <div className="flex flex-wrap gap-4 mt-6 text-sm text-white/70">
-                {['In-Person Experience', '2–3 Days', 'Group & Individual Sessions', 'Nature Setting'].map(t => (
-                  <div key={t} className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#c9daa0]" />{t}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+        <section className="relative overflow-hidden">
+          {/* Background image — full natural size */}
+          <Image
+            src="/retreat-hero.webp"
+            alt="Healing Retreat in Nature"
+            width={1672}
+            height={941}
+            className="w-full h-auto block"
+            priority
+          />
+          {/* Overlay + content */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1a3520]/85 via-[#2d4f3a]/78 to-[#1a3520]/72 flex items-center">
+            <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 text-white">
+              <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+                <span className="hidden sm:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 text-white/80 text-xs sm:text-sm font-medium mb-3 sm:mb-6 border border-white/20">
+                  Healing Retreat
+                </span>
+                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-2 sm:mb-4 md:mb-5"
+                  style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                  Immersive Retreat<br /><span className="text-[#c9daa0]">in Nature</span>
+                </h1>
+                <p className="hidden sm:block text-sm sm:text-base md:text-lg text-white/75 max-w-xl mb-3 leading-relaxed">
+                  A transformational 2–3 day retreat — combining deep counseling, yoga, meditation, and nature immersion for profound healing and self-discovery.
+                </p>
+                <div className="hidden sm:flex flex-wrap gap-3 sm:gap-4 mt-4 sm:mt-6 text-xs sm:text-sm text-white/70">
+                  {['In-Person Experience', '2–3 Days', 'Group & Individual Sessions', 'Nature Setting'].map(t => (
+                    <div key={t} className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#c9daa0] flex-shrink-0" />{t}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 
