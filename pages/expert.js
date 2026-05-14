@@ -83,27 +83,40 @@ export default function Expert() {
       <main className="flex-1">
 
         {/* ── HERO ─────────────────────────────────────── */}
-        <section className="relative bg-gradient-to-br from-[#1a3520] via-[#2d4f3a] to-[#1a3520] overflow-hidden py-20 md:py-28">
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-white blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#8a6914] blur-3xl" />
-          </div>
-          <div className="max-w-5xl mx-auto px-6 relative z-10 text-center">
-            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-              <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white/75 text-xs font-semibold tracking-widest uppercase mb-6 border border-white/20">
-                Meet Your Guide
-              </span>
-              <h1 className="text-5xl md:text-6xl font-semibold text-white leading-tight mb-3"
-                style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-                Babita Kumari
-              </h1>
-              <p className="text-[#c9daa0] text-lg md:text-xl font-medium mb-4">
-                Counseling Psychologist · Social Counselor · Yoga & Wellness Expert
-              </p>
-              <p className="text-white/65 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-                Compassionate. Practical. Transformative — a holistic approach to healing the mind, strengthening relationships, and nurturing lasting well-being.
-              </p>
-            </motion.div>
+        <section className="relative overflow-hidden">
+          {/* Background image — full natural size */}
+          <Image
+            src="/expert.webp"
+            alt="Babita Kumari – Mind Veda Expert"
+            width={1536}
+            height={1024}
+            className="w-full h-auto block"
+            priority
+          />
+          {/* Dark base overlay for text readability */}
+          <div className="absolute inset-0 bg-[#0f1f14]/70" />
+          {/* Gradient overlay on top */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/80 via-[#1a3520]/40 to-[#1a3520]/60" />
+
+          {/* Content */}
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 text-center">
+              <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+                <span className="hidden sm:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/15 text-white text-xs font-semibold tracking-widest uppercase mb-3 sm:mb-6 border border-white/25">
+                  Meet Your Guide
+                </span>
+                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight mb-1.5 sm:mb-3 drop-shadow-lg"
+                  style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                  Babita Kumari
+                </h1>
+                <p className="text-[#d4e8a0] text-xs sm:text-base md:text-lg lg:text-xl font-medium mb-1.5 sm:mb-3 drop-shadow">
+                  Counseling Psychologist · Social Counselor · Yoga & Wellness Expert
+                </p>
+                <p className="hidden sm:block text-white/80 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed px-2 drop-shadow">
+                  Compassionate. Practical. Transformative — a holistic approach to healing the mind, strengthening relationships, and nurturing lasting well-being.
+                </p>
+              </motion.div>
+            </div>
           </div>
         </section>
 
@@ -119,8 +132,8 @@ export default function Expert() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="relative w-full h-[300px] sm:h-[380px] md:h-[460px] rounded-[28px] overflow-hidden shadow-xl">
-                <Image src="/hero.webp" alt="Babita Kumari – Mind Veda" fill className="object-cover object-top" />
+              <div className="w-full rounded-[28px] overflow-hidden shadow-xl">
+                <Image src="/yoga.webp" alt="Babita Kumari – Mind Veda" width={928} height={1134} className="w-full h-auto max-h-[420px] md:max-h-[520px] object-cover object-top" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/30 to-transparent" />
               </div>
               {/* Floating tag */}
