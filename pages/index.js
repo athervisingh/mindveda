@@ -11,7 +11,7 @@ import { PhoneIcon, MailIcon, MapPinIcon, ArrowRightIcon } from '../components/I
 
 const heroStats = [
   { value: '1000+', label: 'Lives transformed' },
-  { value: '15+', label: 'Years experience' },
+  { value: '12+', label: 'Years experience' },
   { value: '18+', label: 'Cities & retreats' },
 ]
 
@@ -376,23 +376,57 @@ export default function Home() {
 
         {/* ── ABOUT BABITA ── */}
         <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-20">
-          <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-6 md:gap-12 items-center">
+          <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-6 md:gap-14 items-center">
 
             {/* Image */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="relative">
-              <div className="relative w-full h-[240px] sm:h-[320px] md:h-[420px] lg:h-[460px] rounded-2xl md:rounded-[28px] overflow-hidden">
-                <Image src="/hero.webp" alt="Babita – Mind Veda" fill className="object-cover object-top" />
+            <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="relative">
+              <div className="w-full rounded-2xl md:rounded-[28px] overflow-hidden shadow-xl">
+                <Image src="/yoga.webp" alt="Babita – Mind Veda" width={928} height={1134} className="w-full h-auto max-h-[420px] md:max-h-[520px] object-cover object-top" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/25 to-transparent" />
               </div>
+              {/* Floating badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} viewport={{ once: true }}
+                className="absolute -bottom-4 left-4 right-4 md:left-6 md:right-6 bg-white rounded-2xl px-4 py-3 shadow-lg border border-gray-100 flex items-center gap-3"
+              >
+                <div className="w-8 h-8 rounded-full bg-[#edf6ef] flex items-center justify-center text-brand flex-shrink-0">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="w-4 h-4">
+                    <path d="M12 22C12 22 4 17 4 10a8 8 0 0 1 16 0c0 7-8 12-8 12Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-[#1a3520]">Holistic Healing Approach</p>
+                  <p className="text-[11px] text-gray-500">Psychology · Social Work · Yoga</p>
+                </div>
+              </motion.div>
             </motion.div>
 
             {/* Text */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }}>
+            <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }} className="pt-6 lg:pt-0">
               <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.24em] font-semibold">About Babita</p>
               <h2 className="heading-hover mt-2 md:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1a3520]">Hi, I'm Babita</h2>
-              <p className="mt-1.5 md:mt-2 text-sm md:text-lg text-gray-500">Your partner in healing and growth.</p>
-              <p className="mt-4 md:mt-6 text-gray-600 leading-7 md:leading-8 text-sm md:text-base">
-                With 15+ years of experience in clinical psychology and holistic wellness, I blend science-backed therapy with mindful practices to help people heal deeply and live fully.
-              </p>
+              <p className="mt-1.5 md:mt-2 text-sm md:text-base text-gray-500 font-medium">Counseling Psychologist · Social Counselor · Yoga & Wellness Expert</p>
+
+              {/* Expertise pills */}
+              <div className="mt-4 md:mt-5 flex flex-wrap gap-2">
+                {[
+                  { years: '5 Yrs', label: 'Psychological Counseling', color: 'bg-[#edf6ef] text-[#2d4f3a] border-[#b7d9c0]' },
+                  { years: '10 Yrs', label: 'Social Counseling', color: 'bg-[#fdf6e8] text-[#7a5c14] border-[#e8d09a]' },
+                  { years: '12+ Yrs', label: 'Yoga & Wellness', color: 'bg-[#f0edf8] text-[#4a3a7a] border-[#c9bfde]' },
+                ].map(item => (
+                  <span key={item.label} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold ${item.color}`}>
+                    <span className="font-bold">{item.years}</span>
+                    <span className="opacity-70">·</span>
+                    {item.label}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-4 md:mt-6 space-y-3 text-gray-600 leading-7 text-sm md:text-base">
+                <p>Babita Kumari is a <strong className="text-[#1a3520]">Counseling Psychologist</strong> helping individuals navigate stress, anxiety, emotional challenges, and personal growth — through a compassionate, practical approach that creates lasting change.</p>
+                <p>With <strong className="text-[#1a3520]">10 years of social counseling</strong> via NGO work and <strong className="text-[#1a3520]">12+ years of yoga & wellness</strong> expertise, she blends modern psychology with holistic practices to heal mind, heart, and body.</p>
+              </div>
 
               <div className="mt-5 md:mt-8 grid grid-cols-3 gap-2 md:gap-4">
                 {heroStats.map(stat => (
@@ -403,12 +437,18 @@ export default function Home() {
                 ))}
               </div>
 
-              <blockquote className="mt-5 md:mt-8 rounded-xl md:rounded-[28px] border border-gray-100 bg-white p-4 md:p-6 shadow-soft">
-                <div className="text-3xl md:text-4xl text-brand/40 leading-none">"</div>
-                <p className="mt-1 md:mt-2 text-sm md:text-lg italic text-gray-700 leading-7">
+              <blockquote className="mt-5 md:mt-6 rounded-xl md:rounded-[24px] border border-gray-100 bg-white p-4 md:p-5 shadow-soft">
+                <div className="text-3xl md:text-4xl text-brand/40 leading-none">{'“'}</div>
+                <p className="mt-1 text-sm md:text-base italic text-gray-700 leading-7">
                   Everyone has the strength within themselves. I'm here to help you unlock it.
                 </p>
               </blockquote>
+
+              <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="mt-6 md:mt-7 inline-block">
+                <Link href="/expert" className="inline-flex items-center gap-2 rounded-full bg-[#2d4f3a] text-white px-6 py-3 text-sm font-semibold shadow-lg hover:bg-[#1f3829] transition-colors">
+                  Meet Babita <ArrowRightIcon className="w-4 h-4" />
+                </Link>
+              </motion.div>
             </motion.div>
           </div>
         </section>
