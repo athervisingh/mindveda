@@ -358,7 +358,7 @@ export default function Home() {
             <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.28em] font-semibold">What we offer</p>
             <h2 className="heading-hover mt-2 md:mt-3 text-xl sm:text-2xl md:text-4xl font-semibold text-[#1a3520]">Support for every chapter of life</h2>
           </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 items-stretch">
             {featuredCards.map((card, index) => (
               <FeaturedService key={card.title} index={index} title={card.title} description={card.description} features={card.features} href={card.href} image={card.image} />
             ))}
@@ -379,27 +379,11 @@ export default function Home() {
           <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-6 md:gap-14 items-center">
 
             {/* Image */}
-            <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="relative">
-              <div className="w-full rounded-2xl md:rounded-[28px] overflow-hidden shadow-xl">
-                <Image src="/babita.webp" alt="Babita Kumari – Mind Veda" width={1536} height={1024} className="w-full h-auto block" />
+            <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="w-full">
+              <div className="relative w-full rounded-2xl md:rounded-[28px] overflow-hidden shadow-xl">
+                <Image src="/about.webp" alt="Babita Kumari – Mind Veda" width={1536} height={1024} className="w-full h-auto block" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/25 to-transparent" />
               </div>
-              {/* Floating badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} viewport={{ once: true }}
-                className="absolute -bottom-4 left-4 right-4 md:left-6 md:right-6 bg-white rounded-2xl px-4 py-3 shadow-lg border border-gray-100 flex items-center gap-3"
-              >
-                <div className="w-8 h-8 rounded-full bg-[#edf6ef] flex items-center justify-center text-brand flex-shrink-0">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="w-4 h-4">
-                    <path d="M12 22C12 22 4 17 4 10a8 8 0 0 1 16 0c0 7-8 12-8 12Z" />
-                    <circle cx="12" cy="10" r="2.5" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-[#1a3520]">Holistic Healing Approach</p>
-                  <p className="text-[11px] text-gray-500">Psychology · Social Work · Yoga</p>
-                </div>
-              </motion.div>
             </motion.div>
 
             {/* Text */}

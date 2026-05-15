@@ -13,8 +13,8 @@ export default function FeaturedService({ title, description, features, href, in
       viewport={{ once: true }}
       className="card-anim group bg-white rounded-2xl md:rounded-[20px] shadow-soft border border-gray-100 flex flex-col overflow-hidden"
     >
-      <div className="w-full overflow-hidden rounded-t-2xl md:rounded-t-[20px]">
-        <Image src={image} alt={title} width={800} height={600} className="w-full h-auto" />
+      <div className="relative w-full aspect-[3/2] overflow-hidden">
+        <Image src={image} alt={title} fill className="object-cover" />
       </div>
       <div className="p-5 md:p-7 flex flex-col flex-1">
         <h3 className="font-semibold text-lg md:text-xl mb-2 md:mb-2.5 text-[#1a3520] group-hover:text-brand transition-colors">{title}</h3>
