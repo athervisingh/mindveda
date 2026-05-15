@@ -381,7 +381,7 @@ export default function Home() {
             {/* Image */}
             <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="relative">
               <div className="w-full rounded-2xl md:rounded-[28px] overflow-hidden shadow-xl">
-                <Image src="/yoga.webp" alt="Babita – Mind Veda" width={928} height={1134} className="w-full h-auto max-h-[420px] md:max-h-[520px] object-cover object-top" />
+                <Image src="/babita.webp" alt="Babita Kumari – Mind Veda" width={1536} height={1024} className="w-full h-auto block" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/25 to-transparent" />
               </div>
               {/* Floating badge */}
