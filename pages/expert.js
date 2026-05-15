@@ -84,37 +84,44 @@ export default function Expert() {
 
         {/* ── HERO ─────────────────────────────────────── */}
         <section className="relative overflow-hidden">
-          {/* Background image — full natural size */}
           <Image
-            src="/expert.webp"
+            src="/babita.webp"
             alt="Babita Kumari – Mind Veda Expert"
-            width={1536}
-            height={1024}
+            width={1672}
+            height={771}
             className="w-full h-auto block"
             priority
           />
-          {/* Dark base overlay for text readability */}
-          <div className="absolute inset-0 bg-[#0f1f14]/70" />
-          {/* Gradient overlay on top */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/80 via-[#1a3520]/40 to-[#1a3520]/60" />
+          {/* Left dark gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-transparent" />
 
           {/* Content */}
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 text-center">
-              <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-                <span className="hidden sm:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/15 text-white text-xs font-semibold tracking-widest uppercase mb-3 sm:mb-6 border border-white/25">
-                  Meet Your Guide
+            <div className="w-full px-5 sm:px-10 md:px-16 lg:px-20">
+              <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+                <span className="hidden md:inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold tracking-widest uppercase mb-4">
+                  Online Counselling Services
                 </span>
-                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight mb-1.5 sm:mb-3 drop-shadow-lg"
-                  style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-                  Babita Kumari
+                <h1 className="text-lg sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-1.5 sm:mb-3 md:mb-4 drop-shadow-lg">
+                  Every Mind Deserves<br />
+                  <span className="text-[#f5a623]">Expert Care</span>
                 </h1>
-                <p className="text-[#d4e8a0] text-xs sm:text-base md:text-lg lg:text-xl font-medium mb-1.5 sm:mb-3 drop-shadow">
-                  Counseling Psychologist · Social Counselor · Yoga & Wellness Expert
+                <p className="hidden md:block text-white/75 text-sm lg:text-base xl:text-lg leading-7 mb-6 max-w-lg">
+                  From individual therapy to group support, our certified psychologists offer evidence-based counseling for every stage of your mental wellness journey.
                 </p>
-                <p className="hidden sm:block text-white/80 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed px-2 drop-shadow">
-                  Compassionate. Practical. Transformative — a holistic approach to healing the mind, strengthening relationships, and nurturing lasting well-being.
-                </p>
+                <div className="hidden md:flex gap-8 lg:gap-12">
+                  {[
+                    { label: '100%\nConfidential', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><rect x="3" y="11" width="18" height="11" rx="2" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0110 0v4"/></svg> },
+                    { label: 'Certified\nPsychologists', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg> },
+                    { label: 'Flexible\nOnline Sessions', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><rect x="3" y="4" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg> },
+                    { label: 'Multi-lingual\nSupport', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg> },
+                  ].map(({ label, icon }) => (
+                    <div key={label} className="flex flex-col items-start text-left gap-2">
+                      <div className="text-[#f5a623]">{icon}</div>
+                      <span className="text-white/75 text-[11px] sm:text-xs leading-tight whitespace-pre-line">{label}</span>
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             </div>
           </div>
@@ -130,31 +137,12 @@ export default function Expert() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="relative"
+              className="w-full"
             >
-              <div className="w-full rounded-[28px] overflow-hidden shadow-xl">
-                <Image src="/babita.webp" alt="Babita Kumari – Mind Veda" width={1536} height={1024} className="w-full h-auto block" />
+              <div className="relative w-full rounded-[28px] overflow-hidden shadow-xl">
+                <Image src="/expert.webp" alt="Babita Kumari – Mind Veda" width={849} height={1023} className="w-full h-auto block" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/30 to-transparent" />
               </div>
-              {/* Floating tag */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                viewport={{ once: true }}
-                className="absolute -bottom-5 left-6 right-6 bg-white rounded-2xl px-5 py-3.5 shadow-lg border border-gray-100 flex items-center gap-3"
-              >
-                <div className="w-9 h-9 rounded-full bg-[#edf6ef] flex items-center justify-center text-brand flex-shrink-0">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="w-4.5 h-4.5 w-5 h-5">
-                    <path d="M12 22C12 22 4 17 4 10a8 8 0 0 1 16 0c0 7-8 12-8 12Z" />
-                    <circle cx="12" cy="10" r="2.5" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-[#1a3520]">Holistic Healing Approach</p>
-                  <p className="text-[11px] text-gray-500">Psychology · Social Work · Yoga</p>
-                </div>
-              </motion.div>
             </motion.div>
 
             {/* Text */}
