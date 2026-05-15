@@ -133,7 +133,7 @@ export default function Expert() {
               className="relative"
             >
               <div className="w-full rounded-[28px] overflow-hidden shadow-xl">
-                <Image src="/yoga.webp" alt="Babita Kumari – Mind Veda" width={928} height={1134} className="w-full h-auto max-h-[420px] md:max-h-[520px] object-cover object-top" />
+                <Image src="/babita.webp" alt="Babita Kumari – Mind Veda" width={1536} height={1024} className="w-full h-auto block" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/30 to-transparent" />
               </div>
               {/* Floating tag */}

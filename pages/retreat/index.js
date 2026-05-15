@@ -8,10 +8,7 @@ import { retreatPackage } from '../../lib/siteContent'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-const TIME_SLOTS = [
-  '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM',
-  '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM',
-]
+const TIME_SLOTS = ['11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM']
 
 function getNext14Days() {
   const days = []
@@ -24,28 +21,73 @@ function getNext14Days() {
   return days
 }
 
+const PROPERTY_SECTIONS = [
+  {
+    title: 'Your Private Suite',
+    image: '/r1.webp',
+    imgW: 1376, imgH: 768,
+    position: 'left',
+    paragraphs: [
+      'All our suites are a spacious 600 sq ft and filled with light, each with an integral, private in-suite spa, a personal library of books & a balcony overlooking the pool and river.',
+      'Sleek and designed in a contemporary way, the suites are fitted with luxurious king sized beds using superior cotton bedding. Fresh fruit, bottled mineral water and a selection of herbal teas are always available.',
+    ],
+  },
+  {
+    title: 'Rest & Rejuvenate',
+    image: '/r2.webp',
+    imgW: 1376, imgH: 768,
+    position: 'right',
+    paragraphs: [
+      'Get a full night\'s rest, wake up to birds chirping, grab a book from your personal library and be engulfed in a tranquil atmosphere, with exceptional hospitality.',
+      'Each of our spacious spa-suites have an integral, private spa area or treatment room, from where you can indulge in unlimited therapies. Studies have shown that getting good sleep immediately after your therapies allows a much longer term effect — our suites have been built to offer a calm and relaxing space for you to continue to rejuvenate following your treatments.',
+      'Beyond your in-suite spa, your balcony overlooks the pool, is shaded by foliage and is positioned so you can take in delightful river views.',
+    ],
+  },
+  {
+    title: 'Mindful Design',
+    image: '/r3.webp',
+    imgW: 1376, imgH: 768,
+    position: 'left',
+    paragraphs: [
+      'MindVeda has a minimalist and eco-friendly design to resonate with your mind. To keep your doshas in balance, and to propagate sattva guna, our property has been made with uncluttered open spaces that instil a feeling of peace and relaxation.',
+      'The entire property\'s wood is handcrafted teak made by local artisans, with handpicked art and decor. Being a boutique property allows us to give our guests personalised care & attention.',
+      'For treatments that require heavy oil, we have provisioned a rooftop spa right above your suite — our spa-to-suite ratio ensures we leave no stone unturned in giving you the comfort & privacy you need.',
+    ],
+  },
+  {
+    title: 'Nature & Tranquility',
+    image: '/r4.webp',
+    imgW: 1376, imgH: 768,
+    position: 'right',
+    paragraphs: [
+      'While you\'re at the rooftop spa, don\'t miss taking in the views of the retreat — it is a popular spot for yoga classes and sunsets.',
+      'MindVeda has come together to be a private hideaway retreat, tucked away in lush greenery by the banks of a lazy river. Bamboo groves where gentle winds make the leaves sway, an organic garden where passion fruits and figs are aplenty, and long walkways that traverse the foliage — all come together to leave your fast-paced, rushed life behind and truly enjoy what we call "life in the slow lane".',
+      'With a private jetty, amphitheatre, organic garden, pool, roof spa & bamboo grove, the property has various nooks for yoga, meditation, introspection & private meals.',
+    ],
+  },
+]
+
+const PRICING = [
+  { type: 'Sharing Accommodation', price: 7500, icon: '👥', desc: '3-bed shared room · all meals included' },
+  { type: 'Twin Sharing', price: 10000, icon: '🛏️', desc: '2-bed room · all meals included', highlight: true },
+  { type: 'Single Accommodation', price: 15000, icon: '🛌', desc: 'Private room · all meals included' },
+]
+
 function SlotPicker({ pkg, days, selectedDay, setSelectedDay, selectedTime, setSelectedTime, onAddToCart }) {
   return (
-    <div className="card-anim bg-white rounded-3xl shadow-lg border border-gray-100">
+    <div className="card-anim bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
       <div className="bg-[#2d4f3a] px-5 py-4">
         <h2 className="text-white font-semibold text-base sm:text-lg">Book Your Retreat Slot</h2>
         <p className="text-white/70 text-xs sm:text-sm mt-0.5">All times in IST · 11 AM – 6 PM · All days</p>
       </div>
-
       <div className="p-4 sm:p-5">
         <p className="text-sm font-medium text-gray-700 mb-3">Choose a Start Date</p>
-        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
           {days.map((d, i) => {
             const isSelected = selectedDay && selectedDay.toDateString() === d.toDateString()
             return (
-              <button
-                key={i}
-                onClick={() => { setSelectedDay(d); setSelectedTime(null) }}
-                className={`flex-shrink-0 w-14 rounded-2xl py-3 flex flex-col items-center transition-all ${
-                  isSelected ? 'bg-[#2d4f3a] text-white shadow-md' :
-                  'bg-gray-50 hover:bg-[#2d4f3a]/10 text-gray-700'
-                }`}
-              >
+              <button key={i} onClick={() => { setSelectedDay(d); setSelectedTime(null) }}
+                className={`flex-shrink-0 w-14 rounded-2xl py-3 flex flex-col items-center transition-all ${isSelected ? 'bg-[#2d4f3a] text-white shadow-md' : 'bg-gray-50 hover:bg-[#2d4f3a]/10 text-gray-700'}`}>
                 <span className="text-[10px] font-medium opacity-80">{d.toLocaleDateString('en-IN', { weekday: 'short' })}</span>
                 <span className="text-base font-bold mt-0.5">{d.getDate()}</span>
                 <span className="text-[10px] opacity-70">{d.toLocaleDateString('en-IN', { month: 'short' })}</span>
@@ -53,32 +95,16 @@ function SlotPicker({ pkg, days, selectedDay, setSelectedDay, selectedTime, setS
             )
           })}
         </div>
-
         <AnimatePresence>
           {selectedDay && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden"
-            >
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
               <p className="text-sm font-medium text-gray-700 mt-4 mb-3">
-                Arrival Time —{' '}
-                <span className="text-gray-400 font-normal">
-                  {selectedDay.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}
-                </span>
+                Arrival Time — <span className="text-gray-400 font-normal">{selectedDay.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
               </p>
               <div className="grid grid-cols-3 gap-2">
                 {TIME_SLOTS.map(t => (
-                  <button
-                    key={t}
-                    onClick={() => setSelectedTime(t)}
-                    className={`py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
-                      selectedTime === t
-                        ? 'bg-[#2d4f3a] text-white shadow-md'
-                        : 'bg-gray-50 text-gray-700 hover:bg-[#2d4f3a]/10 border border-gray-100'
-                    }`}
-                  >
+                  <button key={t} onClick={() => setSelectedTime(t)}
+                    className={`py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${selectedTime === t ? 'bg-[#2d4f3a] text-white shadow-md' : 'bg-gray-50 text-gray-700 hover:bg-[#2d4f3a]/10 border border-gray-100'}`}>
                     {t}
                   </button>
                 ))}
@@ -86,13 +112,8 @@ function SlotPicker({ pkg, days, selectedDay, setSelectedDay, selectedTime, setS
             </motion.div>
           )}
         </AnimatePresence>
-
         {selectedDay && selectedTime && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-4 bg-[#2d4f3a]/5 border border-[#2d4f3a]/10 rounded-xl px-4 py-3 text-sm"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 bg-[#2d4f3a]/5 border border-[#2d4f3a]/10 rounded-xl px-4 py-3 text-sm">
             <div className="flex justify-between text-gray-600 mb-1">
               <span className="truncate pr-2">{pkg.title}</span>
               <span className="font-semibold text-[#2d4f3a] flex-shrink-0">₹{pkg.price.toLocaleString('en-IN')}</span>
@@ -102,12 +123,8 @@ function SlotPicker({ pkg, days, selectedDay, setSelectedDay, selectedTime, setS
             </div>
           </motion.div>
         )}
-
-        <button
-          disabled={!selectedDay || !selectedTime}
-          onClick={onAddToCart}
-          className="mt-4 w-full rounded-full bg-[#2d4f3a] py-3.5 text-white font-semibold text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#1f3829] active:scale-[0.98] transition-all"
-        >
+        <button disabled={!selectedDay || !selectedTime} onClick={onAddToCart}
+          className="mt-4 w-full rounded-full bg-[#2d4f3a] py-3.5 text-white font-semibold text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#1f3829] active:scale-[0.98] transition-all">
           {selectedDay && selectedTime ? 'Add to Cart' : 'Select a Date & Time'}
         </button>
         <p className="text-center text-xs text-gray-400 mt-3">No payment now · Review in cart</p>
@@ -122,19 +139,14 @@ export default function Retreat() {
   const days = getNext14Days()
   const [selectedDay, setSelectedDay] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null)
+  const [activeDay, setActiveDay] = useState(0)
 
   function handleAddToCart() {
     if (!selectedDay || !selectedTime) return
     const cart = JSON.parse(localStorage.getItem('mv_cart') || '[]')
     cart.push({
-      cartId: Date.now(),
-      id: pkg.id,
-      type: 'package',
-      slug: pkg.slug,
-      title: pkg.title,
-      icon: 'lotus',
-      price: pkg.price,
-      duration: pkg.duration,
+      cartId: Date.now(), id: pkg.id, type: 'package', slug: pkg.slug,
+      title: pkg.title, icon: 'lotus', price: pkg.price, duration: pkg.duration,
       bookingDate: selectedDay.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
       bookingTime: selectedTime,
     })
@@ -148,139 +160,244 @@ export default function Retreat() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
       <Header />
+      <main className="flex-1 pb-20 lg:pb-0">
 
-      <main className="flex-1 pb-24 lg:pb-0">
+        {/* ── HERO ── */}
+        <section className="flex flex-col md:flex-row min-h-[420px] md:min-h-[560px]">
+          {/* Left — gradient text panel (narrower) */}
+          <div className="w-full md:w-[32%] bg-gradient-to-br from-[#0d1f12] via-[#1a3520] to-[#2d4f3a] flex items-center px-7 sm:px-10 md:px-8 lg:px-12 py-12 md:py-16 order-2 md:order-1 flex-shrink-0">
+            <motion.div initial={{ opacity: 0, x: -28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 mb-5">
+                <span className="w-2 h-2 rounded-full bg-[#c9daa0] animate-pulse" />
+                <span className="text-white text-xs font-semibold tracking-widest uppercase">Rishikesh Experience</span>
+              </div>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="bg-white/10 border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full">3 DAYS</span>
+                <span className="text-white/40">·</span>
+                <span className="bg-white/10 border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full">2 NIGHTS</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4"
+                style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                Spiritual Wellness<br />
+                <span className="text-[#c9daa0]">Retreat</span>
+              </h1>
+              <p className="text-white/70 text-sm italic mb-6"
+                style={{ fontFamily: 'Georgia, serif' }}>
+                Where Healing Meets the Himalayas
+              </p>
+              <div className="flex flex-col gap-2 text-xs text-white/60">
+                {['In-Person · Rishikesh, Uttarakhand', 'Group & Individual Sessions', 'All Meals & Accommodation Included'].map(t => (
+                  <span key={t} className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#c9daa0] flex-shrink-0" />{t}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+          {/* Right — image (wider) with left-edge fade into green */}
+          <div className="w-full md:w-[68%] order-1 md:order-2 flex-shrink-0 relative">
+            <Image src="/retreat-hero.webp" alt="Spiritual Wellness Retreat Rishikesh" width={1672} height={941} className="w-full h-full object-cover block" priority />
+            <div className="hidden md:block absolute inset-y-0 left-0 w-64 bg-gradient-to-r from-[#2d4f3a] via-[#2d4f3a]/50 to-transparent" />
+          </div>
+        </section>
 
-        {/* Hero */}
-        <section className="relative overflow-hidden">
-          {/* Background image — full natural size */}
-          <Image
-            src="/retreat-hero.webp"
-            alt="Healing Retreat in Nature"
-            width={1672}
-            height={941}
-            className="w-full h-auto block"
-            priority
-          />
-          {/* Overlay + content */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a3520]/85 via-[#2d4f3a]/78 to-[#1a3520]/72 flex items-center">
-            <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 text-white">
-              <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-                <span className="hidden sm:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 text-white/80 text-xs sm:text-sm font-medium mb-3 sm:mb-6 border border-white/20">
-                  Healing Retreat
-                </span>
-                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-2 sm:mb-4 md:mb-5"
-                  style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-                  Immersive Retreat<br /><span className="text-[#c9daa0]">in Nature</span>
-                </h1>
-                <p className="hidden sm:block text-sm sm:text-base md:text-lg text-white/75 max-w-xl mb-3 leading-relaxed">
-                  A transformational 2–3 day retreat — combining deep counseling, yoga, meditation, and nature immersion for profound healing and self-discovery.
-                </p>
-                <div className="hidden sm:flex flex-wrap gap-3 sm:gap-4 mt-4 sm:mt-6 text-xs sm:text-sm text-white/70">
-                  {['In-Person Experience', '2–3 Days', 'Group & Individual Sessions', 'Nature Setting'].map(t => (
-                    <div key={t} className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#c9daa0] flex-shrink-0" />{t}
-                    </div>
-                  ))}
+        {/* ── TRANSFORMATION STATEMENT ── */}
+        <section className="bg-[#fffaf0] border-y border-[#e8d9a0]">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 text-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
+              <p className="text-[#7a5c14] text-sm sm:text-base italic mb-1" style={{ fontFamily: 'Georgia, serif' }}>This is not a trip...</p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a3520] mb-6 sm:mb-10">
+                It's a <span className="text-[#2d4f3a]">transformation.</span>
+              </h2>
+              <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-lg mx-auto">
+                {[{ icon: '🧘', label: 'Heal Within' }, { icon: '🤝', label: 'Connect Deeply' }, { icon: '🌱', label: 'Transform Forever' }].map((item, i) => (
+                  <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.12 }} viewport={{ once: true }} className="flex flex-col items-center gap-2">
+                    <span className="text-2xl sm:text-4xl">{item.icon}</span>
+                    <span className="text-xs sm:text-sm font-semibold text-[#1a3520]">{item.label}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── PROPERTY SECTIONS ── */}
+        <section className="py-10 sm:py-16">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8 sm:mb-12 px-4">
+            <p className="text-brand text-xs uppercase tracking-[0.24em] font-semibold mb-2">The Experience</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1a3520]">Your Retreat, Your Sanctuary</h2>
+          </motion.div>
+
+          <div className="divide-y divide-gray-100">
+            {PROPERTY_SECTIONS.map((section, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className={`flex flex-col ${section.position === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'}`}
+              >
+                {/* Image — clean, no overlays */}
+                <div className="w-full md:w-1/2 flex-shrink-0">
+                  <Image src={section.image} alt={section.title} width={section.imgW} height={section.imgH} className="w-full h-auto block" />
+                </div>
+
+                {/* Text content */}
+                <div className="w-full md:w-1/2 bg-white flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-20 py-10 sm:py-14">
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1a3520] leading-tight mb-6"
+                    style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                    {section.title}
+                  </h3>
+                  <div className="space-y-4">
+                    {section.paragraphs.map((para, i) => (
+                      <motion.p
+                        key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: i * 0.08 }}
+                        viewport={{ once: true }}
+                        className="text-gray-600 text-sm sm:text-base leading-7 sm:leading-8"
+                      >
+                        {para}
+                      </motion.p>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── WHAT'S INCLUDED ── */}
+        <section className="bg-[#edf6ef] py-10 sm:py-14">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8">
+              <p className="text-brand text-xs uppercase tracking-[0.24em] font-semibold mb-2">Everything Included</p>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[#1a3520]">What's in Your Retreat</h2>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              {[
+                { icon: '🧘', text: 'Yoga & Meditation Sessions' },
+                { icon: '🔥', text: 'Agnihotra Fire Healing' },
+                { icon: '🎶', text: 'Sound & Mantra Healing' },
+                { icon: '🏊', text: 'Ganga Snan — Holy Dip' },
+                { icon: '🥗', text: 'All Sattvic Meals Included' },
+                { icon: '🛕', text: 'Temple Darshan & Sacred Sites' },
+                { icon: '🌿', text: 'Nature Walks & Adventure' },
+                { icon: '🎤', text: 'Expert Lectures & Workshops' },
+                { icon: '🙏', text: 'Farewell Blessings Ceremony' },
+                { icon: '🛌', text: 'Accommodation (2 Nights)' },
+                { icon: '🧠', text: 'Chakra & Counseling Sessions' },
+                { icon: '📿', text: 'Rudraksh Mala Gift' },
+              ].map((item, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }} viewport={{ once: true }}
+                  className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 shadow-sm border border-[#c5ddc8]">
+                  <span className="text-xl flex-shrink-0">{item.icon}</span>
+                  <span className="text-sm text-gray-700 font-medium">{item.text}</span>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-5 sm:py-8">
-          <div className="flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-6 lg:gap-8 lg:items-start">
-
-            {/* LEFT — Details */}
-            <div className="flex flex-col gap-4 sm:gap-5">
-
-              {/* Header card */}
-              <div className="bg-gradient-to-r from-[#edf5ee] to-[#f5f0e8] rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex gap-4 items-start">
-                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-white/80 flex items-center justify-center flex-shrink-0 shadow-sm">
-                  <svg className="w-8 h-8 sm:w-11 sm:h-11 text-[#2d4f3a]" viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 7C22 7 10 14 10 24c0 6 5.5 11 12 11s12-5 12-11c0-10-12-17-12-17Z"/>
-                    <path d="M22 35V7"/><path d="M22 18q-5 3-7 8"/><path d="M22 22q5-3 7 2"/>
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <span className="text-[10px] sm:text-xs font-semibold text-[#2d4f3a] uppercase tracking-wider">Immersive Healing</span>
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#1a3520] mt-0.5 leading-snug">{pkg.title}</h2>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
-                    <span className="text-xl sm:text-2xl font-bold text-[#2d4f3a]">₹{pkg.price.toLocaleString('en-IN')}</span>
-                    <span className="text-gray-400 text-xs sm:text-sm">per person</span>
-                    <span className="flex items-center gap-1 text-gray-400 text-xs sm:text-sm">
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                        <circle cx="12" cy="12" r="10"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2"/>
-                      </svg>
-                      {pkg.duration}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 border border-gray-200">
-                      In-person
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* About */}
-              <div className="card-anim bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
-                <h2 className="text-base sm:text-lg font-semibold text-[#1a3520] mb-2 sm:mb-3">About the Retreat</h2>
-                <p className="text-gray-500 leading-relaxed text-sm sm:text-base">{pkg.excerpt}</p>
-              </div>
-
-              {/* What's Included */}
-              <div className="card-anim bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
-                <h3 className="text-sm sm:text-base font-semibold text-[#1a3520] mb-3 sm:mb-4 flex items-center gap-2">
-                  <span className="w-6 h-6 sm:w-7 sm:h-7 bg-green-100 text-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <CheckIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+        {/* ── PRICING ── */}
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8 sm:mb-10">
+            <p className="text-brand text-xs uppercase tracking-[0.24em] font-semibold mb-2">Retreat Pricing</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1a3520]">Choose Your Experience</h2>
+            <p className="mt-2 text-gray-500 text-sm">All packages include meals, activities & accommodation</p>
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+            {PRICING.map((plan, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} viewport={{ once: true }}
+                className={`relative rounded-2xl sm:rounded-[24px] border p-5 sm:p-6 flex flex-col items-center text-center transition-shadow ${plan.highlight ? 'bg-[#1a3520] border-[#2d4f3a] shadow-2xl scale-[1.03]' : 'bg-white border-gray-100 shadow-soft hover:shadow-lg'}`}>
+                {plan.highlight && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#c9daa0] text-[#1a3520] text-xs font-bold px-3 py-1 rounded-full">
+                    Most Popular
                   </span>
-                  What's Included
-                </h3>
-                <ul className="space-y-2 sm:space-y-2.5">
+                )}
+                <span className="text-3xl mb-3">{plan.icon}</span>
+                <h3 className={`text-sm font-semibold mb-1 ${plan.highlight ? 'text-[#c9daa0]' : 'text-gray-500'}`}>{plan.type}</h3>
+                <div className={`text-3xl sm:text-4xl font-bold mb-1 ${plan.highlight ? 'text-white' : 'text-[#1a3520]'}`}>
+                  ₹{plan.price.toLocaleString('en-IN')}
+                </div>
+                <p className={`text-xs mb-4 ${plan.highlight ? 'text-white/60' : 'text-gray-400'}`}>per person</p>
+                <p className={`text-xs leading-5 ${plan.highlight ? 'text-white/70' : 'text-gray-500'}`}>{plan.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-center text-xs text-gray-400 mt-4">* All prices per person. GST applicable.</p>
+        </section>
+
+        {/* ── LOCATION ── */}
+        <section className="bg-gradient-to-br from-[#1a3520] to-[#2d4f3a] py-10 sm:py-14">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <span className="text-3xl block mb-3">📍</span>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-2">Retreat Location</h2>
+              <p className="text-[#c9daa0] text-sm sm:text-base font-medium mb-1">Rishikesh, Uttarakhand, India</p>
+              <p className="text-white/60 text-xs sm:text-sm">Tehri Farm, Gohri Mafi, Rishikesh — 249205</p>
+              <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-white/70">
+                {['Himalayan Foothills', 'Ganga Riverside', 'Triveni Ghat', 'Sacred Temples Nearby'].map(t => (
+                  <span key={t} className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#c9daa0]" />{t}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── BOOK NOW ── */}
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14" id="book">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8">
+            <p className="text-brand text-xs uppercase tracking-[0.24em] font-semibold mb-2">Reserve Your Spot</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-[#1a3520]">Book Your Retreat</h2>
+            <p className="mt-2 text-gray-500 text-sm">Select your arrival date and time. No payment required now.</p>
+          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-6 lg:gap-10 items-start">
+            {/* Left — trust info */}
+            <div className="space-y-4">
+              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-gray-100 shadow-soft">
+                <h3 className="text-base font-semibold text-[#1a3520] mb-4">Why Choose This Retreat?</h3>
+                <ul className="space-y-3">
                   {[
-                    'Group & individual counseling sessions',
-                    'Morning & evening yoga and meditation',
-                    'Nature immersion and mindfulness walks',
-                    'Meals and accommodation (where applicable)',
-                    'Post-retreat follow-up session',
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-xs sm:text-sm text-gray-500">
-                      <span className="w-4 h-4 mt-0.5 bg-[#2d4f3a]/10 text-[#2d4f3a] rounded-full flex items-center justify-center flex-shrink-0">
-                        <CheckIcon className="w-2.5 h-2.5" />
+                    '3 full days of immersive healing in Rishikesh',
+                    'Expert-led yoga, counseling & meditation',
+                    'Authentic Vedic ceremonies & fire rituals',
+                    'Sattvic meals — pure, nourishing, healing',
+                    'Small group — personal attention guaranteed',
+                    'Post-retreat follow-up support from Babita',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-sm text-gray-600">
+                      <span className="w-5 h-5 rounded-full bg-[#edf6ef] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <CheckIcon className="w-3 h-3 text-brand" />
                       </span>
                       {item}
                     </li>
                   ))}
                 </ul>
               </div>
-
-              {/* Trust badges */}
-              <div className="flex flex-wrap gap-2">
-                {['Expert-Led Sessions', 'Small Group Size', 'Nature Setting', 'Post-Retreat Support'].map(t => (
-                  <span key={t} className="flex items-center gap-1.5 text-[10px] sm:text-xs text-gray-500 bg-white border border-gray-200 px-2.5 sm:px-3 py-1.5 rounded-full">
-                    <CheckIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-500 flex-shrink-0" /> {t}
-                  </span>
+              <div className="grid grid-cols-3 gap-3">
+                {[{ v: '3', l: 'Days' }, { v: '2', l: 'Nights' }, { v: '12+', l: 'Yrs Experience' }].map(s => (
+                  <div key={s.l} className="bg-white rounded-xl p-3 text-center border border-gray-100 shadow-soft">
+                    <div className="text-xl sm:text-2xl font-bold text-[#2d4f3a]">{s.v}</div>
+                    <div className="text-xs text-gray-500 mt-0.5">{s.l}</div>
+                  </div>
                 ))}
               </div>
-
-              {/* Slot picker mobile */}
-              <div className="lg:hidden" id="slot-picker">
-                <SlotPicker {...slotPickerProps} />
-                <Link href="/cart" className="mt-3 flex items-center justify-center gap-2 text-sm text-[#2d4f3a] hover:underline">
-                  <CartIcon className="w-4 h-4" /> View Cart
-                </Link>
-              </div>
             </div>
-
-            {/* RIGHT — Desktop sticky */}
-            <div className="hidden lg:block sticky top-24">
+            {/* Right — slot picker */}
+            <div id="slot-picker">
               <SlotPicker {...slotPickerProps} />
               <Link href="/cart" className="mt-3 flex items-center justify-center gap-2 text-sm text-[#2d4f3a] hover:underline">
                 <CartIcon className="w-4 h-4" /> View Cart
               </Link>
             </div>
-
           </div>
-        </div>
+        </section>
+
       </main>
 
       {/* Mobile sticky bottom bar */}
@@ -295,14 +412,12 @@ export default function Retreat() {
             ₹{pkg.price.toLocaleString('en-IN')} <span className="text-xs font-normal text-gray-400">/ person</span>
           </div>
         </div>
-        <motion.button
-          whileTap={{ scale: 0.96 }}
+        <motion.button whileTap={{ scale: 0.96 }}
           onClick={() => {
             if (selectedDay && selectedTime) handleAddToCart()
             else document.getElementById('slot-picker')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }}
-          className="flex-shrink-0 rounded-full bg-[#2d4f3a] text-white px-5 py-3 text-sm font-semibold shadow-lg hover:bg-[#1f3829] transition-colors"
-        >
+          className="flex-shrink-0 rounded-full bg-[#2d4f3a] text-white px-5 py-3 text-sm font-semibold shadow-lg hover:bg-[#1f3829] transition-colors">
           {selectedDay && selectedTime ? 'Add to Cart' : 'Book Now'}
         </motion.button>
       </div>
