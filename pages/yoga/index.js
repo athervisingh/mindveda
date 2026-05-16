@@ -2,6 +2,7 @@ import Header from '../../components/Header'
 import { LotusIcon, StarIcon, ArrowRightIcon } from '../../components/Icons'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { yogaPackages } from '../../lib/siteContent'
 import { useState } from 'react'
@@ -16,31 +17,61 @@ export default function Yoga() {
       <main className="flex-1">
 
         {/* Hero */}
-        <section className="bg-gradient-to-br from-[#1a3520] to-brand py-20 md:py-28 text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-white blur-3xl" />
-            <div className="absolute bottom-10 right-20 w-80 h-80 rounded-full bg-brand-accent blur-3xl" />
-          </div>
-          <div className="max-w-5xl mx-auto px-6 relative z-10">
-            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-              <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white/80 text-sm font-medium mb-6 border border-white/20">
-                Yoga & Wellness
-              </span>
-              <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-5">
-                Find Balance<br /><span className="text-brand-accent">Through Yoga</span>
-              </h1>
-              <p className="text-lg text-white/75 max-w-xl mb-8">
-                Online yoga sessions designed to restore emotional balance, build inner strength, and nurture lasting well-being — guided by 12+ years of experience.
-              </p>
-              <div className="flex gap-4">
-                <Link href="/cart" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand shadow-lg hover:shadow-xl transition-shadow">
-                  View Cart
-                </Link>
-                <Link href="/services" className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-all">
-                  Counseling Services
-                </Link>
-              </div>
-            </motion.div>
+        <section className="relative overflow-hidden">
+          <Image
+            src="/yoga.webp"
+            alt="Yoga & Wellness – Mind Veda"
+            width={1920}
+            height={972}
+            className="w-full h-auto block"
+            priority
+          />
+          {/* Right dark gradient */}
+          <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/35 to-transparent" />
+
+          {/* Content – right side */}
+          <div className="absolute inset-0 flex items-center justify-end">
+            <div className="w-full sm:w-1/2 px-5 sm:px-8 md:px-12 lg:px-16 text-right">
+              <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+                <div className="hidden md:flex justify-end mb-4">
+                  <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold tracking-widest uppercase backdrop-blur-sm">
+                    Yoga & Wellness
+                  </span>
+                </div>
+                <h1 className="text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-1.5 sm:mb-3 md:mb-4 drop-shadow-lg">
+                  <span className="whitespace-nowrap">Find Balance</span><br />
+                  <span className="text-[#f5a623]">Through Yoga</span>
+                </h1>
+                <p className="hidden md:block text-white/75 text-sm lg:text-base xl:text-lg leading-7 mb-6 ml-auto max-w-lg">
+                  Online yoga sessions designed to restore emotional balance, build inner strength, and nurture lasting well-being — guided by 12+ years of experience.
+                </p>
+                <div className="hidden md:flex gap-8 lg:gap-12 justify-end">
+                  {[
+                    {
+                      label: '12+\nYears Exp.',
+                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>,
+                    },
+                    {
+                      label: 'Online\nSessions',
+                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><rect x="3" y="4" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>,
+                    },
+                    {
+                      label: 'Holistic\nWellness',
+                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3c-1.2 5.4-6 7.8-6 12a6 6 0 0012 0c0-4.2-4.8-6.6-6-12z"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18"/></svg>,
+                    },
+                    {
+                      label: 'Mind &\nBody',
+                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><circle cx="12" cy="5" r="2"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5m0 0l-3 4m3-4l3 4M9 11H6m9 0h3"/></svg>,
+                    },
+                  ].map(({ label, icon }) => (
+                    <div key={label} className="flex flex-col items-end text-right gap-2">
+                      <div className="text-[#f5a623]">{icon}</div>
+                      <span className="text-white/75 text-[11px] sm:text-xs leading-tight whitespace-pre-line">{label}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 
