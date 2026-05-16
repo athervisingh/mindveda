@@ -28,6 +28,8 @@ export default function Yoga() {
           />
           {/* Right dark gradient */}
           <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/35 to-transparent" />
+          {/* Extra right shadow for text visibility */}
+          <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-black/60 via-black/30 to-transparent blur-sm" />
 
           {/* Content – right side */}
           <div className="absolute inset-0 flex items-center justify-end">
