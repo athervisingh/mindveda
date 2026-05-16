@@ -38,16 +38,16 @@ export default function Services() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-transparent" />
           {/* Content */}
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full px-5 sm:px-10 md:px-16 lg:px-20">
+            <div className="w-full sm:w-1/2 px-5 sm:px-10 md:px-16 lg:px-20">
               <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
                 <span className="hidden md:inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold tracking-widest uppercase mb-4">
                   Online Counselling Services
                 </span>
-                <h1 className="text-lg sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-1.5 sm:mb-3 md:mb-4 drop-shadow-lg">
-                  Every Mind Deserves<br />
+                <h1 className="text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-1.5 sm:mb-3 md:mb-4 drop-shadow-lg">
+                  <span className="whitespace-nowrap">Every Mind Deserves</span><br />
                   <span className="text-[#f5a623]">Expert Care</span>
                 </h1>
-                <p className="hidden md:block text-white/75 text-sm lg:text-base xl:text-lg leading-7 mb-6 max-w-lg">
+                <p className="hidden md:block text-white/75 text-xs lg:text-sm xl:text-base leading-6 mb-5 max-w-sm">
                   From individual therapy to group support, our certified psychologists offer evidence-based counseling for every stage of your mental wellness journey.
                 </p>
                 <div className="hidden md:flex gap-8 lg:gap-12">
