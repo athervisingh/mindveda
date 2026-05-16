@@ -25,34 +25,41 @@ export default function Services() {
       <main className="flex-1">
         {/* Hero */}
         <section className="relative overflow-hidden">
-          {/* Background image — full natural size */}
           <Image
             src="/service.webp"
             alt="Online Counselling Services"
-            width={1536}
-            height={1024}
+            width={1376}
+            height={668}
             className="w-full h-auto block"
+            style={{}}
             priority
           />
-          {/* Overlay + content */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a3520]/85 via-[#2d4f3a]/80 to-[#1a3520]/75 flex items-center">
-            <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 text-center">
-              <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-                <span className="hidden sm:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 text-white/80 text-xs sm:text-sm font-medium mb-3 sm:mb-6 border border-white/20">
+          {/* Left dark gradient — same as expert */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-transparent" />
+          {/* Content */}
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full px-5 sm:px-10 md:px-16 lg:px-20">
+              <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+                <span className="hidden md:inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold tracking-widest uppercase mb-4">
                   Online Counselling Services
                 </span>
-                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-2 sm:mb-4 md:mb-6 leading-tight">
+                <h1 className="text-lg sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-1.5 sm:mb-3 md:mb-4 drop-shadow-lg">
                   Every Mind Deserves<br />
-                  <span className="text-brand-accent">Expert Care</span>
+                  <span className="text-[#f5a623]">Expert Care</span>
                 </h1>
-                <p className="hidden sm:block text-sm sm:text-base md:text-lg text-white/75 max-w-2xl mx-auto leading-relaxed px-2">
+                <p className="hidden md:block text-white/75 text-sm lg:text-base xl:text-lg leading-7 mb-6 max-w-lg">
                   From individual therapy to group support, our certified psychologists offer evidence-based counseling for every stage of your mental wellness journey.
                 </p>
-                <div className="hidden sm:flex mt-6 sm:mt-8 flex-wrap justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-white/70">
-                  {['100% Confidential', 'Certified Psychologists', 'Flexible Online Sessions', 'Multi-lingual Support'].map(t => (
-                    <div key={t} className="flex items-center gap-1.5 sm:gap-2">
-                      <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-brand-accent rounded-full flex-shrink-0" />
-                      {t}
+                <div className="hidden md:flex gap-8 lg:gap-12">
+                  {[
+                    { label: '100%\nConfidential', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><rect x="3" y="11" width="18" height="11" rx="2" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0110 0v4"/></svg> },
+                    { label: 'Certified\nPsychologists', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg> },
+                    { label: 'Flexible\nOnline Sessions', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><rect x="3" y="4" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg> },
+                    { label: 'Multi-lingual\nSupport', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg> },
+                  ].map(({ label, icon }) => (
+                    <div key={label} className="flex flex-col items-start text-left gap-2">
+                      <div className="text-[#f5a623]">{icon}</div>
+                      <span className="text-white/75 text-[11px] sm:text-xs leading-tight whitespace-pre-line">{label}</span>
                     </div>
                   ))}
                 </div>
