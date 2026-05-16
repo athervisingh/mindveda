@@ -102,7 +102,7 @@ export default function Expert() {
                 <span className="hidden md:inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold tracking-widest uppercase mb-4">
                   Online Counselling Services
                 </span>
-                <h1 className="text-lg sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-1.5 sm:mb-3 md:mb-4 drop-shadow-lg">
+                <h1 className="text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-1.5 sm:mb-3 md:mb-4 drop-shadow-lg">
                   <span className="whitespace-nowrap">Every Mind Deserves</span><br />
                   <span className="text-[#f5a623]">Expert Care</span>
                 </h1>
