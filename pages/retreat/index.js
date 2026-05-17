@@ -239,29 +239,38 @@ export default function Retreat() {
                 viewport={{ once: true }}
                 className={`flex flex-col ${section.position === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'}`}
               >
-                {/* Image — clean, no overlays */}
+                {/* Image */}
                 <div className="w-full md:w-1/2 flex-shrink-0">
                   <Image src={section.image} alt={section.title} width={section.imgW} height={section.imgH} className="w-full h-auto block" />
                 </div>
 
                 {/* Text content */}
-                <div className="w-full md:w-1/2 bg-white flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-20 py-10 sm:py-14">
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1a3520] leading-tight mb-6"
-                    style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                <div
+                  className="w-full md:w-1/2 bg-white flex flex-col justify-center"
+                  style={{ padding: 'clamp(1rem, 2vw, 3rem) clamp(1rem, 2.5vw, 3.5rem)' }}
+                >
+                  <h3
+                    className="font-semibold text-[#1a3520] leading-tight"
+                    style={{
+                      fontFamily: 'Playfair Display, Georgia, serif',
+                      fontSize: 'clamp(0.9rem, 1.8vw, 1.875rem)',
+                      marginBottom: 'clamp(0.4rem, 1vw, 1rem)',
+                    }}
+                  >
                     {section.title}
                   </h3>
-                  <div className="space-y-4">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(0.25rem, 0.5vw, 0.625rem)' }}>
                     {section.paragraphs.map((para, i) => (
-                      <motion.p
+                      <p
                         key={i}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: i * 0.08 }}
-                        viewport={{ once: true }}
-                        className="text-gray-600 text-sm sm:text-base leading-7 sm:leading-8"
+                        className="text-gray-600"
+                        style={{
+                          fontSize: 'clamp(0.62rem, 0.85vw, 0.875rem)',
+                          lineHeight: 'clamp(1rem, 1.5vw, 1.5rem)',
+                        }}
                       >
                         {para}
-                      </motion.p>
+                      </p>
                     ))}
                   </div>
                 </div>

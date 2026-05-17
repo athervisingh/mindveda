@@ -1,17 +1,43 @@
 import Header from '../../components/Header'
-import { LotusIcon, StarIcon, ArrowRightIcon } from '../../components/Icons'
+import { LotusIcon, StarIcon } from '../../components/Icons'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { LazyMotion, domAnimation, m } from 'framer-motion'
 import { yogaPackages } from '../../lib/siteContent'
 import { useState } from 'react'
 import SlotPickerModal from '../../components/SlotPickerModal'
+
+const STATS = [
+  {
+    label: '12+\nYears Exp.',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>,
+  },
+  {
+    label: 'Online\nSessions',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><rect x="3" y="4" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>,
+  },
+  {
+    label: 'Holistic\nWellness',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3c-1.2 5.4-6 7.8-6 12a6 6 0 0012 0c0-4.2-4.8-6.6-6-12z"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18"/></svg>,
+  },
+  {
+    label: 'Mind &\nBody',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><circle cx="12" cy="5" r="2"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5m0 0l-3 4m3-4l3 4M9 11H6m9 0h3"/></svg>,
+  },
+]
+
+const HOW_IT_WORKS = [
+  ['1. Choose', 'Pick the yoga session that matches your goals.'],
+  ['2. Pick a Slot', 'Choose your preferred date and time — add to cart.'],
+  ['3. Join Online', 'Review your cart, pay securely, and join your session.'],
+]
 
 export default function Yoga() {
   const [modalItem, setModalItem] = useState(null)
 
   return (
+    <LazyMotion features={domAnimation}>
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
       <Header />
       <main className="flex-1">
@@ -24,17 +50,15 @@ export default function Yoga() {
             width={1920}
             height={972}
             className="w-full h-auto block"
+            sizes="100vw"
             priority
           />
-          {/* Right dark gradient */}
-          <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/35 to-transparent" />
-          {/* Extra right shadow for text visibility */}
-          <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-black/60 via-black/30 to-transparent blur-sm" />
+          <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/40 to-transparent" />
 
           {/* Content – right side */}
           <div className="absolute inset-0 flex items-center justify-end">
             <div className="w-full sm:w-1/2 px-5 sm:px-8 md:px-12 lg:px-16 text-right">
-              <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+              <m.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
                 <div className="hidden md:flex justify-end mb-4">
                   <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold tracking-widest uppercase backdrop-blur-sm">
                     Yoga & Wellness
@@ -48,31 +72,14 @@ export default function Yoga() {
                   Online yoga sessions designed to restore emotional balance, build inner strength, and nurture lasting well-being — guided by 12+ years of experience.
                 </p>
                 <div className="hidden md:flex gap-8 lg:gap-12 justify-end">
-                  {[
-                    {
-                      label: '12+\nYears Exp.',
-                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>,
-                    },
-                    {
-                      label: 'Online\nSessions',
-                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><rect x="3" y="4" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>,
-                    },
-                    {
-                      label: 'Holistic\nWellness',
-                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3c-1.2 5.4-6 7.8-6 12a6 6 0 0012 0c0-4.2-4.8-6.6-6-12z"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18"/></svg>,
-                    },
-                    {
-                      label: 'Mind &\nBody',
-                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6 sm:w-7 sm:h-7"><circle cx="12" cy="5" r="2"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5m0 0l-3 4m3-4l3 4M9 11H6m9 0h3"/></svg>,
-                    },
-                  ].map(({ label, icon }) => (
+                  {STATS.map(({ label, icon }) => (
                     <div key={label} className="flex flex-col items-end text-right gap-2">
                       <div className="text-[#f5a623]">{icon}</div>
                       <span className="text-white/75 text-[11px] sm:text-xs leading-tight whitespace-pre-line">{label}</span>
                     </div>
                   ))}
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </section>
@@ -81,13 +88,12 @@ export default function Yoga() {
         <section className="max-w-6xl mx-auto px-6 py-16">
           <div className="grid md:grid-cols-2 gap-6">
             {yogaPackages.map((pkg, index) => (
-              <motion.div
+              <m.div
                 key={pkg.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -5, scale: 1.012 }}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: '-50px' }}
                 className="card-anim group bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col"
               >
                 {pkg.featured && (
@@ -156,7 +162,7 @@ export default function Yoga() {
                     </Link>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
@@ -164,11 +170,7 @@ export default function Yoga() {
         {/* How it works */}
         <section className="max-w-6xl mx-auto px-6 pb-20">
           <div className="grid lg:grid-cols-3 gap-6">
-            {[
-              ['1. Choose', 'Pick the yoga session that matches your goals.'],
-              ['2. Pick a Slot', 'Choose your preferred date and time — add to cart.'],
-              ['3. Join Online', 'Review your cart, pay securely, and join your session.'],
-            ].map(([title, desc]) => (
+            {HOW_IT_WORKS.map(([title, desc]) => (
               <div key={title} className="rounded-[28px] bg-white p-6 shadow-soft border border-gray-100">
                 <h3 className="text-lg font-semibold text-[#1a3520]">{title}</h3>
                 <p className="mt-3 text-sm leading-7 text-gray-600">{desc}</p>
@@ -181,5 +183,6 @@ export default function Yoga() {
 
       <SlotPickerModal isOpen={!!modalItem} onClose={() => setModalItem(null)} item={modalItem} />
     </div>
+    </LazyMotion>
   )
 }
