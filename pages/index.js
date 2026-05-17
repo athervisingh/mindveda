@@ -375,65 +375,58 @@ export default function Home() {
         </section>
 
         {/* ── ABOUT BABITA ── */}
-        <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-20">
-          <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-6 md:gap-14 items-center">
+        <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <div className="grid lg:grid-cols-[0.6fr_1.4fr] gap-10 md:gap-16 items-center">
 
             {/* Image */}
-            <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="w-full">
-              <div className="relative w-full rounded-2xl md:rounded-[28px] overflow-hidden shadow-xl">
-                <Image src="/about.webp" alt="Babita Kumari – Mind Veda" width={1536} height={1024} className="w-full h-auto block" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/25 to-transparent" />
+            <motion.div
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="w-full"
+            >
+              <div className="relative w-full rounded-[28px] overflow-hidden shadow-xl">
+                <Image src="/about.webp" alt="Babita Kumari – Mind Veda" width={900} height={1320} className="w-full h-auto block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/30 to-transparent" />
               </div>
             </motion.div>
 
             {/* Text */}
-            <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }} className="pt-6 lg:pt-0">
-              <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.24em] font-semibold">About Babita</p>
-              <h2 className="heading-hover mt-2 md:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1a3520]">Hi, I'm Babita</h2>
-              <p className="mt-1.5 md:mt-2 text-sm md:text-base text-gray-500 font-medium">Counseling Psychologist · Social Counselor · Yoga & Wellness Expert</p>
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="pt-6 lg:pt-0"
+            >
+              <p className="text-brand text-xs uppercase tracking-[0.26em] font-semibold mb-3">About Babita</p>
+              <h2 className="heading-hover text-3xl md:text-4xl font-semibold text-[#1a3520] leading-snug mb-6">
+                Healing through compassion, clarity & holistic wisdom
+              </h2>
 
-              {/* Expertise pills */}
-              <div className="mt-4 md:mt-5 flex flex-wrap gap-2">
-                {[
-                  { years: '5 Yrs', label: 'Psychological Counseling', color: 'bg-[#edf6ef] text-[#2d4f3a] border-[#b7d9c0]' },
-                  { years: '10 Yrs', label: 'Social Counseling', color: 'bg-[#fdf6e8] text-[#7a5c14] border-[#e8d09a]' },
-                  { years: '12+ Yrs', label: 'Yoga & Wellness', color: 'bg-[#f0edf8] text-[#4a3a7a] border-[#c9bfde]' },
-                ].map(item => (
-                  <span key={item.label} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold ${item.color}`}>
-                    <span className="font-bold">{item.years}</span>
-                    <span className="opacity-70">·</span>
-                    {item.label}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-4 md:mt-6 space-y-3 text-gray-600 leading-7 text-sm md:text-base">
-                <p>Babita Kumari is a <strong className="text-[#1a3520]">Counseling Psychologist</strong> helping individuals navigate stress, anxiety, emotional challenges, and personal growth — through a compassionate, practical approach that creates lasting change.</p>
-                <p>With <strong className="text-[#1a3520]">10 years of social counseling</strong> via NGO work and <strong className="text-[#1a3520]">12+ years of yoga & wellness</strong> expertise, she blends modern psychology with holistic practices to heal mind, heart, and body.</p>
-              </div>
-
-              <div className="mt-5 md:mt-8 grid grid-cols-3 gap-2 md:gap-4">
-                {heroStats.map(stat => (
-                  <div key={stat.label} className="card-anim rounded-xl md:rounded-2xl bg-white p-3 md:p-4 text-center shadow-soft border border-gray-100">
-                    <div className="bold-hover text-lg md:text-2xl font-bold text-brand">{stat.value}</div>
-                    <div className="mt-0.5 text-[9px] md:text-xs text-gray-500 leading-tight">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              <blockquote className="mt-5 md:mt-6 rounded-xl md:rounded-[24px] border border-gray-100 bg-white p-4 md:p-5 shadow-soft">
-                <div className="text-3xl md:text-4xl text-brand/40 leading-none">{'“'}</div>
-                <p className="mt-1 text-sm md:text-base italic text-gray-700 leading-7">
-                  Everyone has the strength within themselves. I'm here to help you unlock it.
+              <div className="space-y-4 text-gray-600 leading-7 text-sm md:text-base">
+                <p>
+                  Babita Kumari is a <strong>Counseling Psychologist</strong> with 5 years of dedicated experience helping individuals navigate stress, anxiety, emotional challenges, relationship concerns, and personal growth — through a compassionate and practical approach that creates lasting change.
                 </p>
-              </blockquote>
+                <p>
+                  With <strong>10 years of social counseling</strong> through NGO work, she has walked alongside individuals and families from diverse backgrounds, supporting them in overcoming personal and social challenges with empathy, clarity, and grounded guidance.
+                </p>
+                <p>
+                  Deeply rooted in holistic well-being, Babita brings <strong>12+ years of yoga and wellness</strong> expertise — seamlessly integrating mindful practices to restore emotional balance, build inner resilience, and nurture overall well-being in every person she works with.
+                </p>
+              </div>
 
-              <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="mt-6 md:mt-7 inline-block">
-                <Link href="/expert" className="inline-flex items-center gap-2 rounded-full bg-[#2d4f3a] text-white px-6 py-3 text-sm font-semibold shadow-lg hover:bg-[#1f3829] transition-colors">
+              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }} className="mt-8 inline-block">
+                <Link
+                  href="/expert"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#2d4f3a] text-white px-7 py-3.5 text-sm font-semibold shadow-lg hover:bg-[#1f3829] transition-colors"
+                >
                   Meet Babita <ArrowRightIcon className="w-4 h-4" />
                 </Link>
               </motion.div>
             </motion.div>
+
           </div>
         </section>
 
