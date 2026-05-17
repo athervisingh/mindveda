@@ -131,7 +131,7 @@ export default function Expert() {
 
         {/* ── ABOUT ────────────────────────────────────── */}
         <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
-          <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 md:gap-16 items-center">
+          <div className="grid lg:grid-cols-[0.6fr_1.4fr] gap-10 md:gap-16 items-center">
 
             {/* Photo */}
             <motion.div
@@ -142,7 +142,7 @@ export default function Expert() {
               className="w-full"
             >
               <div className="relative w-full rounded-[28px] overflow-hidden shadow-xl">
-                <Image src="/expert.webp" alt="Babita Kumari – Mind Veda" width={849} height={1023} className="w-full h-auto block" />
+                <Image src="/about.webp" alt="Babita Kumari – Mind Veda" width={900} height={1320} className="w-full h-auto block" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a3520]/30 to-transparent" />
               </div>
             </motion.div>
