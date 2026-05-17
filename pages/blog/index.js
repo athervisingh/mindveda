@@ -119,12 +119,13 @@ export default function BlogIndex() {
               className="group grid md:grid-cols-2 rounded-[24px] overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-500 border border-gray-100"
             >
               {/* image */}
-              <div className="relative h-[240px] md:h-[420px] overflow-hidden">
+              <div className="relative overflow-hidden">
                 <Image
                   src={featured.image}
                   alt={featured.title}
-                  fill
-                  className="object-cover"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto block"
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -188,12 +189,13 @@ export default function BlogIndex() {
                       <article className="h-full flex flex-col bg-white rounded-[20px] overflow-hidden border border-gray-100 shadow-sm group-hover:shadow-lg transition-all duration-300">
 
                         {/* image */}
-                        <div className="relative w-full h-48 overflow-hidden flex-shrink-0">
+                        <div className="relative w-full overflow-hidden flex-shrink-0">
                           <Image
                             src={article.image}
                             alt={article.title}
-                            fill
-                            className="object-cover"
+                            width={1200}
+                            height={800}
+                            className="w-full h-auto block"
                           />
                           <div className="absolute inset-0 -translate-x-full group-hover:translate-x-[200%] transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-14deg] pointer-events-none z-10" />
                           <span className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${c}`}>
