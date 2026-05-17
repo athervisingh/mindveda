@@ -237,37 +237,26 @@ export default function Retreat() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className={`flex flex-col ${section.position === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'}`}
+                className={`flex flex-col ${section.position === 'right' ? 'lg:flex-row-reverse' : 'lg:flex-row'}`}
               >
                 {/* Image */}
-                <div className="w-full md:w-1/2 flex-shrink-0">
+                <div className="w-full lg:w-1/2 flex-shrink-0">
                   <Image src={section.image} alt={section.title} width={section.imgW} height={section.imgH} className="w-full h-auto block" />
                 </div>
 
                 {/* Text content */}
-                <div
-                  className="w-full md:w-1/2 bg-white flex flex-col justify-center"
-                  style={{ padding: 'clamp(1rem, 2vw, 3rem) clamp(1rem, 2.5vw, 3.5rem)' }}
-                >
+                <div className="w-full lg:w-1/2 bg-white flex flex-col justify-center px-5 py-6 lg:px-6 lg:py-5 xl:px-10 xl:py-7 2xl:px-16 2xl:py-10">
                   <h3
-                    className="font-semibold text-[#1a3520] leading-tight"
-                    style={{
-                      fontFamily: 'Playfair Display, Georgia, serif',
-                      fontSize: 'clamp(0.9rem, 1.8vw, 1.875rem)',
-                      marginBottom: 'clamp(0.4rem, 1vw, 1rem)',
-                    }}
+                    className="font-semibold text-[#1a3520] leading-tight mb-2 lg:mb-2 xl:mb-3 2xl:mb-5 text-2xl lg:text-base xl:text-2xl 2xl:text-3xl"
+                    style={{ fontFamily: 'Playfair Display, Georgia, serif' }}
                   >
                     {section.title}
                   </h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(0.25rem, 0.5vw, 0.625rem)' }}>
+                  <div className="space-y-2 lg:space-y-1 xl:space-y-2 2xl:space-y-3">
                     {section.paragraphs.map((para, i) => (
                       <p
                         key={i}
-                        className="text-gray-600"
-                        style={{
-                          fontSize: 'clamp(0.62rem, 0.85vw, 0.875rem)',
-                          lineHeight: 'clamp(1rem, 1.5vw, 1.5rem)',
-                        }}
+                        className="text-gray-600 text-sm lg:text-[11px] xl:text-sm 2xl:text-base leading-6 lg:leading-4 xl:leading-5 2xl:leading-7"
                       >
                         {para}
                       </p>
