@@ -455,8 +455,8 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="card-anim group rounded-2xl md:rounded-[28px] border border-gray-100 bg-white shadow-soft"
               >
-                <div className="relative w-full h-40 md:h-52">
-                  <Image src={article.image} alt={article.title} fill className="object-cover" />
+                <div className="w-full overflow-hidden rounded-t-2xl md:rounded-t-[28px]">
+                  <Image src={article.image} alt={article.title} width={1200} height={800} className="w-full h-auto block" />
                 </div>
                 <div className="p-4 md:p-6">
                   <span className="inline-flex rounded-full bg-[#edf5ee] px-2.5 py-0.5 text-[10px] md:text-xs font-semibold text-brand">{article.category}</span>
@@ -482,9 +482,9 @@ export default function Home() {
                 Book a session, choose a package, or simply send a message. Warm, premium, and reassuring from the first click.
               </p>
               <div className="mt-5 md:mt-8 flex flex-col gap-3 text-xs sm:text-sm text-gray-600">
-                <div className="flex items-center gap-3"><PhoneIcon className="w-4 h-4 text-brand flex-shrink-0" /> +91 98765 43210</div>
+                <div className="flex items-center gap-3"><PhoneIcon className="w-4 h-4 text-brand flex-shrink-0" /> +91 92114 88516</div>
                 <div className="flex items-center gap-3"><MailIcon className="w-4 h-4 text-brand flex-shrink-0" /> hello@mindveda.com</div>
-                <div className="flex items-center gap-3"><MapPinIcon className="w-4 h-4 text-brand flex-shrink-0" /> Delhi | Mumbai | Bangalore</div>
+                <div className="flex items-center gap-3"><MapPinIcon className="w-4 h-4 text-brand flex-shrink-0" /> Delhi | Rishikesh</div>
               </div>
             </div>
 

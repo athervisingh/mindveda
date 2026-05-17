@@ -28,8 +28,9 @@ const PROPERTY_SECTIONS = [
     imgW: 1376, imgH: 768,
     position: 'left',
     paragraphs: [
-      'All our suites are a spacious 600 sq ft and filled with light, each with an integral, private in-suite spa, a personal library of books & a balcony overlooking the pool and river.',
-      'Sleek and designed in a contemporary way, the suites are fitted with luxurious king sized beds using superior cotton bedding. Fresh fruit, bottled mineral water and a selection of herbal teas are always available.',
+      'Experience refined comfort in our elegantly designed suites, where modern luxury meets a peaceful retreat. Spacious interiors, soothing natural light, and stylish décor create a warm and relaxing atmosphere for an unforgettable stay.',
+      'Each suite features a plush king-size bed with premium linens, thoughtfully selected amenities, and contemporary touches crafted for complete comfort. Whether you are unwinding indoors or enjoying the serene views outside, every moment is designed to feel effortless and special.',
+      'From personalized hospitality to carefully curated refreshments, every detail is arranged to provide a relaxing and memorable experience throughout your stay.',
     ],
   },
   {
@@ -60,9 +61,9 @@ const PROPERTY_SECTIONS = [
     imgW: 1376, imgH: 768,
     position: 'right',
     paragraphs: [
-      'While you\'re at the rooftop spa, don\'t miss taking in the views of the retreat — it is a popular spot for yoga classes and sunsets.',
-      'MindVeda has come together to be a private hideaway retreat, tucked away in lush greenery by the banks of a lazy river. Bamboo groves where gentle winds make the leaves sway, an organic garden where passion fruits and figs are aplenty, and long walkways that traverse the foliage — all come together to leave your fast-paced, rushed life behind and truly enjoy what we call "life in the slow lane".',
-      'With a private jetty, amphitheatre, organic garden, pool, roof spa & bamboo grove, the property has various nooks for yoga, meditation, introspection & private meals.',
+      'Surrounded by lush greenery, fresh air, and peaceful surroundings, this tranquil retreat offers the perfect escape from the rush of everyday life. Every corner is thoughtfully designed to create a sense of calm, comfort, and connection with nature.',
+      'Wake up to soft sunlight, gentle breezes, and the soothing sounds of nature that make each moment feel refreshing and unforgettable. The serene atmosphere allows you to slow down, relax completely, and embrace a more peaceful way of living.',
+      'Whether you seek quiet reflection, wellness experiences, or simple relaxation, the retreat provides inviting spaces to unwind and reconnect with yourself. Blending natural beauty with modern comfort, every stay is designed to leave you feeling renewed and refreshed.',
     ],
   },
 ]
