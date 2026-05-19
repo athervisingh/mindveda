@@ -76,8 +76,9 @@ const PACKAGES = [
     label: '4 SHARING ROOM',
     subtitle: '1 Room (4 Beds)',
     Icon: QuadIcon,
-    originalPrice: 9500,
-    price: 7500,
+    originalPrice: 12500,
+    price: 10000,
+    soldOut: true,
     features: ['4 Sharing Room', 'Sattvic Meals', 'All Retreat Sessions', 'Temple Visits', 'Nature Activities', 'Ganga Aarti'],
   },
   {
@@ -660,8 +661,13 @@ export default function Retreat() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col hover:shadow-lg transition-shadow duration-300"
+                className={`rounded-3xl shadow-sm border flex flex-col transition-shadow duration-300 ${plan.soldOut ? 'bg-white border-gray-100' : 'bg-white border-gray-100 hover:shadow-lg'}`}
               >
+                {plan.soldOut && (
+                  <div className="bg-red-500 px-5 py-1.5 text-xs font-semibold text-white text-center tracking-wide rounded-t-3xl">
+                    Fully Booked
+                  </div>
+                )}
                 <div className="p-6 sm:p-8 flex flex-col items-center text-center flex-1">
                   <p className="text-sm font-bold tracking-[0.16em] text-[#1a3520] mb-1">{plan.label}</p>
                   <p className="text-xs text-gray-400 mb-5">{plan.subtitle}</p>
@@ -680,12 +686,18 @@ export default function Retreat() {
                       </li>
                     ))}
                   </ul>
-                  <button
-                    onClick={() => setModalPkg(plan)}
-                    className="mt-auto w-full rounded-full bg-[#1a3520] py-3.5 text-white font-semibold text-sm hover:bg-[#2d4f3a] active:scale-[0.98] transition-all"
-                  >
-                    Book Now
-                  </button>
+                  {plan.soldOut ? (
+                    <div className="mt-auto w-full rounded-full bg-gray-200 py-3.5 text-gray-400 font-semibold text-sm text-center cursor-not-allowed select-none">
+                      Fully Booked
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setModalPkg(plan)}
+                      className="mt-auto w-full rounded-full bg-[#1a3520] py-3.5 text-white font-semibold text-sm hover:bg-[#2d4f3a] active:scale-[0.98] transition-all"
+                    >
+                      Book Now
+                    </button>
+                  )}
                 </div>
               </motion.div>
             ))}
