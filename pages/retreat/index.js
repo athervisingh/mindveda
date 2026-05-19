@@ -72,6 +72,15 @@ const ITINERARY = [
 
 const PACKAGES = [
   {
+    id: 'quad-sharing',
+    label: '4 SHARING ROOM',
+    subtitle: '1 Room (4 Beds)',
+    Icon: QuadIcon,
+    originalPrice: 9500,
+    price: 7500,
+    features: ['4 Sharing Room', 'Sattvic Meals', 'All Retreat Sessions', 'Temple Visits', 'Nature Activities', 'Ganga Aarti'],
+  },
+  {
     id: 'twin-sharing',
     label: 'TWIN SHARING ROOM',
     subtitle: '1 Room (2 Beds)',
@@ -90,6 +99,21 @@ const PACKAGES = [
     features: ['Private Room', 'Sattvic Meals', 'All Retreat Sessions', 'Temple Visits', 'Nature Activities', 'Ganga Aarti'],
   },
 ]
+
+function QuadIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 96 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="11" r="6"/>
+      <path d="M3 44c0-8 4-13 9-13s9 5 9 13"/>
+      <circle cx="36" cy="11" r="6"/>
+      <path d="M27 44c0-8 4-13 9-13s9 5 9 13"/>
+      <circle cx="60" cy="11" r="6"/>
+      <path d="M51 44c0-8 4-13 9-13s9 5 9 13"/>
+      <circle cx="84" cy="11" r="6"/>
+      <path d="M75 44c0-8 4-13 9-13s9 5 9 13"/>
+    </svg>
+  )
+}
 
 function GroupIcon({ className }) {
   return (
@@ -628,7 +652,7 @@ export default function Retreat() {
             <p className="mt-2 text-gray-500 text-sm">All packages include meals, all activities & accommodation</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {PACKAGES.map((plan, i) => (
               <motion.div
                 key={plan.id}
@@ -643,7 +667,7 @@ export default function Retreat() {
                   <p className="text-xs text-gray-400 mb-5">{plan.subtitle}</p>
                   <div className="w-full border-t border-gray-100 mb-6" />
                   <div className="mb-6 flex items-center justify-center" style={{ height: '56px' }}>
-                    <plan.Icon className={`text-[#7a5c14] ${plan.id === 'single-stay' ? 'w-10 h-14' : 'w-20 h-12'}`} />
+                    <plan.Icon className={`text-[#7a5c14] ${plan.id === 'single-stay' ? 'w-10 h-14' : plan.id === 'quad-sharing' ? 'w-24 h-10' : 'w-20 h-12'}`} />
                   </div>
                   <p className="text-sm text-gray-400 line-through mb-1">₹{plan.originalPrice.toLocaleString('en-IN')}/-</p>
                   <p className="text-4xl font-bold text-[#1a1a1a] leading-tight mb-1">₹ {plan.price.toLocaleString('en-IN')}/-</p>
