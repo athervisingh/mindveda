@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
-import { LotusIcon, CalendarIcon, ClockIcon } from './Icons'
-
-const TIME_SLOTS = [
-  '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM',
-  '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM',
-]
+import { LotusIcon } from './Icons'
 
 function getNext14Days() {
   const days = []
@@ -19,14 +14,23 @@ function getNext14Days() {
   return days
 }
 
+function fmt12(time24) {
+  if (!time24) return ''
+  const [h, m] = time24.split(':')
+  const hr = parseInt(h)
+  return `${hr % 12 || 12}:${m} ${hr < 12 ? 'AM' : 'PM'}`
+}
+
 export default function SlotPickerModal({ isOpen, onClose, item }) {
   const router = useRouter()
   const [selectedDay, setSelectedDay] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null)
+  const [slots, setSlots] = useState([])
+  const [loadingSlots, setLoadingSlots] = useState(false)
   const days = getNext14Days()
 
   useEffect(() => {
-    if (!isOpen) { setSelectedDay(null); setSelectedTime(null) }
+    if (!isOpen) { setSelectedDay(null); setSelectedTime(null); setSlots([]) }
   }, [isOpen])
 
   useEffect(() => {
@@ -41,26 +45,55 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
     }
   }, [isOpen, onClose])
 
+  async function handleDaySelect(day) {
+    setSelectedDay(day)
+    setSelectedTime(null)
+    setSlots([])
+    if (!item?.slug) return
+
+    setLoadingSlots(true)
+    const dateStr = day.toISOString().split('T')[0]
+    try {
+      const res = await fetch(`/api/availability?date=${dateStr}&serviceSlug=${item.slug}`)
+      const data = await res.json()
+      setSlots(data.slots || [])
+    } catch {
+      setSlots([])
+    }
+    setLoadingSlots(false)
+  }
+
   function handleAddToCart() {
     if (!selectedDay || !selectedTime) return
+    const slot = slots.find(s => s.time === selectedTime)
+    if (!slot?.available) return
+
+    const dateStr = selectedDay.toISOString().split('T')[0]
     const cart = JSON.parse(localStorage.getItem('mv_cart') || '[]')
     cart.push({
-      cartId: Date.now(),
-      id: item.id,
-      type: item.type || 'service',
-      slug: item.slug,
-      title: item.title,
-      icon: item.icon || 'lotus',
-      price: item.price,
-      duration: item.duration,
-      bookingDate: selectedDay.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
+      cartId:      Date.now(),
+      id:          item.id,
+      type:        item.type || 'service',
+      slug:        item.slug,
+      title:       item.title,
+      price:       item.price,
+      duration:    item.duration,
+      serviceSlug: item.slug,
+      bookingDate: dateStr,
       bookingTime: selectedTime,
+      bookingDateDisplay: selectedDay.toLocaleDateString('en-IN', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+      }),
+      bookingTimeDisplay: fmt12(selectedTime),
+      spotsLeft:   slot.spotsLeft ?? null,
     })
     localStorage.setItem('mv_cart', JSON.stringify(cart))
     window.dispatchEvent(new Event('cartUpdated'))
     onClose()
     router.push('/cart')
   }
+
+  const selectedSlot = slots.find(s => s.time === selectedTime)
 
   return (
     <AnimatePresence>
@@ -93,26 +126,19 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
                   <span>{item?.duration}</span>
                 </div>
               </div>
-              <button
-                onClick={onClose}
-                className="text-white/60 hover:text-white text-3xl leading-none ml-4 mt-0.5 transition-colors"
-              >
-                ×
-              </button>
+              <button onClick={onClose} className="text-white/60 hover:text-white text-3xl leading-none ml-4 mt-0.5 transition-colors">×</button>
             </div>
 
             <div className="p-5">
               {/* Date picker */}
-              <p className="text-sm font-semibold text-gray-700 mb-3">
-                Select Date <span className="text-gray-400 font-normal">(11 AM – 6 PM · All days)</span>
-              </p>
+              <p className="text-sm font-semibold text-gray-700 mb-3">Select Date</p>
               <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
                 {days.map((d, i) => {
-                  const isSelected = selectedDay && selectedDay.toDateString() === d.toDateString()
+                  const isSelected = selectedDay?.toDateString() === d.toDateString()
                   return (
                     <button
                       key={i}
-                      onClick={() => { setSelectedDay(d); setSelectedTime(null) }}
+                      onClick={() => handleDaySelect(d)}
                       className={`flex-shrink-0 w-14 rounded-2xl py-3 flex flex-col items-center transition-all ${
                         isSelected
                           ? 'bg-brand text-white shadow-md'
@@ -146,39 +172,60 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
                         {selectedDay.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </span>
                     </p>
-                    <div className="grid grid-cols-3 gap-2">
-                      {TIME_SLOTS.map((t) => (
-                        <button
-                          key={t}
-                          onClick={() => setSelectedTime(t)}
-                          className={`py-2.5 rounded-xl text-sm font-medium transition-all ${
-                            selectedTime === t
-                              ? 'bg-brand text-white shadow-md'
-                              : 'bg-gray-50 text-gray-700 hover:bg-brand/10 border border-gray-100'
-                          }`}
-                        >
-                          {t}
-                        </button>
-                      ))}
-                    </div>
+
+                    {loadingSlots ? (
+                      <div className="grid grid-cols-3 gap-2">
+                        {[1,2,3,4,5,6].map(i => <div key={i} className="h-14 bg-gray-100 rounded-xl animate-pulse" />)}
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-3 gap-2">
+                        {slots.map((slot) => {
+                          const isSelected = selectedTime === slot.time
+                          const isGroup = slot.spotsLeft !== undefined && slot.spotsLeft !== null
+
+                          return (
+                            <button
+                              key={slot.time}
+                              disabled={!slot.available}
+                              onClick={() => setSelectedTime(slot.time)}
+                              className={`py-3 px-2 rounded-xl text-center transition-all border relative ${
+                                !slot.available
+                                  ? 'bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed'
+                                  : isSelected
+                                    ? 'bg-brand text-white border-brand shadow-md'
+                                    : 'bg-gray-50 text-gray-700 border-gray-100 hover:border-brand/50 hover:bg-brand/5'
+                              }`}
+                            >
+                              <p className="text-sm font-semibold">{fmt12(slot.time)}</p>
+                              {!slot.available && (
+                                <p className="text-[10px] mt-0.5 text-gray-300">Booked</p>
+                              )}
+                              {slot.available && isGroup && (
+                                <p className={`text-[10px] mt-0.5 font-medium ${isSelected ? 'text-white/80' : 'text-brand'}`}>
+                                  {slot.spotsLeft} left
+                                </p>
+                              )}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Add to Cart CTA */}
+              {/* CTA */}
               <button
-                disabled={!selectedDay || !selectedTime}
+                disabled={!selectedDay || !selectedTime || !selectedSlot?.available}
                 onClick={handleAddToCart}
                 className="mt-5 w-full rounded-full bg-brand py-4 text-white font-semibold text-sm disabled:opacity-35 disabled:cursor-not-allowed hover:opacity-90 active:scale-[0.98] transition-all"
               >
-                {selectedDay && selectedTime
-                  ? `Add to Cart — ${selectedDay.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}, ${selectedTime}`
-                  : 'Select a Date & Time to Continue'}
+                {selectedTime && selectedSlot?.available
+                  ? `Continue — ${selectedDay.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}, ${fmt12(selectedTime)}`
+                  : 'Select a Date & Time'}
               </button>
 
-              <p className="text-center text-xs text-gray-400 mt-3">
-                You can review or remove items in your cart before checkout
-              </p>
+              <p className="text-center text-xs text-gray-400 mt-3">Review your cart before checkout</p>
             </div>
           </motion.div>
         </motion.div>

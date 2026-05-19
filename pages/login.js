@@ -22,7 +22,8 @@ export default function Login() {
     setLoading(true)
     try {
       await login(email, password)
-      router.push('/')
+      const redirect = router.query.redirect || '/'
+      router.push(redirect)
     } catch (err) {
       setError(err.message || 'Login failed')
     } finally {

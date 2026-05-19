@@ -50,11 +50,12 @@ export function AuthProvider({ children }) {
       setUser({ email, id: 'mock_user' })
       return { user: { email, id: 'mock_user' } }
     }
-    const { data, error } = await supabase.auth.signUp({ email, password })
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { full_name: fullName } },
+    })
     if (error) throw error
-    if (data.user) {
-      await supabase.from('profiles').insert({ id: data.user.id, email, full_name: fullName })
-    }
     return data
   }
 
