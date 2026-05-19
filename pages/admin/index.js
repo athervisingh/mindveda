@@ -39,6 +39,11 @@ export default function AdminDashboard() {
   const [scheduleBookings, setScheduleBookings] = useState([])
   const [loadingSchedule, setLoadingSchedule] = useState(false)
 
+  // Retreats state
+  const [retreats, setRetreats] = useState([])
+  const [loadingR, setLoadingR] = useState(false)
+  const [retreatSearch, setRetreatSearch] = useState('')
+
   // Reschedule state
   const [rescheduleBookingId, setRescheduleBookingId] = useState(null)
   const [rescheduleDate, setRescheduleDate] = useState('')
@@ -55,9 +60,20 @@ export default function AdminDashboard() {
       setIsAdmin(true)
       fetchBookings()
       fetchSchedule(scheduleDate)
+      fetchRetreats()
     }
     checkAdmin()
   }, [user, authLoading])
+
+  async function fetchRetreats() {
+    setLoadingR(true)
+    const { data } = await supabase
+      .from('retreat_bookings')
+      .select('*')
+      .order('created_at', { ascending: false })
+    setRetreats(data || [])
+    setLoadingR(false)
+  }
 
   async function fetchSchedule(date) {
     setLoadingSchedule(true)
@@ -208,6 +224,7 @@ export default function AdminDashboard() {
         {[
           { id: 'bookings', label: 'Bookings' },
           { id: 'schedule', label: 'Schedule' },
+          { id: 'retreats', label: 'Retreats' },
         ].map(tab => (
           <button
             key={tab.id}
@@ -473,6 +490,114 @@ export default function AdminDashboard() {
                     </div>
                   )
                 })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── RETREATS TAB ── */}
+        {activeTab === 'retreats' && (
+          <div className="max-w-6xl">
+            <h1 className="text-2xl font-bold text-[#1a3520] mb-6">Retreat Bookings</h1>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+              {[
+                { label: 'Total',          val: retreats.length },
+                { label: 'Confirmed',      val: retreats.filter(r => r.status === 'confirmed').length },
+                { label: 'Revenue',        val: `₹${retreats.filter(r => r.status === 'confirmed').reduce((s, r) => s + (r.amount_rupees || 0), 0).toLocaleString('en-IN')}` },
+              ].map((s, i) => (
+                <motion.div key={s.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
+                  className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                  <div className="text-2xl font-black text-[#1a3520]">{s.val}</div>
+                  <div className="text-xs text-gray-400 mt-1">{s.label}</div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Search + refresh */}
+            <div className="flex flex-wrap gap-3 mb-5">
+              <input
+                type="text"
+                value={retreatSearch}
+                onChange={e => setRetreatSearch(e.target.value)}
+                placeholder="Search name, email, package…"
+                className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 w-64"
+              />
+              <button onClick={fetchRetreats} className="px-4 py-2.5 rounded-xl bg-brand text-white text-sm font-medium hover:opacity-90">
+                Refresh
+              </button>
+            </div>
+
+            {loadingR ? (
+              <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="h-16 bg-gray-100 rounded-2xl animate-pulse" />)}</div>
+            ) : (
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-100 bg-gray-50">
+                        {['Guest', 'Package', 'Check-in', 'Check-out', 'Amount', 'Payment ID', 'Status', 'Booked'].map(h => (
+                          <th key={h} className="text-left text-xs font-semibold text-gray-500 px-4 py-3 whitespace-nowrap">{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {retreats.filter(r => {
+                        if (!retreatSearch) return true
+                        const q = retreatSearch.toLowerCase()
+                        return r.guest_name?.toLowerCase().includes(q) ||
+                               r.guest_email?.toLowerCase().includes(q) ||
+                               r.package_label?.toLowerCase().includes(q)
+                      }).length === 0 ? (
+                        <tr><td colSpan={8} className="text-center py-12 text-gray-400 text-sm">No retreat bookings yet</td></tr>
+                      ) : retreats.filter(r => {
+                        if (!retreatSearch) return true
+                        const q = retreatSearch.toLowerCase()
+                        return r.guest_name?.toLowerCase().includes(q) ||
+                               r.guest_email?.toLowerCase().includes(q) ||
+                               r.package_label?.toLowerCase().includes(q)
+                      }).map(r => (
+                        <tr key={r.id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50">
+                          <td className="px-4 py-3">
+                            <p className="text-sm font-semibold text-[#1a3520]">{r.guest_name}</p>
+                            <p className="text-xs text-gray-400">{r.guest_email}</p>
+                            <p className="text-xs text-gray-400">{r.guest_phone}</p>
+                          </td>
+                          <td className="px-4 py-3">
+                            <p className="text-sm text-gray-700 whitespace-nowrap">{r.package_id === 'twin-sharing' ? '🛏️' : '🛌'} {r.package_label}</p>
+                          </td>
+                          <td className="px-4 py-3">
+                            <p className="text-xs text-gray-700 whitespace-nowrap">
+                              {r.check_in_date ? new Date(r.check_in_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}
+                            </p>
+                          </td>
+                          <td className="px-4 py-3">
+                            <p className="text-xs text-gray-700 whitespace-nowrap">
+                              {r.check_out_date ? new Date(r.check_out_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}
+                            </p>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="text-sm font-bold text-brand whitespace-nowrap">₹{(r.amount_rupees || 0).toLocaleString('en-IN')}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <p className="text-xs text-gray-400 font-mono">{r.razorpay_payment_id || '—'}</p>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-green-100 text-green-700 capitalize whitespace-nowrap">
+                              {r.status}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <p className="text-xs text-gray-400 whitespace-nowrap">
+                              {r.created_at ? new Date(r.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—'}
+                            </p>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>

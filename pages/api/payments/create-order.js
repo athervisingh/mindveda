@@ -1,4 +1,4 @@
-import { razorpay } from '../../../lib/razorpay'
+import { getRazorpay } from '../../../lib/razorpay'
 import { supabaseAdmin } from '../../../lib/supabaseAdmin'
 
 export default async function handler(req, res) {
@@ -40,7 +40,7 @@ export default async function handler(req, res) {
   }
 
   // Create Razorpay order
-  const order = await razorpay.orders.create({
+  const order = await getRazorpay().orders.create({
     amount:   service.price,
     currency: 'INR',
     receipt:  `mv_${Date.now()}`,

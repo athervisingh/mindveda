@@ -146,6 +146,227 @@ export function LinkedInIcon({ className = 'w-5 h-5' }) {
   )
 }
 
+// ─── Retreat Activity Icons ──────────────────────────────────────────────────
+export function RetreatActivityIcon({ type, className = 'w-5 h-5' }) {
+  const p = { className, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '1.8', strokeLinecap: 'round', strokeLinejoin: 'round' }
+
+  if (type === 'bell') return (
+    <svg {...p}>
+      <path d="M6 17h12M10 17v.5a2 2 0 004 0V17M12 4v1"/>
+      <path d="M12 5a5 5 0 015 5v5H7v-5a5 5 0 015-5z"/>
+    </svg>
+  )
+
+  if (type === 'tea') return (
+    <svg {...p}>
+      <path d="M5 9h14l-1.5 9.5A2 2 0 0115.5 20h-7A2 2 0 016.5 18.5L5 9z"/>
+      <path d="M19 12h1a1.5 1.5 0 010 3h-1"/>
+      <path d="M9 6c0-1.5 1-2 1.5-3M13.5 6c0-1.5 1-2 1.5-3"/>
+    </svg>
+  )
+
+  if (type === 'namaste') return (
+    <svg {...p}>
+      <path d="M12 3c-2 0-3 1.5-3 3.5V15h6V6.5C15 4.5 14 3 12 3z"/>
+      <path d="M9 7.5C7 7 5.5 7.5 5 10.5L4.5 15H9"/>
+      <path d="M15 7.5c2-.5 3.5 0 4 3l.5 4.5H15"/>
+      <path d="M6 15v2.5a6 6 0 0012 0V15"/>
+    </svg>
+  )
+
+  if (type === 'bowl') return (
+    <svg {...p}>
+      <path d="M4 11h16M5 11c.3 4.5 3.2 8 7 8s6.7-3.5 7-8"/>
+      <path d="M9.5 7.5L11 10M14.5 7.5L13 10M12 6v4"/>
+    </svg>
+  )
+
+  if (type === 'soundwaves') return (
+    <svg {...p}>
+      <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+      <path d="M15.5 8.5a5 5 0 010 7"/>
+      <path d="M19.07 4.93a10 10 0 010 14.14"/>
+    </svg>
+  )
+
+  if (type === 'moon') return (
+    <svg {...p}>
+      <path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/>
+    </svg>
+  )
+
+  if (type === 'conch') return (
+    <svg {...p}>
+      <path d="M6 5c-3 3-3 9 0 13 2.5 3 7 4 11 2"/>
+      <path d="M9 9c-1.5 2-1.5 6 0 8"/>
+      <path d="M13 10.5c.8 1.2 1 4 0 5.5"/>
+      <circle cx="17" cy="17" r="2"/>
+    </svg>
+  )
+
+  if (type === 'herb') return (
+    <svg {...p}>
+      <path d="M12 22V10"/>
+      <path d="M12 10c0 0 5-2 5-7-5 0-5 7-5 7z"/>
+      <path d="M12 16c0 0-4-1-4-5 4 0 4 5 4 5z"/>
+    </svg>
+  )
+
+  if (type === 'yoga') return (
+    <svg {...p}>
+      <circle cx="12" cy="4" r="2"/>
+      <path d="M6.5 11c1.5-2 3-3 5.5-3s4 1 5.5 3"/>
+      <path d="M5 21c1-3 3-5 5-6h4c2 1 4 3 5 6"/>
+      <path d="M3 14l5 2M21 14l-5 2"/>
+    </svg>
+  )
+
+  if (type === 'sun') return (
+    <svg {...p}>
+      <circle cx="12" cy="12" r="4"/>
+      <line x1="12" y1="2" x2="12" y2="5"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="2" y1="12" x2="5" y2="12"/>
+      <line x1="19" y1="12" x2="22" y2="12"/>
+      <line x1="4.9" y1="4.9" x2="7.1" y2="7.1"/>
+      <line x1="16.9" y1="16.9" x2="19.1" y2="19.1"/>
+      <line x1="19.1" y1="4.9" x2="16.9" y2="7.1"/>
+      <line x1="7.1" y1="16.9" x2="4.9" y2="19.1"/>
+    </svg>
+  )
+
+  if (type === 'wave') return (
+    <svg {...p}>
+      <path d="M2 10c2-5 5-5 7 0s5 5 7 0 4-5 6 0"/>
+      <path d="M2 17c2-5 5-5 7 0s5 5 7 0 4-5 6 0"/>
+    </svg>
+  )
+
+  if (type === 'mic') return (
+    <svg {...p}>
+      <rect x="9" y="2" width="6" height="11" rx="3"/>
+      <path d="M5 10a7 7 0 0014 0"/>
+      <line x1="12" y1="17" x2="12" y2="22"/>
+      <line x1="8" y1="22" x2="16" y2="22"/>
+    </svg>
+  )
+
+  if (type === 'rest') return (
+    <svg {...p}>
+      <path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/>
+      <path d="M14 8h4l-4 4h4"/>
+    </svg>
+  )
+
+  if (type === 'mind') return (
+    <svg {...p}>
+      <path d="M9 3a5.5 5.5 0 00-4 9.3V17h14v-4.7A5.5 5.5 0 0015 3c-1 0-2 .4-2.7 1A4 4 0 009 3z"/>
+      <path d="M9.3 13.7c1.7-.9 3.7-.9 5.4 0"/>
+      <line x1="12" y1="7" x2="12" y2="12"/>
+    </svg>
+  )
+
+  if (type === 'diya') return (
+    <svg {...p}>
+      <path d="M6 16.5h12l-1.5 3.5h-9L6 16.5z"/>
+      <path d="M7.5 16.5c.5-4 2-5.5 4.5-5.5s4 1.5 4.5 5.5"/>
+      <path d="M12 11V9"/>
+      <path d="M10.5 9c.5-2.5 1-4 1.5-5 .5 1 1 2.5 1.5 5"/>
+    </svg>
+  )
+
+  if (type === 'flame') return (
+    <svg {...p}>
+      <path d="M12 2c0 0-7 8-5 14a7 7 0 0014 0c0-5-3-8-4-10-1 3.5-2 5-5 6z"/>
+    </svg>
+  )
+
+  if (type === 'chat') return (
+    <svg {...p}>
+      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+    </svg>
+  )
+
+  if (type === 'mala') return (
+    <svg {...p}>
+      <circle cx="12" cy="12" r="7"/>
+      <circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/>
+      <circle cx="16.9" cy="6.8" r="1.3" fill="currentColor" stroke="none"/>
+      <circle cx="19" cy="12" r="1.3" fill="currentColor" stroke="none"/>
+      <circle cx="16.9" cy="17.2" r="1.3" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="19" r="1.3" fill="currentColor" stroke="none"/>
+      <circle cx="7.1" cy="17.2" r="1.3" fill="currentColor" stroke="none"/>
+      <circle cx="5" cy="12" r="1.3" fill="currentColor" stroke="none"/>
+      <circle cx="7.1" cy="6.8" r="1.3" fill="currentColor" stroke="none"/>
+      <path d="M12 5V2.5M10.5 2.5h3"/>
+    </svg>
+  )
+
+  if (type === 'notes') return (
+    <svg {...p}>
+      <rect x="5" y="3" width="14" height="18" rx="2"/>
+      <path d="M9 3v2h6V3"/>
+      <line x1="9" y1="10" x2="15" y2="10"/>
+      <line x1="9" y1="14" x2="15" y2="14"/>
+      <line x1="9" y1="18" x2="13" y2="18"/>
+    </svg>
+  )
+
+  if (type === 'handshake') return (
+    <svg {...p}>
+      <path d="M3 9l4-2 3 2 4-2 4 2"/>
+      <path d="M7 7v9M17 7v9"/>
+      <path d="M4 16a1 1 0 001 1h14a1 1 0 001-1v-1H4v1z"/>
+    </svg>
+  )
+
+  if (type === 'seedling') return (
+    <svg {...p}>
+      <path d="M12 22V12"/>
+      <path d="M12 12c0 0 5-1.5 5-7-5 0-5 7-5 7z"/>
+      <path d="M12 16.5c0 0-4.5-1-4.5-5.5 4.5 0 4.5 5.5 4.5 5.5z"/>
+    </svg>
+  )
+
+  if (type === 'swim') return (
+    <svg {...p}>
+      <circle cx="12" cy="5" r="2.5"/>
+      <path d="M5 20c1.5-2 3-3 4.5-2.5s2.5 2.5 4.5 2.5 3-1 4.5-2.5"/>
+      <path d="M7.5 15c1.5-3 3-5.5 4.5-5.5l3 3c-1 2-1.5 4.5-1 7"/>
+    </svg>
+  )
+
+  if (type === 'temple') return (
+    <svg {...p}>
+      <path d="M12 2L3 8h18L12 2z"/>
+      <line x1="3" y1="8" x2="3" y2="22"/>
+      <line x1="21" y1="8" x2="21" y2="22"/>
+      <line x1="3" y1="22" x2="21" y2="22"/>
+      <line x1="8" y1="8" x2="8" y2="22"/>
+      <line x1="16" y1="8" x2="16" y2="22"/>
+      <rect x="10" y="14" width="4" height="8"/>
+      <line x1="12" y1="2" x2="12" y2="1"/>
+    </svg>
+  )
+
+  if (type === 'sleep') return (
+    <svg {...p}>
+      <path d="M2 15h20M2 20h20"/>
+      <path d="M5 15v-4a3 3 0 013-3h8a3 3 0 013 3v4"/>
+      <rect x="10" y="8" width="4" height="4" rx="1"/>
+    </svg>
+  )
+
+  if (type === 'pin') return (
+    <svg {...p}>
+      <path d="M12 2C8.1 2 5 5.1 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.9-3.1-7-7-7z"/>
+      <circle cx="12" cy="9" r="2.5"/>
+    </svg>
+  )
+
+  return null
+}
+
 // ─── Service Category Icons — clear, premium, relatable ─────────────────────
 export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
   const base = { className, viewBox: '0 0 56 56', fill: 'none', stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round' }
