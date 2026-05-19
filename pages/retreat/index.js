@@ -663,9 +663,14 @@ export default function Retreat() {
                 viewport={{ once: true }}
                 className={`rounded-3xl shadow-sm border flex flex-col transition-shadow duration-300 ${plan.soldOut ? 'bg-white border-gray-100' : 'bg-white border-gray-100 hover:shadow-lg'}`}
               >
-                {plan.soldOut && (
+                {plan.soldOut ? (
                   <div className="bg-red-500 px-5 py-1.5 text-xs font-semibold text-white text-center tracking-wide rounded-t-3xl">
                     Fully Booked
+                  </div>
+                ) : (
+                  <div className="bg-[#1a3520] px-5 py-1.5 text-xs font-semibold text-[#c9daa0] text-center tracking-wide rounded-t-3xl flex items-center justify-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#c9daa0] animate-pulse" />
+                    Available
                   </div>
                 )}
                 <div className="p-6 sm:p-8 flex flex-col items-center text-center flex-1">
