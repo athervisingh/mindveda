@@ -231,7 +231,7 @@ export default function BookingPage({ service }) {
     days, slots, loadingSlots, slotsError,
   }
 
-  const pageUrl = `https://mindveda.in/book/${service.slug}`
+  const pageUrl = `https://www.mindvedabybabita.com/book/${service.slug}`
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
       <NextSeo

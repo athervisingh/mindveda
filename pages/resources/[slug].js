@@ -12,9 +12,9 @@ export default function ResourcePage({ resource }) {
       <NextSeo
         title={resource.title}
         description={`${resource.description} Free wellness resource by MindVeda.`}
-        canonical={`https://mindveda.in/resources/${resource.slug}`}
+        canonical={`https://www.mindvedabybabita.com/resources/${resource.slug}`}
         openGraph={{
-          url: `https://mindveda.in/resources/${resource.slug}`,
+          url: `https://www.mindvedabybabita.com/resources/${resource.slug}`,
           title: `${resource.title} — MindVeda`,
           description: resource.description,
         }}

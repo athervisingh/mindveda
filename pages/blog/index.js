@@ -32,9 +32,9 @@ export default function BlogIndex() {
       <NextSeo
         title="Wellness & Mental Health Blog"
         description="Expert articles on mental health, mindfulness, relationships, stress management & holistic wellness by Babita — certified psychologist at MindVeda."
-        canonical="https://mindveda.in/blog"
+        canonical="https://www.mindvedabybabita.com/blog"
         openGraph={{
-          url: 'https://mindveda.in/blog',
+          url: 'https://www.mindvedabybabita.com/blog',
           title: 'Wellness & Mental Health Blog — MindVeda',
           description: 'Expert articles on mindfulness, relationships, stress & holistic wellness by certified psychologist Babita.',
         }}

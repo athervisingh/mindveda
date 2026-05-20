@@ -82,9 +82,9 @@ export default function Expert() {
       <NextSeo
         title="Meet Babita — Certified Psychologist & Wellness Expert"
         description="Babita is a certified psychologist with 15+ years of experience in counselling, yoga & holistic wellness. Serving 1000+ clients across 18+ cities in India."
-        canonical="https://mindveda.in/expert"
+        canonical="https://www.mindvedabybabita.com/expert"
         openGraph={{
-          url: 'https://mindveda.in/expert',
+          url: 'https://www.mindvedabybabita.com/expert',
           title: 'Meet Babita — Certified Psychologist & Wellness Expert',
           description: '15+ years experience. 1000+ clients. Counselling, yoga & spiritual retreats across India.',
         }}

@@ -43,9 +43,9 @@ export default function Yoga() {
       <NextSeo
         title="Yoga & Wellness Classes — Online & Group Sessions"
         description="Join MindVeda's online yoga & wellness classes. Individual & group sessions — breathwork, asana, pranayama & therapeutic yoga. Starting ₹700/session."
-        canonical="https://mindveda.in/yoga"
+        canonical="https://www.mindvedabybabita.com/yoga"
         openGraph={{
-          url: 'https://mindveda.in/yoga',
+          url: 'https://www.mindvedabybabita.com/yoga',
           title: 'Yoga & Wellness Classes — MindVeda',
           description: 'Individual & group yoga sessions online. Breathwork, asana, pranayama & therapeutic yoga. Starting ₹700.',
         }}

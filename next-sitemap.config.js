@@ -2,7 +2,7 @@
 const { allServices } = require('./lib/siteContent')
 
 module.exports = {
-  siteUrl: 'https://mindveda.in',
+  siteUrl: 'https://www.mindvedabybabita.com',
   generateRobotsTxt: true,
   exclude: ['/admin', '/admin/*', '/dashboard', '/cart', '/checkout', '/login', '/signup'],
   additionalPaths: async () => {

@@ -208,7 +208,7 @@ export default function YogaDetail() {
   const selectedSlot = slots.find(s => s.time === selectedTime)
   const slotPickerProps = { pkg, days, selectedDay, onDaySelect: handleDaySelect, selectedTime, setSelectedTime, onAddToCart: handleAddToCart, slots, loadingSlots, slotsError }
 
-  const pkgUrl = `https://mindveda.in/yoga/${pkg.slug}`
+  const pkgUrl = `https://www.mindvedabybabita.com/yoga/${pkg.slug}`
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
       <NextSeo

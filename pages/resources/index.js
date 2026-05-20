@@ -13,9 +13,9 @@ export default function ResourcesIndex() {
       <NextSeo
         title="Free Wellness Resources & Self-Help Guides"
         description="Download free mental health resources — self-check-in routines, anxiety toolkits, couples communication guides & more. By MindVeda's certified psychologists."
-        canonical="https://mindveda.in/resources"
+        canonical="https://www.mindvedabybabita.com/resources"
         openGraph={{
-          url: 'https://mindveda.in/resources',
+          url: 'https://www.mindvedabybabita.com/resources',
           title: 'Free Wellness Resources & Self-Help Guides — MindVeda',
           description: 'Free anxiety toolkits, self-check-in routines & couples guides by certified psychologists.',
         }}

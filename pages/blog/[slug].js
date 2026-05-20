@@ -14,7 +14,7 @@ const categoryColors = {
 }
 
 export default function BlogArticlePage({ article, related }) {
-  const url = `https://mindveda.in/blog/${article?.slug}`
+  const url = `https://www.mindvedabybabita.com/blog/${article?.slug}`
   return (
     <div className="min-h-screen bg-[#fbfaf7]">
       <NextSeo
@@ -26,7 +26,7 @@ export default function BlogArticlePage({ article, related }) {
           url,
           title: article?.title,
           description: article?.excerpt,
-          images: article?.image ? [{ url: `https://mindveda.in${article.image}`, width: 1200, height: 630, alt: article.title }] : [],
+          images: article?.image ? [{ url: `https://www.mindvedabybabita.com${article.image}`, width: 1200, height: 630, alt: article.title }] : [],
           article: { publishedTime: article?.date, tags: [article?.category] },
         }}
       />
@@ -34,7 +34,7 @@ export default function BlogArticlePage({ article, related }) {
         <ArticleJsonLd
           url={url}
           title={article.title}
-          images={article.image ? [`https://mindveda.in${article.image}`] : []}
+          images={article.image ? [`https://www.mindvedabybabita.com${article.image}`] : []}
           datePublished={article.date}
           authorName="Babita"
           description={article.excerpt}

@@ -24,12 +24,12 @@ export default function Services() {
       <NextSeo
         title="Counselling & Wellness Services"
         description="Explore 12+ counselling services — individual, couples, child, career, stress, depression & more. Certified psychologists. Online sessions. Starting ₹500."
-        canonical="https://mindveda.in/services"
+        canonical="https://www.mindvedabybabita.com/services"
         openGraph={{
-          url: 'https://mindveda.in/services',
+          url: 'https://www.mindvedabybabita.com/services',
           title: 'Counselling & Wellness Services — MindVeda',
           description: '12+ counselling services by certified psychologists. Individual, couples, child, career, anxiety, depression & group sessions. Book online.',
-          images: [{ url: 'https://mindveda.in/service.webp', width: 1376, height: 668, alt: 'MindVeda Counselling Services' }],
+          images: [{ url: 'https://www.mindvedabybabita.com/service.webp', width: 1376, height: 668, alt: 'MindVeda Counselling Services' }],
         }}
       />
       <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">

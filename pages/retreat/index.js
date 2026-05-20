@@ -603,12 +603,12 @@ export default function Retreat() {
       <NextSeo
         title="3-Day Spiritual Healing Retreat — Rishikesh | MindVeda"
         description="Join MindVeda's immersive 3-day retreat in Rishikesh — yoga, Ganga Aarti, sound healing, Yoga Nidra & sattvic meals. Limited seats. Book now."
-        canonical="https://mindveda.in/retreat"
+        canonical="https://www.mindvedabybabita.com/retreat"
         openGraph={{
-          url: 'https://mindveda.in/retreat',
+          url: 'https://www.mindvedabybabita.com/retreat',
           title: '3-Day Healing Retreat in Rishikesh — MindVeda',
           description: 'Yoga, meditation, Ganga Aarti & sound healing. 3 days of deep transformation. Limited seats. Book your spot.',
-          images: [{ url: 'https://mindveda.in/retreat.webp', width: 1200, height: 630, alt: 'MindVeda Retreat Rishikesh' }],
+          images: [{ url: 'https://www.mindvedabybabita.com/retreat.webp', width: 1200, height: 630, alt: 'MindVeda Retreat Rishikesh' }],
         }}
       />
       <Header />

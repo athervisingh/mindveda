@@ -9,9 +9,9 @@ export default function AboutPage() {
       <NextSeo
         title="About Babita — Certified Psychologist & Wellness Coach"
         description="Meet Babita — 15+ years of experience in counselling, yoga & holistic wellness. Certified psychologist serving 1000+ clients across 18+ cities in India."
-        canonical="https://mindveda.in/about"
+        canonical="https://www.mindvedabybabita.com/about"
         openGraph={{
-          url: 'https://mindveda.in/about',
+          url: 'https://www.mindvedabybabita.com/about',
           title: 'About Babita — Certified Psychologist & Wellness Coach',
           description: '15+ years of experience in counselling, yoga & holistic wellness. 1000+ clients across 18+ cities.',
         }}

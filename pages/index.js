@@ -22,12 +22,12 @@ export default function Home() {
       <NextSeo
         title="MindVeda — Counselling, Yoga & Wellness Retreats in India"
         description="MindVeda by Babita — certified counselling, yoga, stress management & spiritual retreats. 1000+ lives transformed across 18+ cities. Book your session today."
-        canonical="https://mindveda.in"
+        canonical="https://www.mindvedabybabita.com"
         openGraph={{
-          url: 'https://mindveda.in',
+          url: 'https://www.mindvedabybabita.com',
           title: 'MindVeda — Healing & Growth',
           description: 'Certified counselling, yoga & spiritual retreats. 1000+ lives transformed. Book a session today.',
-          images: [{ url: 'https://mindveda.in/hero2.webp', width: 1200, height: 630, alt: 'MindVeda — Babita, Certified Psychologist' }],
+          images: [{ url: 'https://www.mindvedabybabita.com/hero2.webp', width: 1200, height: 630, alt: 'MindVeda — Babita, Certified Psychologist' }],
         }}
       />
       <Header />

@@ -78,9 +78,9 @@ export default function ContactPage() {
       <NextSeo
         title="Contact MindVeda — Book a Session or Send an Enquiry"
         description="Reach MindVeda for session booking, retreat enquiry or any support. Call +91 92114 88516, WhatsApp, or send a message. Mon–Sat, 9 AM–7 PM IST."
-        canonical="https://mindveda.in/contact"
+        canonical="https://www.mindvedabybabita.com/contact"
         openGraph={{
-          url: 'https://mindveda.in/contact',
+          url: 'https://www.mindvedabybabita.com/contact',
           title: 'Contact MindVeda — Book a Session or Send an Enquiry',
           description: 'Call, WhatsApp or message us. Session booking, retreat enquiry & support. Mon–Sat, 9 AM–7 PM IST.',
         }}
@@ -134,7 +134,7 @@ export default function ContactPage() {
             {/* Info rows */}
             <div className="space-y-5 mb-10">
               {[
-                { icon: <MailIcon />,   label: 'Email',   value: 'mindveda.in@gmail.com', href: 'mailto:mindveda.in@gmail.com' },
+                { icon: <MailIcon />,   label: 'Email',   value: 'mindvedabybabita@gmail.com', href: 'mailto:mindvedabybabita@gmail.com' },
                 { icon: <ClockIcon />,  label: 'Hours',   value: 'Mon – Sat · 9 AM – 7 PM IST' },
                 { icon: <ShieldIcon />, label: 'Privacy', value: '100% Confidential Sessions' },
               ].map(({ icon, label, value, href }) => (
