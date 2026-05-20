@@ -7,6 +7,7 @@ import { orderedAllServices as allServices } from '../lib/siteContent'
 import { useState } from 'react'
 import SlotPickerModal from '../components/SlotPickerModal'
 import { ServiceCategoryIcon, ArrowRightIcon, PhoneIcon } from '../components/Icons'
+import { NextSeo } from 'next-seo'
 
 const categories = ['All', 'Personal', 'Children', 'Family', 'Career', 'Relationships', 'Performance', 'Group']
 
@@ -19,7 +20,19 @@ export default function Services() {
     : allServices.filter(s => s.category === activeCategory)
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
+    <>
+      <NextSeo
+        title="Counselling & Wellness Services"
+        description="Explore 12+ counselling services — individual, couples, child, career, stress, depression & more. Certified psychologists. Online sessions. Starting ₹500."
+        canonical="https://mindveda.in/services"
+        openGraph={{
+          url: 'https://mindveda.in/services',
+          title: 'Counselling & Wellness Services — MindVeda',
+          description: '12+ counselling services by certified psychologists. Individual, couples, child, career, anxiety, depression & group sessions. Book online.',
+          images: [{ url: 'https://mindveda.in/service.webp', width: 1376, height: 668, alt: 'MindVeda Counselling Services' }],
+        }}
+      />
+      <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
       <Header />
 
       <main className="flex-1">
@@ -211,5 +224,6 @@ export default function Services() {
         item={modalItem}
       />
     </div>
+    </>
   )
 }

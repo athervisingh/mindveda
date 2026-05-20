@@ -4,10 +4,21 @@ import Footer from '../../components/Footer'
 import Link from 'next/link'
 import ImagePlaceholder from '../../components/ImagePlaceholder'
 import { resourceGuides } from '../../lib/siteContent'
+import { NextSeo } from 'next-seo'
 
 export default function ResourcePage({ resource }) {
   return (
     <div className="min-h-screen bg-[#fbfaf7]">
+      <NextSeo
+        title={resource.title}
+        description={`${resource.description} Free wellness resource by MindVeda.`}
+        canonical={`https://mindveda.in/resources/${resource.slug}`}
+        openGraph={{
+          url: `https://mindveda.in/resources/${resource.slug}`,
+          title: `${resource.title} — MindVeda`,
+          description: resource.description,
+        }}
+      />
       <Header />
       <main className="max-w-4xl mx-auto px-6 py-16">
         <Link href="/resources" className="text-sm font-medium text-brand inline-flex items-center gap-1"><ArrowLeftIcon className="w-3.5 h-3.5" /> Back to resources</Link>

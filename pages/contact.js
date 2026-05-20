@@ -2,6 +2,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { NextSeo } from 'next-seo'
 
 const PHONE     = '919211488516'
 const PHONE_RAW = '+919211488516'
@@ -74,6 +75,16 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
+      <NextSeo
+        title="Contact MindVeda — Book a Session or Send an Enquiry"
+        description="Reach MindVeda for session booking, retreat enquiry or any support. Call +91 92114 88516, WhatsApp, or send a message. Mon–Sat, 9 AM–7 PM IST."
+        canonical="https://mindveda.in/contact"
+        openGraph={{
+          url: 'https://mindveda.in/contact',
+          title: 'Contact MindVeda — Book a Session or Send an Enquiry',
+          description: 'Call, WhatsApp or message us. Session booking, retreat enquiry & support. Mon–Sat, 9 AM–7 PM IST.',
+        }}
+      />
       <Header />
 
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-2">

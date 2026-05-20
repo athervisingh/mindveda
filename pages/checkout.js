@@ -73,10 +73,10 @@ export default function Checkout() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            serviceSlug:  item.serviceSlug || item.slug,
-            bookingDate:  item.bookingDate,
-            bookingTime:  item.bookingTime,
-            userId:       user.id,
+            serviceSlug: item.serviceSlug || item.slug,
+            bookingDate: item.bookingDate,
+            bookingTime: item.bookingTime,
+            userId:      user.id,
           }),
         })
         const orderData = await orderRes.json()
@@ -254,12 +254,12 @@ export default function Checkout() {
                       <div className="mt-1.5 flex flex-wrap gap-1.5">
                         {item.bookingDate && (
                           <span className="flex items-center gap-1 text-xs bg-brand/5 text-brand border border-brand/10 px-2.5 py-1 rounded-full">
-                            <CalendarIcon className="w-3 h-3" /> {item.bookingDate}
+                            <CalendarIcon className="w-3 h-3" /> {item.bookingDateDisplay || item.bookingDate}
                           </span>
                         )}
                         {item.bookingTime && (
                           <span className="flex items-center gap-1 text-xs bg-brand/5 text-brand border border-brand/10 px-2.5 py-1 rounded-full">
-                            <ClockIcon className="w-3 h-3" /> {item.bookingTime}
+                            <ClockIcon className="w-3 h-3" /> {item.bookingTimeDisplay || item.bookingTime}
                           </span>
                         )}
                         {item.duration && (

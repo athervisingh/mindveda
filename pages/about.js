@@ -1,10 +1,21 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ImagePlaceholder from '../components/ImagePlaceholder'
+import { NextSeo } from 'next-seo'
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#fbfaf7]">
+      <NextSeo
+        title="About Babita — Certified Psychologist & Wellness Coach"
+        description="Meet Babita — 15+ years of experience in counselling, yoga & holistic wellness. Certified psychologist serving 1000+ clients across 18+ cities in India."
+        canonical="https://mindveda.in/about"
+        openGraph={{
+          url: 'https://mindveda.in/about',
+          title: 'About Babita — Certified Psychologist & Wellness Coach',
+          description: '15+ years of experience in counselling, yoga & holistic wellness. 1000+ clients across 18+ cities.',
+        }}
+      />
       <Header />
       <main className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-10 items-center">

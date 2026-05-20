@@ -27,10 +27,11 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
   const [selectedTime, setSelectedTime] = useState(null)
   const [slots, setSlots] = useState([])
   const [loadingSlots, setLoadingSlots] = useState(false)
+  const [slotsError, setSlotsError] = useState(null)
   const days = getNext14Days()
 
   useEffect(() => {
-    if (!isOpen) { setSelectedDay(null); setSelectedTime(null); setSlots([]) }
+    if (!isOpen) { setSelectedDay(null); setSelectedTime(null); setSlots([]); setSlotsError(null) }
   }, [isOpen])
 
   useEffect(() => {
@@ -49,6 +50,7 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
     setSelectedDay(day)
     setSelectedTime(null)
     setSlots([])
+    setSlotsError(null)
     if (!item?.slug) return
 
     setLoadingSlots(true)
@@ -56,9 +58,13 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
     try {
       const res = await fetch(`/api/availability?date=${dateStr}&serviceSlug=${item.slug}`)
       const data = await res.json()
-      setSlots(data.slots || [])
+      if (!res.ok) {
+        setSlotsError(data.error || 'Failed to load slots.')
+      } else {
+        setSlots(data.slots || [])
+      }
     } catch {
-      setSlots([])
+      setSlotsError('Network error. Please try again.')
     }
     setLoadingSlots(false)
   }
@@ -71,21 +77,22 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
     const dateStr = selectedDay.toISOString().split('T')[0]
     const cart = JSON.parse(localStorage.getItem('mv_cart') || '[]')
     cart.push({
-      cartId:      Date.now(),
-      id:          item.id,
-      type:        item.type || 'service',
-      slug:        item.slug,
-      title:       item.title,
-      price:       item.price,
-      duration:    item.duration,
-      serviceSlug: item.slug,
-      bookingDate: dateStr,
-      bookingTime: selectedTime,
+      cartId:             Date.now(),
+      id:                 item.id,
+      type:               item.type || 'service',
+      slug:               item.slug,
+      title:              item.title,
+      price:              item.price,
+      duration:           item.duration,
+      serviceSlug:        item.slug,
+
+      bookingDate:        dateStr,
+      bookingTime:        selectedTime,
       bookingDateDisplay: selectedDay.toLocaleDateString('en-IN', {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
       }),
       bookingTimeDisplay: fmt12(selectedTime),
-      spotsLeft:   slot.spotsLeft ?? null,
+      spotsLeft:          slot.spotsLeft ?? null,
     })
     localStorage.setItem('mv_cart', JSON.stringify(cart))
     window.dispatchEvent(new Event('cartUpdated'))
@@ -176,6 +183,12 @@ export default function SlotPickerModal({ isOpen, onClose, item }) {
                     {loadingSlots ? (
                       <div className="grid grid-cols-3 gap-2">
                         {[1,2,3,4,5,6].map(i => <div key={i} className="h-14 bg-gray-100 rounded-xl animate-pulse" />)}
+                      </div>
+                    ) : slotsError ? (
+                      <div className="text-center py-6 text-red-400 text-sm">{slotsError}</div>
+                    ) : slots.length === 0 ? (
+                      <div className="text-center py-6 text-gray-400 text-sm">
+                        No slots available for this date. Ask admin to create slots.
                       </div>
                     ) : (
                       <div className="grid grid-cols-3 gap-2">

@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { NextSeo } from 'next-seo'
 
 export default function Signup() {
   const [fullName, setFullName] = useState('')
@@ -39,6 +40,7 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
+      <NextSeo noindex={true} nofollow={true} title="Sign Up — MindVeda" />
       <Header />
 
       <main className="flex-1 flex flex-col">

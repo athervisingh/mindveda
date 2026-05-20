@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { CheckIcon, RetreatActivityIcon, MapPinIcon } from '../../components/Icons'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import { NextSeo } from 'next-seo'
 
 function getNext60Days() {
   const days = []
@@ -599,6 +600,17 @@ export default function Retreat() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
+      <NextSeo
+        title="3-Day Spiritual Healing Retreat — Rishikesh | MindVeda"
+        description="Join MindVeda's immersive 3-day retreat in Rishikesh — yoga, Ganga Aarti, sound healing, Yoga Nidra & sattvic meals. Limited seats. Book now."
+        canonical="https://mindveda.in/retreat"
+        openGraph={{
+          url: 'https://mindveda.in/retreat',
+          title: '3-Day Healing Retreat in Rishikesh — MindVeda',
+          description: 'Yoga, meditation, Ganga Aarti & sound healing. 3 days of deep transformation. Limited seats. Book your spot.',
+          images: [{ url: 'https://mindveda.in/retreat.webp', width: 1200, height: 630, alt: 'MindVeda Retreat Rishikesh' }],
+        }}
+      />
       <Header />
 
       <RetreatBookingModal

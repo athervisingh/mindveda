@@ -1,14 +1,26 @@
 import '../styles/globals.css'
-import Head from 'next/head'
+import { DefaultSeo } from 'next-seo'
 import { AuthProvider } from '../context/AuthContext'
+
+const DEFAULT_SEO = {
+  titleTemplate: '%s | MindVeda',
+  defaultTitle: 'MindVeda — Healing, Counselling & Wellness in India',
+  description: 'MindVeda offers professional counselling, yoga, and spiritual retreats by certified psychologists. 1000+ lives transformed across 18+ cities.',
+  openGraph: {
+    type: 'website',
+    locale: 'en_IN',
+    url: 'https://mindveda.in',
+    siteName: 'MindVeda',
+    images: [{ url: 'https://mindveda.in/og-default.jpg', width: 1200, height: 630, alt: 'MindVeda — Healing & Growth' }],
+  },
+  twitter: { cardType: 'summary_large_image' },
+  additionalMetaTags: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
+}
 
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>MindVeda - Healing & Growth</title>
-      </Head>
+      <DefaultSeo {...DEFAULT_SEO} />
       <AuthProvider>
         <Component {...pageProps} />
       </AuthProvider>

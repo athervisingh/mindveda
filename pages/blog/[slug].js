@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowLeftIcon, ArrowRightIcon } from '../../components/Icons'
 import { blogArticles } from '../../lib/siteContent'
+import { NextSeo, ArticleJsonLd } from 'next-seo'
 
 const categoryColors = {
   Mindfulness:   'bg-[#edf6ef] text-[#2d4f3a]',
@@ -13,8 +14,32 @@ const categoryColors = {
 }
 
 export default function BlogArticlePage({ article, related }) {
+  const url = `https://mindveda.in/blog/${article?.slug}`
   return (
     <div className="min-h-screen bg-[#fbfaf7]">
+      <NextSeo
+        title={article?.title}
+        description={article?.excerpt}
+        canonical={url}
+        openGraph={{
+          type: 'article',
+          url,
+          title: article?.title,
+          description: article?.excerpt,
+          images: article?.image ? [{ url: `https://mindveda.in${article.image}`, width: 1200, height: 630, alt: article.title }] : [],
+          article: { publishedTime: article?.date, tags: [article?.category] },
+        }}
+      />
+      {article && (
+        <ArticleJsonLd
+          url={url}
+          title={article.title}
+          images={article.image ? [`https://mindveda.in${article.image}`] : []}
+          datePublished={article.date}
+          authorName="Babita"
+          description={article.excerpt}
+        />
+      )}
       <Header />
       <main>
 

@@ -5,10 +5,21 @@ import Link from 'next/link'
 import ImagePlaceholder from '../../components/ImagePlaceholder'
 import { motion } from 'framer-motion'
 import { resourceGuides } from '../../lib/siteContent'
+import { NextSeo } from 'next-seo'
 
 export default function ResourcesIndex() {
   return (
     <div className="min-h-screen bg-[#fbfaf7]">
+      <NextSeo
+        title="Free Wellness Resources & Self-Help Guides"
+        description="Download free mental health resources — self-check-in routines, anxiety toolkits, couples communication guides & more. By MindVeda's certified psychologists."
+        canonical="https://mindveda.in/resources"
+        openGraph={{
+          url: 'https://mindveda.in/resources',
+          title: 'Free Wellness Resources & Self-Help Guides — MindVeda',
+          description: 'Free anxiety toolkits, self-check-in routines & couples guides by certified psychologists.',
+        }}
+      />
       <Header />
       <main>
         <section className="max-w-6xl mx-auto px-6 py-16">

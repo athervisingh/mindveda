@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import { featuredCards, homepageServices, blogArticles } from '../lib/siteContent'
 import Image from 'next/image'
 import { PhoneIcon, MailIcon, MapPinIcon, ArrowRightIcon } from '../components/Icons'
+import { NextSeo } from 'next-seo'
 
 const heroStats = [
   { value: '1000+', label: 'Lives transformed' },
@@ -18,6 +19,17 @@ const heroStats = [
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
+      <NextSeo
+        title="MindVeda — Counselling, Yoga & Wellness Retreats in India"
+        description="MindVeda by Babita — certified counselling, yoga, stress management & spiritual retreats. 1000+ lives transformed across 18+ cities. Book your session today."
+        canonical="https://mindveda.in"
+        openGraph={{
+          url: 'https://mindveda.in',
+          title: 'MindVeda — Healing & Growth',
+          description: 'Certified counselling, yoga & spiritual retreats. 1000+ lives transformed. Book a session today.',
+          images: [{ url: 'https://mindveda.in/hero2.webp', width: 1200, height: 630, alt: 'MindVeda — Babita, Certified Psychologist' }],
+        }}
+      />
       <Header />
 
       <main className="flex-1">

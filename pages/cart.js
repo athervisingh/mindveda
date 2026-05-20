@@ -95,12 +95,12 @@ export default function Cart() {
                       <div className="mt-3 flex flex-wrap gap-2">
                         {item.bookingDate && (
                           <span className="flex items-center gap-1.5 bg-brand/5 border border-brand/10 text-brand text-xs font-medium px-3 py-1.5 rounded-full">
-                            <CalendarIcon className="w-3 h-3" /> {item.bookingDate}
+                            <CalendarIcon className="w-3 h-3" /> {item.bookingDateDisplay || item.bookingDate}
                           </span>
                         )}
                         {item.bookingTime && (
                           <span className="flex items-center gap-1.5 bg-brand/5 border border-brand/10 text-brand text-xs font-medium px-3 py-1.5 rounded-full">
-                            <ClockIcon className="w-3 h-3" /> {item.bookingTime} IST
+                            <ClockIcon className="w-3 h-3" /> {item.bookingTimeDisplay || item.bookingTime} IST
                           </span>
                         )}
                         {item.duration && (

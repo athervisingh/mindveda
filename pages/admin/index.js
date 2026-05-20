@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
+import { NextSeo } from 'next-seo'
 
 const STATUS_STYLES = {
   confirmed:   'bg-green-100 text-green-700',
@@ -209,12 +210,14 @@ export default function AdminDashboard() {
 
   if (authLoading || !isAdmin) return (
     <div className="min-h-screen flex items-center justify-center bg-[#1a3520]">
+      <NextSeo noindex={true} nofollow={true} title="Admin — MindVeda" />
       <div className="text-white text-sm">Loading…</div>
     </div>
   )
 
   return (
     <div className="min-h-screen bg-[#f7f7f5] flex">
+      <NextSeo noindex={true} nofollow={true} title="Admin — MindVeda" />
       {/* Sidebar */}
       <aside className="w-56 bg-[#1a3520] min-h-screen p-6 flex flex-col gap-1 flex-shrink-0">
         <div className="mb-8">

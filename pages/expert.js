@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { CheckIcon, ArrowRightIcon } from '../components/Icons'
+import { NextSeo } from 'next-seo'
 
 const pillars = [
   {
@@ -78,6 +79,16 @@ const specializations = [
 export default function Expert() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
+      <NextSeo
+        title="Meet Babita — Certified Psychologist & Wellness Expert"
+        description="Babita is a certified psychologist with 15+ years of experience in counselling, yoga & holistic wellness. Serving 1000+ clients across 18+ cities in India."
+        canonical="https://mindveda.in/expert"
+        openGraph={{
+          url: 'https://mindveda.in/expert',
+          title: 'Meet Babita — Certified Psychologist & Wellness Expert',
+          description: '15+ years experience. 1000+ clients. Counselling, yoga & spiritual retreats across India.',
+        }}
+      />
       <Header />
 
       <main className="flex-1">

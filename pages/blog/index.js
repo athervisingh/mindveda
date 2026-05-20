@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { blogArticles } from '../../lib/siteContent'
+import { NextSeo } from 'next-seo'
 
 const categoryColors = {
   Mindfulness:   'bg-emerald-100 text-emerald-700 border-emerald-200',
@@ -28,6 +29,16 @@ export default function BlogIndex() {
 
   return (
     <div className="min-h-screen bg-[#fbfaf7] flex flex-col">
+      <NextSeo
+        title="Wellness & Mental Health Blog"
+        description="Expert articles on mental health, mindfulness, relationships, stress management & holistic wellness by Babita — certified psychologist at MindVeda."
+        canonical="https://mindveda.in/blog"
+        openGraph={{
+          url: 'https://mindveda.in/blog',
+          title: 'Wellness & Mental Health Blog — MindVeda',
+          description: 'Expert articles on mindfulness, relationships, stress & holistic wellness by certified psychologist Babita.',
+        }}
+      />
       <Header />
       <main className="flex-1">
 

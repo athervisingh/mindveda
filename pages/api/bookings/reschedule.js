@@ -1,6 +1,15 @@
 import { supabaseAdmin } from '../../../lib/supabaseAdmin'
 import { resend } from '../../../lib/resend'
 
+const GROUP_CAPACITY = 50
+
+function fmt12(time24) {
+  if (!time24) return ''
+  const [h, m] = time24.split(':')
+  const hr = parseInt(h)
+  return `${hr % 12 || 12}:${m} ${hr < 12 ? 'AM' : 'PM'}`
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
@@ -9,33 +18,36 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'bookingId, newDate, newTime required' })
   }
 
-  // Get booking with user + service info
   const { data: booking } = await supabaseAdmin
     .from('bookings')
-    .select('*, users(email, full_name), services(name, type)')
+    .select('*, users(email, full_name), services(id, name, type)')
     .eq('id', bookingId)
     .single()
 
   if (!booking) return res.status(404).json({ error: 'Booking not found' })
 
-  // Check availability at new date+time
-  const { data: existing } = await supabaseAdmin
+  // Check availability at new time using bookings table
+  const { data: allBookings } = await supabaseAdmin
     .from('bookings')
-    .select('id, services(type)')
+    .select('service_id, services(type)')
     .eq('booking_date', newDate)
-    .eq('booking_time', newTime)
     .in('status', ['confirmed', 'rescheduled'])
 
-  const individualBooked = (existing || []).some(b => b.services?.type === 'individual')
-  const groupCount = (existing || []).filter(b => b.services?.type === 'group').length
+  const atTime = (allBookings || []).filter(b =>
+    b.booking_time && b.booking_time.startsWith(newTime)
+  )
 
-  if (individualBooked) {
+  const individualCount = atTime.filter(b => b.services?.type === 'individual').length
+  const groupCount      = atTime.filter(b => b.services?.type === 'group').length
+  const thisGroupCount  = atTime.filter(b => b.service_id === booking.services?.id).length
+
+  if (individualCount > 0) {
     return res.status(409).json({ error: 'That time is already booked by someone else.' })
   }
   if (booking.services?.type === 'individual' && groupCount > 0) {
     return res.status(409).json({ error: 'A group session is running at that time.' })
   }
-  if (booking.services?.type === 'group' && groupCount >= 50) {
+  if (booking.services?.type === 'group' && thisGroupCount >= GROUP_CAPACITY) {
     return res.status(409).json({ error: 'That group session is full.' })
   }
 
@@ -48,21 +60,18 @@ export default async function handler(req, res) {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
 
-  // Update booking
   await supabaseAdmin
     .from('bookings')
     .update({ booking_date: newDate, booking_time: newTime, status: 'rescheduled' })
     .eq('id', bookingId)
 
-  // Log reschedule
   await supabaseAdmin.from('reschedule_requests').insert({
-    rescheduled_by:      null,
-    reason:              reason || 'Admin rescheduled',
+    rescheduled_by:       null,
+    reason:               reason || 'Admin rescheduled',
     affected_users_count: 1,
-    emails_sent_count:   1,
+    emails_sent_count:    1,
   })
 
-  // Send email to user
   await resend.emails.send({
     from:    process.env.RESEND_FROM_EMAIL,
     to:      booking.users.email,
@@ -99,11 +108,4 @@ export default async function handler(req, res) {
   })
 
   res.json({ success: true })
-}
-
-function fmt12(time24) {
-  if (!time24) return ''
-  const [h, m] = time24.split(':')
-  const hr = parseInt(h)
-  return `${hr % 12 || 12}:${m} ${hr < 12 ? 'AM' : 'PM'}`
 }

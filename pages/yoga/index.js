@@ -7,6 +7,7 @@ import { LazyMotion, domAnimation, m } from 'framer-motion'
 import { yogaPackages } from '../../lib/siteContent'
 import { useState } from 'react'
 import SlotPickerModal from '../../components/SlotPickerModal'
+import { NextSeo } from 'next-seo'
 
 const STATS = [
   {
@@ -39,6 +40,16 @@ export default function Yoga() {
   return (
     <LazyMotion features={domAnimation}>
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
+      <NextSeo
+        title="Yoga & Wellness Classes — Online & Group Sessions"
+        description="Join MindVeda's online yoga & wellness classes. Individual & group sessions — breathwork, asana, pranayama & therapeutic yoga. Starting ₹700/session."
+        canonical="https://mindveda.in/yoga"
+        openGraph={{
+          url: 'https://mindveda.in/yoga',
+          title: 'Yoga & Wellness Classes — MindVeda',
+          description: 'Individual & group yoga sessions online. Breathwork, asana, pranayama & therapeutic yoga. Starting ₹700.',
+        }}
+      />
       <Header />
       <main className="flex-1">
 

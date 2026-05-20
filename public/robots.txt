@@ -1,0 +1,17 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+
+# Host
+Host: https://mindveda.in
+
+# Sitemaps
+Sitemap: https://mindveda.in/sitemap.xml

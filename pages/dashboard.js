@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabaseClient'
+import { NextSeo } from 'next-seo'
 
 const STATUS_STYLES = {
   confirmed:   'bg-green-100 text-green-700',
@@ -64,6 +65,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#fbfaf7] flex flex-col">
+      <NextSeo noindex={true} nofollow={true} title="My Dashboard — MindVeda" />
       <Header />
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-12">
 
