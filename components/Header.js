@@ -133,12 +133,22 @@ export default function Header() {
 
           {user ? (
             <>
-              {/* Email — only xl+ */}
-              <span className="hidden xl:block text-sm text-gray-600 truncate max-w-[130px]">{user.email}</span>
-              {/* Logout — icon at md+, text added at lg+ */}
+              {/* Dashboard link */}
+              <Link
+                href="/dashboard"
+                className="hidden md:flex items-center gap-1.5 bg-[#2d4f3a]/10 text-[#2d4f3a] hover:bg-[#2d4f3a] hover:text-white transition-all px-3 py-1.5 rounded-full flex-shrink-0"
+                title="My Bookings"
+              >
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span className="text-sm font-medium">My Bookings</span>
+              </Link>
+              {/* Logout */}
               <button
                 onClick={logout}
-                className="hidden md:flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors p-1.5 rounded-full hover:bg-red-50 flex-shrink-0"
+                className="hidden md:flex items-center gap-1 text-red-400 hover:text-red-600 transition-colors p-1.5 rounded-full hover:bg-red-50 flex-shrink-0"
                 title="Logout"
               >
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -146,7 +156,6 @@ export default function Header() {
                   <polyline points="16 17 21 12 16 7"/>
                   <line x1="21" y1="12" x2="9" y2="12"/>
                 </svg>
-                <span className="hidden lg:inline text-sm font-medium">Logout</span>
               </button>
             </>
           ) : (
@@ -183,8 +192,15 @@ export default function Header() {
             </>
           )}
 
-          {/* Mobile Book button — only < md */}
-          {!user && (
+          {/* Mobile buttons — only < md */}
+          {user ? (
+            <Link href="/dashboard" className="md:hidden inline-flex items-center gap-1 bg-[#2d4f3a]/10 text-[#2d4f3a] px-2.5 py-1.5 rounded-full text-xs font-semibold flex-shrink-0">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+              Dashboard
+            </Link>
+          ) : (
             <Link href="/yoga" className="md:hidden inline-flex items-center gap-1 bg-[#2d4f3a] text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex-shrink-0">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -249,17 +265,30 @@ export default function Header() {
 
               {/* Login / Logout in drawer */}
               {user ? (
-                <button
-                  onClick={() => { logout(); setMenuOpen(false) }}
-                  className="mt-1 text-sm py-3 px-3 rounded-xl flex items-center gap-2 text-red-500 hover:bg-red-50 transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
-                    <polyline points="16 17 21 12 16 7"/>
-                    <line x1="21" y1="12" x2="9" y2="12"/>
-                  </svg>
-                  Logout
-                </button>
+                <>
+                  <Link
+                    href="/dashboard"
+                    className="mt-1 text-sm py-3 px-3 rounded-xl flex items-center gap-2 text-[#2d4f3a] font-semibold bg-[#2d4f3a]/8 hover:bg-[#2d4f3a]/15 transition-colors"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    My Bookings
+                  </Link>
+                  <button
+                    onClick={() => { logout(); setMenuOpen(false) }}
+                    className="text-sm py-3 px-3 rounded-xl flex items-center gap-2 text-red-500 hover:bg-red-50 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                      <polyline points="16 17 21 12 16 7"/>
+                      <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Logout
+                  </button>
+                </>
               ) : (
                 <Link
                   href="/login"
