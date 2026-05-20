@@ -11,7 +11,7 @@ Disallow: /cart
 Disallow: /checkout
 
 # Host
-Host: https://mindveda.in
+Host: https://www.mindvedabybabita.com
 
 # Sitemaps
-Sitemap: https://mindveda.in/sitemap.xml
+Sitemap: https://www.mindvedabybabita.com/sitemap.xml
