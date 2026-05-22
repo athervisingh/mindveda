@@ -444,6 +444,63 @@ export default function Home() {
 
         <TestimonialCarousel />
 
+        {/* ── TESTIMONIAL VIDEOS ── */}
+        <section className="bg-white py-12 md:py-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-center mb-8 md:mb-10"
+            >
+              <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.2em] font-semibold">Hear it from them</p>
+              <h2 className="heading-hover mt-1.5 md:mt-2 text-xl sm:text-2xl md:text-3xl font-semibold text-[#1a3520] leading-tight">
+                Real stories, real transformation
+              </h2>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-5 md:gap-7">
+              {[
+                {
+                  src: 'https://res.cloudinary.com/dhqhgw8ds/video/upload/q_auto:low,f_auto,w_1280/v1779439363/testimonial_opt1_mpbsgl.mp4',
+                  poster: 'https://res.cloudinary.com/dhqhgw8ds/video/upload/q_auto,f_jpg,so_2,w_1280/v1779439363/testimonial_opt1_mpbsgl.jpg',
+                  label: 'Client Story #1',
+                },
+                {
+                  src: 'https://res.cloudinary.com/dhqhgw8ds/video/upload/q_auto:low,f_auto,w_1280/v1779439363/testimonial_opt2_z6htsk.mp4',
+                  poster: 'https://res.cloudinary.com/dhqhgw8ds/video/upload/q_auto,f_jpg,so_2,w_1280/v1779439363/testimonial_opt2_z6htsk.jpg',
+                  label: 'Client Story #2',
+                },
+              ].map((video, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="rounded-2xl md:rounded-[24px] overflow-hidden shadow-soft border border-gray-100 bg-[#f7f4eb]"
+                >
+                  <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+                    <video
+                      className="w-full h-full object-cover"
+                      controls
+                      preload="none"
+                      poster={video.poster}
+                      playsInline
+                    >
+                      <source src={video.src} />
+                    </video>
+                  </div>
+                  <div className="px-4 py-3">
+                    <p className="text-xs font-semibold text-[#8a6914] uppercase tracking-[0.18em]">{video.label}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── BLOG ── */}
         <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-20">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6 md:mb-10">
