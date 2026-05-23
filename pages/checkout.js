@@ -20,7 +20,7 @@ function loadRazorpay() {
 
 export default function Checkout() {
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [cart, setCart] = useState([])
   const [mounted, setMounted] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
@@ -28,21 +28,67 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false)
   const [paid, setPaid] = useState(false)
   const [paidEmail, setPaidEmail] = useState('')
+  const [couponInput, setCouponInput] = useState('')
+  const [couponCode, setCouponCode] = useState('')
+  const [couponStatus, setCouponStatus] = useState(null)  // null | 'loading' | 'valid' | 'invalid'
+  const [couponError, setCouponError] = useState('')
 
   useEffect(() => {
     setMounted(true)
     setCart(JSON.parse(localStorage.getItem('mv_cart') || '[]'))
-    // Pre-fill form from auth user
+  }, [])
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace('/login?redirect=/checkout')
+    }
     if (user?.email) {
       setForm(f => ({
         ...f,
         email: user.email,
-        name: user.user_metadata?.full_name || '',
+        name:  user.user_metadata?.full_name || '',
       }))
     }
-  }, [user])
+  }, [authLoading, user])
 
   const total = cart.reduce((s, p) => s + (p.price || 0), 0)
+  // If coupon valid: first item = ₹10, remaining items = normal price
+  const discountedTotal = couponStatus === 'valid'
+    ? 10 + cart.slice(1).reduce((s, p) => s + (p.price || 0), 0)
+    : total
+  const couponSavings = total - discountedTotal
+
+  async function handleCouponApply() {
+    const code = couponInput.trim()
+    if (!code || !user) return
+    setCouponStatus('loading')
+    setCouponError('')
+    try {
+      const res = await fetch('/api/payments/validate-coupon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ couponCode: code, userId: user.id }),
+      })
+      const data = await res.json()
+      if (res.ok && data.valid) {
+        setCouponCode(code.toUpperCase())
+        setCouponStatus('valid')
+      } else {
+        setCouponStatus('invalid')
+        setCouponError(data.error || 'Invalid coupon code')
+      }
+    } catch {
+      setCouponStatus('invalid')
+      setCouponError('Could not apply coupon. Try again.')
+    }
+  }
+
+  function handleCouponRemove() {
+    setCouponInput('')
+    setCouponCode('')
+    setCouponStatus(null)
+    setCouponError('')
+  }
 
   function validate() {
     const e = {}
@@ -57,67 +103,63 @@ export default function Checkout() {
     if (Object.keys(e).length) { setErrors(e); return }
     setErrors({})
 
-    if (!user) {
-      router.push('/login?redirect=/checkout')
-      return
-    }
-
     setLoading(true)
     try {
       const ok = await loadRazorpay()
       if (!ok) throw new Error('Razorpay load failed. Check your internet.')
 
-      // Process each cart item sequentially
-      for (const item of cart) {
-        const orderRes = await fetch('/api/payments/create-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+      // One order for all items
+      const orderRes = await fetch('/api/payments/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cart.map(item => ({
             serviceSlug: item.serviceSlug || item.slug,
             bookingDate: item.bookingDate,
             bookingTime: item.bookingTime,
-            userId:      user.id,
-          }),
-        })
-        const orderData = await orderRes.json()
-        if (!orderRes.ok) throw new Error(orderData.error || 'Order creation failed')
+          })),
+          userId:     user.id,
+          couponCode: couponStatus === 'valid' ? couponCode : undefined,
+        }),
+      })
+      const orderData = await orderRes.json()
+      if (!orderRes.ok) throw new Error(orderData.error || 'Order creation failed')
 
-        await new Promise((resolve, reject) => {
-          const rzp = new window.Razorpay({
-            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-            amount: orderData.amount,
-            currency: 'INR',
-            name: 'Mind Veda',
-            description: item.title,
-            order_id: orderData.orderId,
-            prefill: { name: form.name, email: form.email, contact: form.phone },
-            theme: { color: '#1a3520' },
-            handler: async (response) => {
-              try {
-                const verifyRes = await fetch('/api/payments/verify', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_signature: response.razorpay_signature,
-                    bookingId: orderData.bookingId,
-                  }),
-                })
-                const verifyData = await verifyRes.json()
-                if (!verifyRes.ok) throw new Error(verifyData.error)
-                resolve()
-              } catch (err) {
-                reject(err)
-              }
-            },
-            modal: { ondismiss: () => reject(new Error('Payment cancelled')) },
-          })
-          rzp.open()
+      // One Razorpay popup for the full total
+      await new Promise((resolve, reject) => {
+        const rzp = new window.Razorpay({
+          key:         process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          amount:      orderData.amount,
+          currency:    'INR',
+          name:        'Mind Veda',
+          description: cart.length === 1 ? cart[0].title : `${cart.length} Sessions`,
+          order_id:    orderData.orderId,
+          prefill:     { name: form.name, email: form.email, contact: form.phone },
+          theme:       { color: '#1a3520' },
+          handler: async (response) => {
+            try {
+              const verifyRes = await fetch('/api/payments/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  razorpay_order_id:   response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature:  response.razorpay_signature,
+                  bookingIds:          orderData.bookingIds,
+                }),
+              })
+              const verifyData = await verifyRes.json()
+              if (!verifyRes.ok) throw new Error(verifyData.error)
+              resolve()
+            } catch (err) {
+              reject(err)
+            }
+          },
+          modal: { ondismiss: () => reject(new Error('Payment cancelled')) },
         })
-      }
+        rzp.open()
+      })
 
-      // All payments done
       localStorage.setItem('mv_cart', '[]')
       window.dispatchEvent(new Event('cartUpdated'))
       setPaidEmail(form.email)
@@ -131,7 +173,20 @@ export default function Checkout() {
     }
   }
 
-  if (!mounted) return null
+  if (!mounted || authLoading || !user) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <svg className="w-8 h-8 animate-spin text-brand" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+          </svg>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   if (paid) {
     return (
@@ -200,18 +255,6 @@ export default function Checkout() {
           <p className="text-gray-500 text-sm mt-1">Review your sessions and complete payment</p>
         </div>
 
-        {!user && (
-          <div className="mb-6 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 text-sm text-amber-800 flex items-center gap-3">
-            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span>
-              Please{' '}
-              <Link href="/login?redirect=/checkout" className="font-semibold underline">log in</Link>
-              {' '}to complete your booking and view it in your dashboard.
-            </span>
-          </div>
-        )}
 
         <div className="grid lg:grid-cols-[1fr_380px] gap-6 items-start">
           <div className="space-y-5">
@@ -286,17 +329,79 @@ export default function Checkout() {
               </div>
               <div className="p-5">
                 <div className="space-y-2.5 mb-4">
-                  {cart.map((item) => (
+                  {cart.map((item, idx) => (
                     <div key={item.cartId} className="flex justify-between text-sm text-gray-600">
                       <span className="truncate max-w-[180px]">{item.title}</span>
-                      <span className="font-medium ml-2">₹{item.price.toLocaleString('en-IN')}</span>
+                      {couponStatus === 'valid' && idx === 0 ? (
+                        <span className="font-medium ml-2 flex items-center gap-1.5">
+                          <span className="line-through text-gray-300 text-xs">₹{item.price.toLocaleString('en-IN')}</span>
+                          <span className="text-green-600 font-semibold">₹10</span>
+                        </span>
+                      ) : (
+                        <span className="font-medium ml-2">₹{item.price.toLocaleString('en-IN')}</span>
+                      )}
                     </div>
                   ))}
                 </div>
 
+                {/* Coupon Input */}
+                <div className="border-t border-gray-100 pt-3 mb-3">
+                  {couponStatus === 'valid' ? (
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-3 py-2.5">
+                      <div className="flex items-center gap-2">
+                        <CheckIcon className="w-4 h-4 text-green-600 flex-shrink-0" />
+                        <div>
+                          <p className="text-xs font-semibold text-green-700">{couponCode} applied!</p>
+                          <p className="text-[11px] text-green-600">You save ₹{couponSavings.toLocaleString('en-IN')}</p>
+                        </div>
+                      </div>
+                      <button onClick={handleCouponRemove} className="text-xs text-gray-400 hover:text-red-500 transition-colors ml-2">Remove</button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
+                          onKeyDown={e => e.key === 'Enter' && handleCouponApply()}
+                          placeholder="Coupon code"
+                          className={`flex-1 border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand transition-all uppercase tracking-widest ${couponError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                        />
+                        <button
+                          onClick={handleCouponApply}
+                          disabled={!couponInput.trim() || couponStatus === 'loading' || !user}
+                          className="rounded-xl bg-brand/10 text-brand px-3 py-2 text-sm font-semibold hover:bg-brand hover:text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+                        >
+                          {couponStatus === 'loading' ? (
+                            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                          ) : 'Apply'}
+                        </button>
+                      </div>
+                      {couponError && <p className="text-red-500 text-xs mt-1.5">{couponError}</p>}
+                      {!user && <p className="text-xs text-gray-400 mt-1.5">Login to use coupon codes</p>}
+                    </>
+                  )}
+                </div>
+
+                {couponStatus === 'valid' && (
+                  <div className="flex justify-between text-sm text-green-600 font-medium mb-2">
+                    <span>Discount</span>
+                    <span>−₹{couponSavings.toLocaleString('en-IN')}</span>
+                  </div>
+                )}
+
                 <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#1a3520] mb-5">
                   <span>Total</span>
-                  <span className="text-brand text-2xl">₹{total.toLocaleString('en-IN')}</span>
+                  <div className="text-right">
+                    {couponStatus === 'valid' && (
+                      <div className="line-through text-gray-300 text-sm font-normal">₹{total.toLocaleString('en-IN')}</div>
+                    )}
+                    <span className="text-brand text-2xl">₹{discountedTotal.toLocaleString('en-IN')}</span>
+                  </div>
                 </div>
 
                 <button
@@ -313,7 +418,7 @@ export default function Checkout() {
                       Processing…
                     </>
                   ) : (
-                    <>Pay ₹{total.toLocaleString('en-IN')} <ArrowRightIcon className="w-4 h-4" /></>
+                    <>Pay ₹{discountedTotal.toLocaleString('en-IN')} <ArrowRightIcon className="w-4 h-4" /></>
                   )}
                 </button>
 
