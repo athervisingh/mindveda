@@ -350,6 +350,38 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── COUPON MARQUEE — hero ke bilkul niche, chipka hua ── */}
+        <div className="bg-[#1a3520] overflow-hidden" style={{ height: '38px', display: 'flex', alignItems: 'center' }}>
+          <style>{`@keyframes mv-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}`}</style>
+          <div style={{ display: 'flex', width: 'max-content', animation: 'mv-marquee 36s linear infinite', willChange: 'transform' }}>
+            {[0, 1].map(copy => (
+              <div key={copy} style={{ display: 'flex', alignItems: 'center' }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '14px', whiteSpace: 'nowrap', paddingRight: '52px' }}>
+                    <span style={{ background: '#f5a623', color: '#1a3520', fontWeight: 800, fontSize: '11px', letterSpacing: '0.14em', padding: '3px 9px', borderRadius: '4px' }}>FIRST10</span>
+                    <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '12.5px', fontWeight: 500, fontFamily: 'Lato, sans-serif', letterSpacing: '0.01em' }}>
+                      First-time customers get <strong style={{ color: '#f5a623', fontWeight: 700 }}>any service for just ₹10</strong> — Use code <strong style={{ color: '#f5a623', fontWeight: 700 }}>FIRST10</strong> at checkout &nbsp;·&nbsp; One-time offer &nbsp;·&nbsp; New customers only
+                    </span>
+                    <span style={{ color: '#f5a623', fontSize: '11px' }}>✦</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── BANNER — marquee se chipka hua ── */}
+        <div className="w-full leading-[0]">
+          <Image
+            src="/banner.webp"
+            alt="Mind Veda Special Offer"
+            width={1584}
+            height={672}
+            className="w-full h-auto block"
+            priority={false}
+          />
+        </div>
+
         {/* ── QUOTE BANNER ── */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.7 }} viewport={{ once: true }} className="bg-white border-y border-gray-100">
           <div className="max-w-4xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-center gap-3">
