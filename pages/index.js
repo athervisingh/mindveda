@@ -370,17 +370,33 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── BANNER — marquee se chipka hua ── */}
-        <div className="w-full leading-[0]">
-          <Image
-            src="/banner.webp"
-            alt="Mind Veda Special Offer"
-            width={1584}
-            height={672}
-            className="w-full h-auto block"
-            priority={false}
-          />
-        </div>
+        {/* ── FIRST10 PROMO CARD ── */}
+        <section className="bg-[#fffbf0] border-b border-[#f0e4b0]">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-7 sm:py-9 flex flex-col sm:flex-row items-center gap-5 sm:gap-10">
+            <div className="flex-1 text-center sm:text-left">
+              <span className="inline-flex items-center gap-1.5 bg-[#f5a623]/15 text-[#8a6914] text-[10px] font-bold px-3 py-1.5 rounded-full mb-3 uppercase tracking-wider">
+                🎁 First-Time Offer
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[#1a3520] leading-snug">
+                Try any session for just{' '}
+                <span className="text-[#f5a623]">₹10</span>
+              </h2>
+              <p className="text-gray-500 text-sm mt-2">
+                Code <strong className="text-[#1a3520] font-semibold">FIRST10</strong> auto-applied &nbsp;·&nbsp; New customers only &nbsp;·&nbsp; Any service &nbsp;·&nbsp; One-time
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-2 flex-shrink-0">
+              <Link
+                href="/quick-book"
+                className="inline-flex items-center gap-2 rounded-full bg-[#1a3520] text-white font-semibold px-7 py-3.5 text-sm hover:bg-[#2d4f3a] transition-colors shadow-md shadow-[#1a3520]/20 active:scale-95"
+              >
+                Book My ₹10 Session
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </Link>
+              <p className="text-xs text-gray-400">No hidden charges · Secure payment</p>
+            </div>
+          </div>
+        </section>
 
         {/* ── QUOTE BANNER ── */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.7 }} viewport={{ once: true }} className="bg-white border-y border-gray-100">
