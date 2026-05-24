@@ -370,63 +370,42 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── FIRST10 PROMO BANNER ── */}
-        <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a3520 0%, #2d4f3a 50%, #1f4a2e 100%)' }}>
-          {/* Decorative circles */}
-          <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #f5a623, transparent)' }} />
-          <div className="absolute -bottom-8 -right-8 w-52 h-52 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #f5a623, transparent)' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-5" style={{ background: 'radial-gradient(circle, #ffffff, transparent)' }} />
+        {/* ── FIRST10 PROMO CARD ── */}
+        <section className="bg-[#fbfaf7] py-3 px-4 sm:px-6">
+          <div className="max-w-3xl mx-auto">
+            <Link href="/quick-book">
+              <div className="group relative flex items-center gap-3 sm:gap-5 bg-gradient-to-r from-[#0d1f12] via-[#1a3520] to-[#0d1f12] rounded-2xl px-4 sm:px-6 py-3 sm:py-3.5 cursor-pointer hover:shadow-xl transition-all duration-200 overflow-hidden active:scale-[0.99]">
+                {/* shimmer top line */}
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#f5a623]/50 to-transparent" />
+                {/* subtle glow spot */}
+                <div className="absolute left-1/4 -top-6 w-32 h-16 bg-[#f5a623]/8 blur-2xl rounded-full pointer-events-none" />
 
-          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 text-center">
+                {/* Price glow bubble */}
+                <div className="relative flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-[#f5a623]/15 rounded-full" />
+                  <div className="absolute inset-1.5 bg-[#f5a623]/8 rounded-full" />
+                  <span className="text-[#f5a623] font-black leading-none relative" style={{ fontSize: '1.25rem' }}>₹10</span>
+                </div>
 
-            {/* Top badge */}
-            <div className="inline-flex items-center gap-2 border border-[#f5a623]/40 text-[#f5a623] text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-[0.18em] mb-5">
-              <svg className="w-3 h-3" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.5 4.5H14l-3.7 2.7 1.4 4.3L8 10l-3.7 2.5 1.4-4.3L2 5.5h4.5z"/></svg>
-              First-Time Offer
-            </div>
+                {/* Text */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-semibold text-sm sm:text-[15px] leading-tight">
+                    New to Mind Veda? First session at&nbsp;<span className="text-[#f5a623]">just ₹10</span>
+                  </p>
+                  <p className="text-white/45 text-[11px] mt-0.5 hidden sm:block tracking-wide">
+                    Code FIRST10 auto-applied &nbsp;·&nbsp; Any service &nbsp;·&nbsp; One-time only
+                  </p>
+                </div>
 
-            {/* Main heading */}
-            <h2 className="text-white font-semibold leading-tight mb-2" style={{ fontFamily: 'Playfair Display, Georgia, serif', fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}>
-              Your First Session at Mind Veda
-            </h2>
-
-            {/* Price */}
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-white/40 text-lg sm:text-xl font-medium line-through">₹1,200</span>
-              <span className="font-bold text-[#f5a623]" style={{ fontSize: 'clamp(2.8rem, 7vw, 5rem)', lineHeight: 1 }}>₹10</span>
-              <span className="text-white/40 text-lg sm:text-xl font-medium line-through">₹2,500</span>
-            </div>
-
-            {/* Sub text */}
-            <p className="text-white/60 text-xs sm:text-sm mb-1" style={{ fontFamily: 'Lato, sans-serif' }}>
-              Code <span className="text-[#f5a623] font-bold tracking-wider">FIRST10</span> applied automatically &nbsp;·&nbsp; Any service &nbsp;·&nbsp; New customers only &nbsp;·&nbsp; One-time
-            </p>
-
-            {/* Divider */}
-            <div className="flex items-center justify-center gap-3 my-6">
-              <div className="h-px w-16 sm:w-24 bg-white/15" />
-              <svg width="14" height="14" viewBox="0 0 32 32" fill="none" className="text-[#f5a623]/60">
-                <path d="M16 28C16 28 6 22 6 14C6 10 10 8 13 10C13 8 14 6 16 6C18 6 19 8 19 10C22 8 26 10 26 14C26 22 16 28 16 28Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                <line x1="16" y1="10" x2="16" y2="28" stroke="currentColor" strokeWidth="1.2"/>
-              </svg>
-              <div className="h-px w-16 sm:w-24 bg-white/15" />
-            </div>
-
-            {/* CTA Button */}
-            <Link
-              href="/quick-book"
-              className="inline-flex items-center gap-2.5 rounded-full font-semibold transition-all active:scale-95 shadow-lg"
-              style={{ background: 'linear-gradient(135deg, #f5a623, #e09010)', color: '#1a3520', fontSize: '0.9rem', padding: '0.85rem 2.2rem', boxShadow: '0 4px 20px rgba(245,166,35,0.35)' }}
-            >
-              Claim ₹10 Offer
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
+                {/* CTA chip */}
+                <div className="flex-shrink-0 flex items-center gap-1.5 bg-[#f5a623] text-[#0d1f12] rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 font-bold text-xs sm:text-sm group-hover:bg-[#ffd166] transition-colors whitespace-nowrap">
+                  Book Now
+                  <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </div>
+              </div>
             </Link>
-
-            <p className="text-white/35 text-[11px] mt-3" style={{ fontFamily: 'Lato, sans-serif' }}>
-              No hidden charges · Secure payment via Razorpay
-            </p>
           </div>
         </section>
 
