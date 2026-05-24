@@ -371,36 +371,41 @@ export default function Home() {
         </div>
 
         {/* ── FIRST10 PROMO CARD ── */}
-        <section className="bg-[#fbfaf7] py-3 px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto">
+        <section className="bg-[#fbfaf7] py-3 px-0 sm:px-6">
+          <div className="max-w-3xl mx-auto relative">
+
+            {/* white fade edges — mobile only */}
+            <div className="absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-[#fbfaf7] to-transparent z-10 pointer-events-none sm:hidden" />
+            <div className="absolute inset-y-0 right-0 w-3 bg-gradient-to-l from-[#fbfaf7] to-transparent z-10 pointer-events-none sm:hidden" />
+
             <Link href="/quick-book">
-              <div className="group relative flex items-center gap-3 sm:gap-5 bg-gradient-to-r from-[#0d1f12] via-[#1a3520] to-[#0d1f12] rounded-2xl px-4 sm:px-6 py-3 sm:py-3.5 cursor-pointer hover:shadow-xl transition-all duration-200 overflow-hidden active:scale-[0.99]">
+              <div className="group relative flex items-center gap-3 sm:gap-5 bg-gradient-to-r from-[#0d1f12] via-[#1a3520] to-[#0d1f12] rounded-none sm:rounded-2xl px-5 sm:px-6 py-3 sm:py-3.5 cursor-pointer hover:shadow-xl transition-all duration-200 overflow-hidden active:scale-[0.99]">
                 {/* shimmer top line */}
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#f5a623]/50 to-transparent" />
                 {/* subtle glow spot */}
                 <div className="absolute left-1/4 -top-6 w-32 h-16 bg-[#f5a623]/8 blur-2xl rounded-full pointer-events-none" />
 
-                {/* Price glow bubble */}
-                <div className="relative flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center">
-                  <div className="absolute inset-0 bg-[#f5a623]/15 rounded-full" />
-                  <div className="absolute inset-1.5 bg-[#f5a623]/8 rounded-full" />
-                  <span className="text-[#f5a623] font-black leading-none relative" style={{ fontSize: '1.25rem' }}>₹10</span>
+                {/* Price */}
+                <div className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5">
+                  <span className="text-white/70 line-through decoration-red-400 decoration-2 font-medium text-[0.65rem] sm:text-[0.8rem]">₹2500</span>
+                  <span className="text-[#f5a623] font-black drop-shadow-[0_0_8px_rgba(245,166,35,0.7)] text-[1.25rem] sm:text-[1.7rem]" style={{ lineHeight: 1 }}>₹10</span>
                 </div>
 
                 {/* Text */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold text-sm sm:text-[15px] leading-tight">
-                    New to Mind Veda? First session at&nbsp;<span className="text-[#f5a623]">just ₹10</span>
+                  <p className="text-white font-semibold text-[11px] min-[380px]:text-xs sm:text-[15px] leading-tight">
+                    New to Mind Veda?&nbsp;<span className="text-[#f5a623]">First session ₹10</span>
                   </p>
-                  <p className="text-white/45 text-[11px] mt-0.5 hidden sm:block tracking-wide">
-                    Code FIRST10 auto-applied &nbsp;·&nbsp; Any service &nbsp;·&nbsp; One-time only
+                  <p className="text-white/45 text-[10px] sm:text-[11px] mt-0.5 tracking-wide truncate">
+                    <span className="sm:hidden">Code FIRST10 · One-time</span>
+                    <span className="hidden sm:inline">Code FIRST10 auto-applied &nbsp;·&nbsp; Any service &nbsp;·&nbsp; One-time only</span>
                   </p>
                 </div>
 
                 {/* CTA chip */}
-                <div className="flex-shrink-0 flex items-center gap-1.5 bg-[#f5a623] text-[#0d1f12] rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 font-bold text-xs sm:text-sm group-hover:bg-[#ffd166] transition-colors whitespace-nowrap">
-                  Book Now
-                  <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <div className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5 bg-[#f5a623] text-[#0d1f12] rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-4 sm:py-2 font-bold text-[11px] sm:text-sm group-hover:bg-[#ffd166] transition-colors whitespace-nowrap">
+                  Book
+                  <svg className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
                 </div>
