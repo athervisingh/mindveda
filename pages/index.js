@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Link from 'next/link'
@@ -17,6 +18,8 @@ const heroStats = [
 ]
 
 export default function Home() {
+  const router = useRouter()
+
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
       <NextSeo
@@ -640,6 +643,7 @@ export default function Home() {
       </main>
 
       <Footer />
+
     </div>
   )
 }

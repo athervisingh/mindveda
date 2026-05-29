@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { useAuth } from '../../context/AuthContext'
@@ -52,6 +52,15 @@ export default function AdminDashboard() {
   const [rescheduleReason, setRescheduleReason] = useState('')
   const [rescheduling, setRescheduling] = useState(false)
 
+  // Live chats state
+  const [chatSessions, setChatSessions] = useState([])
+  const [loadingChats, setLoadingChats] = useState(false)
+  const [activeChatId, setActiveChatId] = useState(null)
+  const [chatMessages, setChatMessages] = useState([])
+  const [staffInput, setStaffInput] = useState('')
+  const [sendingStaff, setSendingStaff] = useState(false)
+  const chatBottomRef = useRef(null)
+
   useEffect(() => {
     if (authLoading) return
     if (!user) { router.replace('/login'); return }
@@ -62,9 +71,66 @@ export default function AdminDashboard() {
       fetchBookings()
       fetchSchedule(scheduleDate)
       fetchRetreats()
+      fetchChats()
     }
     checkAdmin()
   }, [user, authLoading])
+
+  async function fetchChats() {
+    setLoadingChats(true)
+    const { data } = await supabase
+      .from('chat_sessions')
+      .select('*, users(full_name, email, phone)')
+      .in('status', ['active', 'audio'])
+      .order('created_at', { ascending: false })
+    setChatSessions(data || [])
+    setLoadingChats(false)
+  }
+
+  async function loadChatMessages(sessionId) {
+    const { data } = await supabase
+      .from('chat_messages')
+      .select('*')
+      .eq('session_id', sessionId)
+      .order('created_at', { ascending: true })
+    setChatMessages(data || [])
+  }
+
+  async function sendStaffMessage() {
+    if (!staffInput.trim() || !activeChatId || sendingStaff) return
+    const text = staffInput.trim()
+    setStaffInput('')
+    setSendingStaff(true)
+    await fetch('/api/chat/staff-reply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: activeChatId, message: text, adminId: user.id }),
+    })
+    setSendingStaff(false)
+  }
+
+  // Realtime for active chat session in admin panel
+  useEffect(() => {
+    if (!activeChatId) return
+    loadChatMessages(activeChatId)
+    const channel = supabase
+      .channel(`admin-chat-${activeChatId}`)
+      .on('postgres_changes', {
+        event: 'INSERT', schema: 'public', table: 'chat_messages',
+        filter: `session_id=eq.${activeChatId}`,
+      }, payload => {
+        setChatMessages(prev => {
+          const exists = prev.some(m => m.id === payload.new.id)
+          return exists ? prev : [...prev, payload.new]
+        })
+      })
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [activeChatId])
+
+  useEffect(() => {
+    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [chatMessages])
 
   async function fetchRetreats() {
     setLoadingR(true)
@@ -104,6 +170,8 @@ export default function AdminDashboard() {
     setLoadingS(true)
     const { data } = await supabase
       .from('slots')
+
+      
       .select('*, services(name, slug)')
       .order('slot_date')
       .order('start_time')
@@ -606,7 +674,150 @@ export default function AdminDashboard() {
           </div>
         )}
 
+        {/* ── LIVE CHATS TAB ── */}
+        {activeTab === 'chats' && (
+          <div className="max-w-6xl">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-2xl font-bold text-[#1a3520]">Live Chats</h1>
+                <p className="text-gray-400 text-sm mt-1">Active ₹10 chat sessions. Click a session to read and reply as counselor.</p>
+              </div>
+              <button onClick={fetchChats} className="px-4 py-2 rounded-xl bg-[#1a3520] text-white text-sm font-medium hover:opacity-90">
+                Refresh
+              </button>
+            </div>
+
+            {loadingChats ? (
+              <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="h-16 bg-gray-100 rounded-2xl animate-pulse" />)}</div>
+            ) : chatSessions.length === 0 ? (
+              <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
+                <p className="text-4xl mb-3">💬</p>
+                <p className="text-gray-400 text-sm">No active chat sessions right now.</p>
+              </div>
+            ) : (
+              <div className="flex gap-6" style={{ height: '600px' }}>
+                {/* Session list */}
+                <div className="w-72 flex-shrink-0 space-y-2 overflow-y-auto">
+                  {chatSessions.map(cs => {
+                    const secLeft = Math.max(0, Math.floor((new Date(cs.ends_at) - new Date()) / 1000))
+                    const mins = Math.floor(secLeft / 60)
+                    const secs = secLeft % 60
+                    const expired = secLeft <= 0
+                    return (
+                      <button
+                        key={cs.id}
+                        onClick={() => { setActiveChatId(cs.id); setChatMessages([]) }}
+                        className={`w-full text-left p-4 rounded-2xl border transition-all ${
+                          activeChatId === cs.id
+                            ? 'bg-[#1a3520] border-[#1a3520]'
+                            : 'bg-white border-gray-100 hover:border-[#1a3520]/30'
+                        }`}
+                      >
+                        <p className={`text-sm font-semibold ${activeChatId === cs.id ? 'text-white' : 'text-[#1a3520]'}`}>
+                          {cs.users?.full_name || 'User'}
+                        </p>
+                        <p className={`text-xs mt-0.5 ${activeChatId === cs.id ? 'text-white/70' : 'text-gray-400'}`}>
+                          {cs.users?.phone || cs.users?.email}
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                            cs.status === 'audio' ? 'bg-green-100 text-green-700'
+                            : cs.type === 'staff' ? 'bg-blue-100 text-blue-700'
+                            : 'bg-amber-100 text-amber-700'
+                          }`}>
+                            {cs.status === 'audio' ? '📞 Audio' : cs.type === 'staff' ? '👤 Staff' : '🤖 Bot'}
+                          </span>
+                          {!expired && cs.status === 'active' && (
+                            <span className={`text-xs font-mono font-bold ${secLeft < 60 ? 'text-red-400' : activeChatId === cs.id ? 'text-white/70' : 'text-gray-400'}`}>
+                              {String(mins).padStart(2,'0')}:{String(secs).padStart(2,'0')}
+                            </span>
+                          )}
+                          {expired && cs.status === 'active' && (
+                            <span className="text-xs text-red-400 font-medium">Ended</span>
+                          )}
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {/* Chat window */}
+                <div className="flex-1 bg-white rounded-2xl border border-gray-100 flex flex-col overflow-hidden">
+                  {!activeChatId ? (
+                    <div className="flex-1 flex items-center justify-center text-gray-300 text-sm">
+                      Select a session to view messages
+                    </div>
+                  ) : (
+                    <>
+                      {(() => {
+                        const cs = chatSessions.find(s => s.id === activeChatId)
+                        return (
+                          <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-3">
+                            <div className="w-8 h-8 bg-[#1a3520] rounded-full flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">{cs?.users?.full_name?.[0] || 'U'}</span>
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-[#1a3520]">{cs?.users?.full_name}</p>
+                              <p className="text-xs text-gray-400">{cs?.users?.email} · {cs?.users?.phone}</p>
+                            </div>
+                            <span className={`ml-auto text-xs px-2.5 py-1 rounded-full font-medium ${
+                              cs?.type === 'staff' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
+                            }`}>
+                              {cs?.type === 'staff' ? 'You are live' : 'Bot active — reply to take over'}
+                            </span>
+                          </div>
+                        )
+                      })()}
+
+                      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
+                        {chatMessages.map((m, i) => (
+                          <div key={m.id || i} className={`flex ${m.sender_type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                            {m.sender_type !== 'user' && (
+                              <div className="w-6 h-6 rounded-full bg-[#1a3520] flex items-center justify-center mr-2 flex-shrink-0 mt-auto mb-1">
+                                <span className="text-white text-xs font-bold">{m.sender_type === 'staff' ? 'B' : 'V'}</span>
+                              </div>
+                            )}
+                            <div className={`max-w-xs px-3.5 py-2 rounded-2xl text-sm leading-relaxed ${
+                              m.sender_type === 'user'
+                                ? 'bg-gray-100 text-gray-800 rounded-br-sm'
+                                : m.sender_type === 'staff'
+                                ? 'bg-[#1a3520] text-white rounded-bl-sm'
+                                : 'bg-blue-50 text-gray-800 border border-blue-100 rounded-bl-sm'
+                            }`}>
+                              {m.content}
+                            </div>
+                          </div>
+                        ))}
+                        <div ref={chatBottomRef} />
+                      </div>
+
+                      <div className="px-4 py-3 border-t border-gray-100 flex gap-2">
+                        <input
+                          type="text"
+                          value={staffInput}
+                          onChange={e => setStaffInput(e.target.value)}
+                          onKeyDown={e => e.key === 'Enter' && sendStaffMessage()}
+                          placeholder="Reply as Babita (counselor)…"
+                          className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1a3520] bg-[#fbfaf7]"
+                        />
+                        <button
+                          onClick={sendStaffMessage}
+                          disabled={!staffInput.trim() || sendingStaff}
+                          className="px-5 py-2.5 bg-[#1a3520] text-white rounded-xl text-sm font-medium hover:opacity-90 disabled:opacity-40 transition-opacity"
+                        >
+                          {sendingStaff ? '…' : 'Send'}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
       </main>
     </div>
   )
 }
+
