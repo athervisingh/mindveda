@@ -52,8 +52,7 @@ export default function ChatRoom() {
   const [loadingSession, setLoadingSession] = useState(true)
   const [sessionError, setSessionError] = useState('')
   const [audioRoomUrl, setAudioRoomUrl] = useState(null)
-  const [payingAudio, setPayingAudio] = useState(false)
-  const [audioError, setAudioError] = useState('')
+  const [joiningCall, setJoiningCall] = useState(false)
 
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
@@ -167,59 +166,18 @@ export default function ChatRoom() {
     }
   }
 
-  async function handleAudioPayment() {
-    setAudioError('')
-    setPayingAudio(true)
+  async function handleJoinCall() {
+    if (joiningCall || !session?.audio_room_url) return
+    setJoiningCall(true)
     try {
-      const ok = await loadRazorpay()
-      if (!ok) throw new Error('Payment gateway failed to load.')
-
-      const orderRes = await fetch('/api/chat/audio-order', {
+      await fetch('/api/chat/notify-audio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, userId: user.id }),
       })
-      const orderData = await orderRes.json()
-      if (!orderRes.ok) throw new Error(orderData.error)
-
-      await new Promise((resolve, reject) => {
-        const rzp = new window.Razorpay({
-          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-          amount: orderData.amount,
-          currency: 'INR',
-          name: 'Mind Veda',
-          description: '10-Minute Voice Call with Counselor',
-          order_id: orderData.orderId,
-          prefill: { email: user.email || '' },
-          theme: { color: '#1a3520' },
-          handler: async response => {
-            try {
-              const vRes = await fetch('/api/chat/audio-verify', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                  sessionId,
-                  userId: user.id,
-                }),
-              })
-              const vData = await vRes.json()
-              if (!vRes.ok) throw new Error(vData.error)
-              setAudioRoomUrl(vData.audioRoomUrl)
-              resolve()
-            } catch (e) { reject(e) }
-          },
-          modal: { ondismiss: () => reject(new Error('cancelled')) },
-        })
-        rzp.open()
-      })
-    } catch (e) {
-      if (e.message !== 'cancelled') setAudioError(e.message || 'Payment failed. Try again.')
-    } finally {
-      setPayingAudio(false)
-    }
+    } catch {}
+    window.open(session.audio_room_url, '_blank')
+    setJoiningCall(false)
   }
 
   // ── Loading states ──────────────────────────────────────────────
@@ -373,9 +331,9 @@ export default function ChatRoom() {
         </div>{/* end chat panel */}
       </div>{/* end outer shell */}
 
-      {/* ── Session ended — audio upgrade overlay ── */}
+      {/* ── Session ended — voice call included (₹99 bundle) ── */}
       <AnimatePresence>
-        {isExpired && !isAudio && !audioRoomUrl && (
+        {isExpired && !isAudio && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -387,39 +345,40 @@ export default function ChatRoom() {
               transition={{ type: 'spring', damping: 22 }}
               className="bg-white rounded-3xl p-6 sm:p-7 w-full max-w-sm text-center shadow-2xl"
             >
-              <div className="w-14 h-14 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-7 h-7 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
 
-              <h2 className="text-xl font-semibold text-[#1a3520] mb-2">Your 5-min chat is over</h2>
-              <p className="text-gray-500 text-sm mb-1">Want to talk to a real counselor?</p>
-              <p className="text-gray-400 text-xs mb-6">Book a 10-minute voice call with Babita — she'll join within 5 minutes of your payment.</p>
+              <h2 className="text-xl font-semibold text-[#1a3520] mb-2">Chat complete!</h2>
+              <p className="text-gray-600 text-sm mb-1 font-medium">Your 10-min voice call with Babita is ready</p>
+              <p className="text-gray-400 text-xs mb-6">Included in your ₹99 session — she'll join within a few minutes of you clicking below.</p>
 
-              <div className="flex items-center justify-center gap-2 mb-5">
-                <span className="text-3xl font-bold text-[#1a3520]">₹10</span>
-                <span className="text-gray-400 text-sm">/ 10-min voice call</span>
+              <div className="flex items-center justify-center gap-2 mb-5 bg-green-50 rounded-2xl py-3">
+                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-green-700 text-sm font-semibold">Voice call included — no extra payment</span>
               </div>
 
-              <AnimatePresence>
-                {audioError && (
-                  <p className="text-red-500 text-xs mb-3">{audioError}</p>
-                )}
-              </AnimatePresence>
-
               <button
-                onClick={handleAudioPayment}
-                disabled={payingAudio}
+                onClick={handleJoinCall}
+                disabled={joiningCall}
                 className="w-full bg-[#1a3520] text-white rounded-full py-3.5 font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
               >
-                {payingAudio ? (
+                {joiningCall ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Opening payment…
+                    Connecting…
                   </>
                 ) : (
-                  'Pay ₹10 — Book Voice Call'
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    Join Voice Call with Babita
+                  </>
                 )}
               </button>
 
@@ -427,7 +386,7 @@ export default function ChatRoom() {
                 onClick={() => router.push('/dashboard')}
                 className="mt-1 w-full text-gray-400 text-sm py-2 hover:text-gray-600 transition-colors"
               >
-                No thanks, go to dashboard
+                Skip for now, go to dashboard
               </button>
             </motion.div>
           </motion.div>

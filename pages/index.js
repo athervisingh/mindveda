@@ -391,17 +391,17 @@ export default function Home() {
                 {/* Price */}
                 <div className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5">
                   <span className="text-white/70 line-through decoration-red-400 decoration-2 font-medium text-[0.65rem] sm:text-[0.8rem]">₹2500</span>
-                  <span className="text-[#f5a623] font-black drop-shadow-[0_0_8px_rgba(245,166,35,0.7)] text-[1.25rem] sm:text-[1.7rem]" style={{ lineHeight: 1 }}>₹10</span>
+                  <span className="text-[#f5a623] font-black drop-shadow-[0_0_8px_rgba(245,166,35,0.7)] text-[1.25rem] sm:text-[1.7rem]" style={{ lineHeight: 1 }}>₹99</span>
                 </div>
 
                 {/* Text */}
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-semibold text-[11px] min-[380px]:text-xs sm:text-[15px] leading-tight">
-                    New to Mind Veda?&nbsp;<span className="text-[#f5a623]">First session ₹10</span>
+                    New to Mind Veda?&nbsp;<span className="text-[#f5a623]">Chat + Voice Call ₹99</span>
                   </p>
                   <p className="text-white/45 text-[10px] sm:text-[11px] mt-0.5 tracking-wide truncate">
-                    <span className="sm:hidden">Code FIRST10 · One-time</span>
-                    <span className="hidden sm:inline">Code FIRST10 auto-applied &nbsp;·&nbsp; Any service &nbsp;·&nbsp; One-time only</span>
+                    <span className="sm:hidden">5-min AI chat + 10-min Babita call · One-time</span>
+                    <span className="hidden sm:inline">5-min AI chat + 10-min voice call with Babita &nbsp;·&nbsp; First-time only &nbsp;·&nbsp; One-time</span>
                   </p>
                 </div>
 

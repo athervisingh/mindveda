@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   const bookingTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
 
   const order = await getRazorpay().orders.create({
-    amount: 1000, // ₹10
+    amount: 9900, // ₹99 — chat (5 min) + voice call (10 min) bundled
     currency: 'INR',
     receipt: `chat_${Date.now()}`,
     notes: { userId, type: 'quick-chat' },
@@ -56,9 +56,9 @@ export default async function handler(req, res) {
     booking_id: booking.id,
     user_id: userId,
     razorpay_order_id: order.id,
-    amount: 1000,
+    amount: 9900,
     status: 'created',
   })
 
-  res.json({ orderId: order.id, bookingId: booking.id, amount: 1000 })
+  res.json({ orderId: order.id, bookingId: booking.id, amount: 9900 })
 }

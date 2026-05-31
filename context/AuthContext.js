@@ -44,9 +44,8 @@ export function AuthProvider({ children }) {
     return data
   }
 
-  const signup = async (email, password, fullName) => {
+  const signup = async (email, password, fullName, phone) => {
     if (!supabase) {
-      // Mock signup
       setUser({ email, id: 'mock_user' })
       return { user: { email, id: 'mock_user' } }
     }
@@ -56,6 +55,15 @@ export function AuthProvider({ children }) {
       options: { data: { full_name: fullName } },
     })
     if (error) throw error
+
+    // Save phone to public.users table (trigger creates the row on signUp)
+    if (data?.user?.id && phone) {
+      await supabase
+        .from('users')
+        .update({ phone, updated_at: new Date().toISOString() })
+        .eq('id', data.user.id)
+    }
+
     return data
   }
 

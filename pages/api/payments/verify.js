@@ -7,7 +7,6 @@ export default async function handler(req, res) {
 
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, bookingIds } = req.body
 
-  // Verify Razorpay signature
   const expected = crypto
     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
@@ -17,33 +16,64 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid payment signature' })
   }
 
-  // Mark all payments for this order as paid
   await supabaseAdmin
     .from('payments')
     .update({ razorpay_payment_id, status: 'paid', paid_at: new Date().toISOString() })
     .eq('razorpay_order_id', razorpay_order_id)
 
-  // Confirm all bookings
+  // Generate unique join_token + call_room_url for each booking
+  const tokenUpdates = bookingIds.map(id => {
+    const token = crypto.randomBytes(14).toString('hex') // 28-char unique token
+    const callRoomUrl = `https://meet.jit.si/mindveda-${token.slice(0, 12)}`
+    return { id, join_token: token, call_room_url: callRoomUrl }
+  })
+
+  // Update each booking with its token
+  await Promise.all(
+    tokenUpdates.map(({ id, join_token, call_room_url }) =>
+      supabaseAdmin.from('bookings').update({ join_token, call_room_url }).eq('id', id)
+    )
+  )
+
   const { data: bookings, error } = await supabaseAdmin
     .from('bookings')
     .update({ status: 'confirmed' })
     .in('id', bookingIds)
-    .select('*, users(email, full_name, phone), services(name, price, duration_minutes, type)')
+    .select('*, users(email, full_name, phone), services(name, price, duration_minutes, type), slots(slot_date, start_time)')
 
   if (error || !bookings?.length) return res.status(500).json({ error: 'Booking update failed' })
 
   const user      = bookings[0].users
   const totalPaid = bookings.reduce((s, b) => s + (b.services?.price || 0), 0)
 
-  // Build session rows for emails
+  // Save phone to users table if not already stored (collected from booking form)
+  const userId = bookings[0].user_id
+  const phoneFromBody = req.body.phone || null
+  if (phoneFromBody && userId) {
+    await supabaseAdmin
+      .from('users')
+      .update({ phone: phoneFromBody, updated_at: new Date().toISOString() })
+      .eq('id', userId)
+      .is('phone', null) // only update if phone not already saved
+  }
+  const siteUrl   = process.env.NEXT_PUBLIC_SITE_URL || 'https://mindvedabybabita.com'
+
+  // Build session rows for emails — include join link per booking
   const sessionRows = bookings.map(b => {
-    const dateStr = b.booking_date
-      ? new Date(b.booking_date).toLocaleDateString('en-IN', {
+    const token  = tokenUpdates.find(t => t.id === b.id)
+    const joinLink = token ? `${siteUrl}/join/${token.join_token}` : null
+    const dateStr = b.slots?.slot_date
+      ? new Date(b.slots.slot_date).toLocaleDateString('en-IN', {
           weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
         })
-      : '—'
-    const timeStr = b.booking_time ? fmt12(b.booking_time) : '—'
-    return { name: b.services.name, date: dateStr, time: timeStr, duration: b.services.duration_minutes }
+      : b.booking_date
+        ? new Date(b.booking_date).toLocaleDateString('en-IN', {
+            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+          })
+        : '—'
+    const rawTime = b.slots?.start_time || b.booking_time
+    const timeStr  = rawTime ? fmt12(rawTime) : '—'
+    return { name: b.services.name, date: dateStr, time: timeStr, duration: b.services.duration_minutes, joinLink }
   })
 
   // Email to client
@@ -54,17 +84,17 @@ export default async function handler(req, res) {
       ? `Booking Confirmed — ${bookings[0].services.name}`
       : `${bookings.length} Sessions Booked — Mind Veda`,
     html: buildConfirmEmail({
-      name:     user.full_name,
-      sessions: sessionRows,
+      name:      user.full_name,
+      sessions:  sessionRows,
       totalPaid: Math.round(totalPaid / 100),
       bookingId: bookings[0].id,
     }),
   })
 
-  // Email to admin
+  // Email to admin (Babita) with join links
   const sessionList = sessionRows.map(s =>
-    `${s.name} — ${s.date} at ${s.time} (${s.duration} min)`
-  ).join('<br>')
+    `${s.name} — ${s.date} at ${s.time} (${s.duration} min)${s.joinLink ? `<br><small>Join link: <a href="${s.joinLink}">${s.joinLink}</a></small>` : ''}`
+  ).join('<br><br>')
 
   await resend.emails.send({
     from:    process.env.RESEND_FROM_EMAIL,
@@ -77,11 +107,11 @@ export default async function handler(req, res) {
       Phone: ${user.phone || 'Not provided'}<br><br>
       Sessions:<br>${sessionList}<br><br>
       Total Amount: ₹${Math.round(totalPaid / 100)}<br>
-      Booking ID(s): ${bookings.map(b => b.id.slice(0,8).toUpperCase()).join(', ')}
+      Booking ID(s): ${bookings.map(b => b.id.slice(0, 8).toUpperCase()).join(', ')}
     </p>`,
   })
 
-  // Create chat session only for first-time users (no prior confirmed bookings)
+  // Create quick intro chat for first-time users
   let chatSessionId = null
   try {
     const b = bookings[0]
@@ -95,8 +125,9 @@ export default async function handler(req, res) {
     if (priorCount > 0) {
       return res.json({ success: true, bookingIds, chatSessionId: null })
     }
-    const serviceName = b.services?.name || 'Counseling'
+
     const serviceSlug = b.services?.slug || ''
+    const serviceName = b.services?.name || 'Counseling'
     const now = new Date()
     const endsAt = new Date(now.getTime() + 5 * 60 * 1000)
 
@@ -115,7 +146,6 @@ export default async function handler(req, res) {
 
     if (chatSession) {
       chatSessionId = chatSession.id
-      // Service-specific welcome message
       const welcomeMap = {
         'individual-counseling': `Namaste! I'm Veda, your Mind Veda wellness guide. I see you're interested in **Individual Counseling**. Before your session with Babita, I'd love to understand you better. What's been weighing on your mind lately — is it stress, relationships, anxiety, or something else?`,
         'child-counseling': `Namaste! I'm Veda from Mind Veda. I see you've booked **Child Counseling** — you're taking a wonderful step for your child. To help Babita prepare, could you tell me: How old is your child, and what changes in behavior or emotions have you noticed?`,
@@ -142,7 +172,7 @@ export default async function handler(req, res) {
 
 function fmt12(time24) {
   if (!time24) return ''
-  const [h, m] = time24.split(':')
+  const [h, m] = time24.toString().split(':')
   const hr = parseInt(h)
   return `${hr % 12 || 12}:${m} ${hr < 12 ? 'AM' : 'PM'}`
 }
@@ -158,12 +188,24 @@ function buildConfirmEmail({ name, sessions, totalPaid, bookingId }) {
     </tr>
     <tr>
       <td style="color:#888;font-size:13px;padding:2px 0">Time</td>
-      <td style="color:#1a3520;font-weight:500;text-align:right">${s.time}</td>
+      <td style="color:#1a3520;font-weight:500;text-align:right">${s.time} IST</td>
     </tr>
     <tr>
       <td style="color:#888;font-size:13px;padding:2px 0">Duration</td>
       <td style="color:#1a3520;font-weight:500;text-align:right">${s.duration} min</td>
     </tr>
+    ${s.joinLink ? `
+    <tr>
+      <td colspan="2" style="padding:8px 0 4px">
+        <a href="${s.joinLink}"
+           style="display:block;background:#1a3520;color:white;text-decoration:none;text-align:center;padding:11px 0;border-radius:8px;font-weight:600;font-size:13px">
+          Join Voice Session →
+        </a>
+        <p style="color:#aaa;font-size:10px;text-align:center;margin:4px 0 0">
+          Link opens 15 min before your session time
+        </p>
+      </td>
+    </tr>` : ''}
     <tr><td colspan="2" style="padding:4px 0"><hr style="border:none;border-top:1px solid #eee;margin:4px 0"></td></tr>
   `).join('')
 
@@ -178,7 +220,7 @@ function buildConfirmEmail({ name, sessions, totalPaid, bookingId }) {
     </div>
     <div style="padding:32px">
       <p style="color:#333;font-size:15px">Dear ${name},</p>
-      <p style="color:#555;font-size:14px">Your session${sessions.length > 1 ? 's are' : ' is'} booked. Here are your details:</p>
+      <p style="color:#555;font-size:14px">Your session${sessions.length > 1 ? 's are' : ' is'} confirmed. A unique voice call link is included below — it will activate 15 minutes before your session time.</p>
       <div style="background:#f7f7f5;border-radius:12px;padding:20px;margin:20px 0">
         <table style="width:100%;border-collapse:collapse">
           ${sessionRows}
@@ -188,11 +230,11 @@ function buildConfirmEmail({ name, sessions, totalPaid, bookingId }) {
           </tr>
           <tr>
             <td style="color:#aaa;font-size:11px;padding:4px 0">Booking Ref</td>
-            <td style="color:#aaa;font-size:11px;text-align:right">${bookingId.slice(0,8).toUpperCase()}</td>
+            <td style="color:#aaa;font-size:11px;text-align:right">${bookingId.slice(0, 8).toUpperCase()}</td>
           </tr>
         </table>
       </div>
-      <p style="color:#555;font-size:13px">Babita will send you the session link before each appointment.</p>
+      <p style="color:#555;font-size:13px">The join link in this email is personal — please do not share it. It only works during your session window.</p>
       <p style="color:#1a3520;font-size:13px;font-weight:600">Need help? WhatsApp: +91 79809 25582</p>
     </div>
     <div style="background:#f7f7f5;padding:16px 32px;text-align:center">

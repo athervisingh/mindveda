@@ -27,7 +27,11 @@ export default async function handler(req, res) {
     .eq('id', bookingId)
 
   const now = new Date()
-  const endsAt = new Date(now.getTime() + 5 * 60 * 1000) // 5 minutes
+  const endsAt = new Date(now.getTime() + 5 * 60 * 1000) // 5 minutes chat
+
+  // Pre-create Jitsi voice call room — included in ₹99 bundle
+  const roomSlug = `mindveda-${bookingId.replace(/-/g, '').slice(0, 12)}`
+  const audioRoomUrl = `https://meet.jit.si/${roomSlug}`
 
   const { data: session, error } = await supabaseAdmin
     .from('chat_sessions')
@@ -38,6 +42,7 @@ export default async function handler(req, res) {
       status: 'active',
       started_at: now.toISOString(),
       ends_at: endsAt.toISOString(),
+      audio_room_url: audioRoomUrl, // pre-set — no second payment needed
     })
     .select()
     .single()
@@ -51,7 +56,6 @@ export default async function handler(req, res) {
     content: "Namaste! I'm Veda, your Mind Veda wellness guide. You have 5 minutes — share what's on your mind and I'll listen. How are you feeling today?",
   })
 
-  // Email admin about new chat session
   const { data: userRow } = await supabaseAdmin
     .from('users')
     .select('full_name, email, phone')
@@ -63,13 +67,14 @@ export default async function handler(req, res) {
     to: process.env.ADMIN_EMAIL,
     subject: `New Quick Chat Session — ${userRow?.full_name || 'User'}`,
     html: `<p style="font-family:sans-serif;line-height:1.8">
-      <b>New ₹10 chat session started.</b><br><br>
+      <b>New ₹99 chat + voice call session started.</b><br><br>
       Client: ${userRow?.full_name || '—'}<br>
       Email: ${userRow?.email || '—'}<br>
       Phone: ${userRow?.phone || 'Not provided'}<br><br>
       Session ID: ${session.id}<br>
       Started: ${now.toLocaleString('en-IN')}<br>
-      Ends at: ${endsAt.toLocaleString('en-IN')}<br><br>
+      Chat ends at: ${endsAt.toLocaleString('en-IN')}<br><br>
+      Voice call room (ready when client joins): <a href="${audioRoomUrl}">${audioRoomUrl}</a><br><br>
       <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://mindvedabybabita.com'}/admin?tab=chats">View in Admin Dashboard →</a>
     </p>`,
   })

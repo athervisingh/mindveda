@@ -11,6 +11,7 @@ import { NextSeo } from 'next-seo'
 export default function Signup() {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
   const [error, setError] = useState('')
@@ -21,9 +22,13 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      setError('Please enter a valid 10-digit Indian mobile number.')
+      return
+    }
     setLoading(true)
     try {
-      await signup(email, password, fullName)
+      await signup(email, password, fullName, phone)
       router.push('/')
     } catch (err) {
       setError(err.message || 'Signup failed')
@@ -127,6 +132,26 @@ export default function Signup() {
                         required
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1.5 text-gray-700">Mobile Number</label>
+                    <div className="relative">
+                      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.12 1.22 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                      </span>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                        placeholder="10-digit mobile number"
+                        className="w-full rounded-2xl border border-gray-200 bg-[#fbfaf7] pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#2d4f3a]/25 focus:border-[#2d4f3a]/40 transition-all"
+                        required
+                        maxLength={10}
+                        inputMode="numeric"
+                      />
+                    </div>
+                    <p className="mt-1.5 text-xs text-gray-400">Used for session reminders and WhatsApp updates.</p>
                   </div>
 
                   <div>

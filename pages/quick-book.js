@@ -14,9 +14,9 @@ const BOOKABLE = allServices.filter(s => s.slug !== 'anxiety-support-group')
 
 const QUICK_CHAT_SERVICE = {
   slug: 'quick-chat',
-  title: '⚡ Quick Chat — 5 min (Instant)',
-  price: 10,
-  duration: '5 min',
+  title: '⚡ Chat + Voice Call Bundle — First-time only',
+  price: 99,
+  duration: '5 min chat + 10 min call',
   isChat: true,
 }
 
@@ -191,6 +191,7 @@ export default function QuickBook() {
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_signature: response.razorpay_signature,
                   bookingIds: orderData.bookingIds,
+                  phone: form.phone,
                 }),
               })
               const vData = await vRes.json()
@@ -268,7 +269,7 @@ export default function QuickBook() {
     (isChat || (selectedDay && selectedTime))
 
   const applyCoupon = isFirstTime === true && !isChat
-  const displayTotal = isChat ? 10 : (applyCoupon ? 10 : (service?.price || 0))
+  const displayTotal = isChat ? 99 : (applyCoupon ? 10 : (service?.price || 0))
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
@@ -344,7 +345,7 @@ export default function QuickBook() {
                   {availableServices.map(s => (
                     <option key={s.slug} value={s.slug}>
                       {s.slug === 'quick-chat'
-                        ? '⚡ Quick Chat — ₹10 Instant (5 min bot)'
+                        ? '⚡ Chat + Voice Call — ₹99 (5 min AI + 10 min Babita)'
                         : `${s.title} — ₹${s.price.toLocaleString('en-IN')} / session`}
                     </option>
                   ))}
@@ -363,7 +364,7 @@ export default function QuickBook() {
                   <span className="text-xl mt-0.5">💬</span>
                   <div>
                     <p className="text-xs font-semibold text-[#1a3520]">Instant — no scheduling needed</p>
-                    <p className="text-xs text-gray-500 mt-0.5">Pay ₹10 → chat room opens right away → 5-min session with AI wellness guide</p>
+                    <p className="text-xs text-gray-500 mt-0.5">Pay ₹99 → 5-min AI chat + 10-min voice call with Babita included · No extra payment</p>
                   </div>
                 </motion.div>
               )}
@@ -485,8 +486,8 @@ export default function QuickBook() {
                 <div className="space-y-2 text-sm">
                   {isChat ? (
                     <div className="flex justify-between text-gray-500">
-                      <span>Quick Chat (5 min)</span>
-                      <span className="font-semibold text-[#1a3520]">₹10</span>
+                      <span>Chat + Voice Call Bundle</span>
+                      <span className="font-semibold text-[#1a3520]">₹99</span>
                     </div>
                   ) : applyCoupon ? (
                     <>
@@ -555,7 +556,7 @@ export default function QuickBook() {
                     </>
                   ) : (
                     <>
-                      {isChat ? '💬 Start Chat — ₹10' : `Pay ₹${displayTotal.toLocaleString('en-IN')} — Book Now`}
+                      {isChat ? '💬 Start Session — ₹99' : `Pay ₹${displayTotal.toLocaleString('en-IN')} — Book Now`}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
                       </svg>
@@ -585,7 +586,7 @@ export default function QuickBook() {
       <div className="xl:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-3 shadow-2xl">
         <div className="flex items-center gap-3 max-w-lg mx-auto">
           <div className="flex-1 min-w-0">
-            <p className="text-xs text-gray-400 truncate">{isChat ? 'Quick Chat — 5 min Instant' : service.title}</p>
+            <p className="text-xs text-gray-400 truncate">{isChat ? 'Chat + Voice Call Bundle' : service.title}</p>
             <div className="flex items-baseline gap-2 mt-0.5">
               {!isChat && applyCoupon && <span className="line-through text-gray-300 text-xs">₹{service.price.toLocaleString('en-IN')}</span>}
               <span className="text-lg font-bold text-[#1a3520]">₹{displayTotal.toLocaleString('en-IN')}</span>
@@ -606,7 +607,7 @@ export default function QuickBook() {
               </>
             ) : (
               <>
-                {isChat ? '💬 Chat ₹10' : `Pay ₹${displayTotal.toLocaleString('en-IN')}`}
+                {isChat ? '💬 Start — ₹99' : `Pay ₹${displayTotal.toLocaleString('en-IN')}`}
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>

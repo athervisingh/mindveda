@@ -119,18 +119,18 @@ export default function QuickChat() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
-                <h1 className="text-2xl font-semibold text-white">Quick Chat with Veda</h1>
-                <p className="text-white/70 text-sm mt-2">Your 5-minute wellness check-in</p>
+                <h1 className="text-2xl font-semibold text-white">Chat + Voice Call Bundle</h1>
+                <p className="text-white/70 text-sm mt-2">5-min AI chat + 10-min call with Babita</p>
               </div>
 
               {/* Body */}
               <div className="px-5 sm:px-8 py-5 sm:py-7">
                 <ul className="space-y-3 mb-7">
                   {[
-                    '5-minute private chat session',
-                    'AI wellness guide — instant replies',
-                    'Share what\'s on your mind freely',
-                    'Option to upgrade to voice call with counselor',
+                    '5-minute private AI chat with Veda',
+                    '10-minute voice call with Babita (real counselor)',
+                    'Both included — one payment only',
+                    'First-time clients only · One-time offer',
                   ].map(f => (
                     <li key={f} className="flex items-start gap-3 text-sm text-gray-600">
                       <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -144,8 +144,8 @@ export default function QuickChat() {
                 </ul>
 
                 <div className="flex items-center justify-between mb-6 py-4 border-y border-gray-100">
-                  <span className="text-gray-500 text-sm">Total</span>
-                  <span className="text-2xl font-bold text-[#1a3520]">₹10</span>
+                  <span className="text-gray-500 text-sm">Total (chat + voice call)</span>
+                  <span className="text-2xl font-bold text-[#1a3520]">₹99</span>
                 </div>
 
                 <AnimatePresence>
@@ -172,7 +172,7 @@ export default function QuickChat() {
                       Opening payment…
                     </>
                   ) : (
-                    'Start Chat — ₹10'
+                    'Start Session — ₹99'
                   )}
                 </button>
                 <p className="text-center text-xs text-gray-400 mt-3">Secure payment via Razorpay</p>
