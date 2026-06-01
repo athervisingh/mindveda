@@ -9,7 +9,6 @@ import { CheckIcon } from '../components/Icons'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const COUPON = 'FIRST10'
 const BOOKABLE = allServices.filter(s => s.slug !== 'anxiety-support-group')
 
 const QUICK_CHAT_SERVICE = {
@@ -66,6 +65,11 @@ export default function QuickBook() {
   const [paid, setPaid]                 = useState(false)
   const [error, setError]               = useState('')
   const [isFirstTime, setIsFirstTime]   = useState(null)
+  const [couponInput, setCouponInput]   = useState('')
+  const [couponCode, setCouponCode]     = useState('')
+  const [couponStatus, setCouponStatus] = useState(null) // null | 'loading' | 'valid' | 'invalid'
+  const [couponFlatPrice, setCouponFlatPrice] = useState(0)
+  const [couponError, setCouponError]   = useState('')
 
   const availableServices = isFirstTime === false ? BOOKABLE : ALL_SERVICES
   const service = availableServices.find(s => s.slug === serviceSlug)
@@ -123,7 +127,7 @@ export default function QuickBook() {
       if (isChat) {
         const orderRes = await fetch('/api/chat/create-order', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: user.id }),
+          body: JSON.stringify({ userId: user.id, couponCode: couponStatus === 'valid' ? couponCode : undefined }),
         })
         const orderData = await orderRes.json()
         if (!orderRes.ok) throw new Error(orderData.error || 'Could not create order.')
@@ -168,7 +172,7 @@ export default function QuickBook() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           items: [{ serviceSlug, bookingDate: selectedDay.toISOString().split('T')[0], bookingTime: selectedTime }],
-          userId: user.id, couponCode: applyCoupon ? COUPON : null,
+          userId: user.id, couponCode: effectiveCouponCode,
         }),
       })
       const orderData = await orderRes.json()
@@ -268,8 +272,47 @@ export default function QuickBook() {
   const canPay = form.name.trim() && form.email.trim() && /^[6-9]\d{9}$/.test(form.phone) &&
     (isChat || (selectedDay && selectedTime))
 
-  const applyCoupon = isFirstTime === true && !isChat
-  const displayTotal = isChat ? 99 : (applyCoupon ? 10 : (service?.price || 0))
+  const autoFirst10  = isFirstTime === true && !isChat && couponStatus !== 'valid'
+  const effectiveCouponCode  = couponStatus === 'valid' ? couponCode : (autoFirst10 ? 'FIRST10' : null)
+  const effectiveFlatPriceRs = couponStatus === 'valid' ? Math.round(couponFlatPrice / 100) : (autoFirst10 ? 99 : null)
+  const chatBasePrice = 99
+  const displayTotal = isChat
+    ? (couponStatus === 'valid' ? Math.round(couponFlatPrice / 100) : chatBasePrice)
+    : (effectiveFlatPriceRs !== null ? effectiveFlatPriceRs : (service?.price || 0))
+
+  async function handleCouponApply() {
+    const code = couponInput.trim()
+    if (!code || !user) return
+    setCouponStatus('loading')
+    setCouponError('')
+    try {
+      const res = await fetch('/api/payments/validate-coupon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ couponCode: code, userId: user.id }),
+      })
+      const data = await res.json()
+      if (res.ok && data.valid) {
+        setCouponCode(code.toUpperCase())
+        setCouponStatus('valid')
+        setCouponFlatPrice(data.flat_price)
+      } else {
+        setCouponStatus('invalid')
+        setCouponError(data.error || 'Invalid coupon code')
+      }
+    } catch {
+      setCouponStatus('invalid')
+      setCouponError('Could not apply coupon. Try again.')
+    }
+  }
+
+  function handleCouponRemove() {
+    setCouponInput('')
+    setCouponCode('')
+    setCouponStatus(null)
+    setCouponFlatPrice(0)
+    setCouponError('')
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
@@ -285,11 +328,11 @@ export default function QuickBook() {
             </span>
           )}
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#1a3520]">
-            {isFirstTime ? 'Quick Book — ₹10 Session' : 'Book a Session'}
+            {isFirstTime ? 'Quick Book — ₹99 Session' : 'Book a Session'}
           </h1>
           <p className="text-gray-500 text-xs sm:text-sm mt-1">
             {isFirstTime
-              ? 'Pick a service and pay just ₹10 — coupon applied automatically'
+              ? 'Pick a service and pay just ₹99 — coupon applied automatically'
               : 'Select a service, choose your slot, and confirm your booking'}
           </p>
         </div>
@@ -463,7 +506,6 @@ export default function QuickBook() {
               <div className="p-5 space-y-4">
 
                 {isChat ? (
-                  /* Quick Chat summary */
                   <div className="flex items-center gap-3 bg-[#1a3520]/5 border border-[#1a3520]/10 rounded-2xl px-4 py-3">
                     <span className="text-2xl">💬</span>
                     <div>
@@ -471,8 +513,7 @@ export default function QuickBook() {
                       <p className="text-[11px] text-gray-500">AI wellness guide · No scheduling</p>
                     </div>
                   </div>
-                ) : applyCoupon ? (
-                  /* First-time coupon */
+                ) : autoFirst10 ? (
                   <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-2xl px-4 py-3">
                     <CheckIcon className="w-4 h-4 text-green-600 flex-shrink-0" />
                     <div>
@@ -485,19 +526,34 @@ export default function QuickBook() {
                 {/* Service + price */}
                 <div className="space-y-2 text-sm">
                   {isChat ? (
-                    <div className="flex justify-between text-gray-500">
-                      <span>Chat + Voice Call Bundle</span>
-                      <span className="font-semibold text-[#1a3520]">₹99</span>
-                    </div>
-                  ) : applyCoupon ? (
+                    <>
+                      <div className="flex justify-between text-gray-500">
+                        <span>Chat + Voice Call Bundle</span>
+                        {couponStatus === 'valid' ? (
+                          <span className="flex items-center gap-1.5">
+                            <span className="line-through text-gray-300 text-xs">₹99</span>
+                            <span className="font-semibold text-green-600">₹{displayTotal}</span>
+                          </span>
+                        ) : (
+                          <span className="font-semibold text-[#1a3520]">₹99</span>
+                        )}
+                      </div>
+                      {couponStatus === 'valid' && (
+                        <div className="flex justify-between text-green-600 font-medium">
+                          <span>Discount ({couponCode})</span>
+                          <span>−₹{chatBasePrice - displayTotal}</span>
+                        </div>
+                      )}
+                    </>
+                  ) : effectiveFlatPriceRs !== null ? (
                     <>
                       <div className="flex justify-between text-gray-500">
                         <span className="truncate pr-2">{service.title}</span>
                         <span className="line-through text-gray-300 flex-shrink-0">₹{service.price.toLocaleString('en-IN')}</span>
                       </div>
                       <div className="flex justify-between text-green-600 font-medium">
-                        <span>Discount (FIRST10)</span>
-                        <span>−₹{(service.price - 10).toLocaleString('en-IN')}</span>
+                        <span>Discount ({effectiveCouponCode})</span>
+                        <span>−₹{(service.price - effectiveFlatPriceRs).toLocaleString('en-IN')}</span>
                       </div>
                     </>
                   ) : (
@@ -505,6 +561,50 @@ export default function QuickBook() {
                       <span className="truncate pr-2">{service.title}</span>
                       <span className="font-semibold text-[#1a3520]">₹{service.price.toLocaleString('en-IN')}</span>
                     </div>
+                  )}
+                </div>
+
+                {/* Coupon Input */}
+                <div className="border-t border-gray-100 pt-3">
+                  {couponStatus === 'valid' ? (
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-3 py-2.5">
+                      <div className="flex items-center gap-2">
+                        <CheckIcon className="w-4 h-4 text-green-600 flex-shrink-0" />
+                        <div>
+                          <p className="text-xs font-semibold text-green-700">{couponCode} applied!</p>
+                          <p className="text-[11px] text-green-600">
+                            You save ₹{isChat ? chatBasePrice - displayTotal : (service.price - effectiveFlatPriceRs).toLocaleString('en-IN')}
+                          </p>
+                        </div>
+                      </div>
+                      <button onClick={handleCouponRemove} className="text-xs text-gray-400 hover:text-red-500 transition-colors ml-2">Remove</button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
+                          onKeyDown={e => e.key === 'Enter' && handleCouponApply()}
+                          placeholder="Coupon code"
+                          className={`flex-1 border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3520]/20 focus:border-[#1a3520] transition-all uppercase tracking-widest ${couponError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                        />
+                        <button
+                          onClick={handleCouponApply}
+                          disabled={!couponInput.trim() || couponStatus === 'loading'}
+                          className="rounded-xl bg-[#1a3520]/10 text-[#1a3520] px-3 py-2 text-sm font-semibold hover:bg-[#1a3520] hover:text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+                        >
+                          {couponStatus === 'loading' ? (
+                            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                          ) : 'Apply'}
+                        </button>
+                      </div>
+                      {couponError && <p className="text-red-500 text-xs mt-1.5">{couponError}</p>}
+                    </>
                   )}
                 </div>
 
@@ -568,7 +668,7 @@ export default function QuickBook() {
                   {[
                     '100% confidential sessions',
                     'Secure payment via Razorpay',
-                    ...(isFirstTime ? ['One-time offer · New customers only'] : []),
+                    ...(autoFirst10 ? ['One-time offer · New customers only'] : []),
                   ].map(t => (
                     <div key={t} className="flex items-center gap-1.5">
                       <CheckIcon className="w-3.5 h-3.5 text-green-500 flex-shrink-0" /> {t}
@@ -588,9 +688,9 @@ export default function QuickBook() {
           <div className="flex-1 min-w-0">
             <p className="text-xs text-gray-400 truncate">{isChat ? 'Chat + Voice Call Bundle' : service.title}</p>
             <div className="flex items-baseline gap-2 mt-0.5">
-              {!isChat && applyCoupon && <span className="line-through text-gray-300 text-xs">₹{service.price.toLocaleString('en-IN')}</span>}
+              {!isChat && effectiveFlatPriceRs !== null && <span className="line-through text-gray-300 text-xs">₹{service.price.toLocaleString('en-IN')}</span>}
               <span className="text-lg font-bold text-[#1a3520]">₹{displayTotal.toLocaleString('en-IN')}</span>
-              {!isChat && applyCoupon && <span className="text-[10px] text-green-600 font-semibold">FIRST10</span>}
+              {!isChat && effectiveCouponCode && <span className="text-[10px] text-green-600 font-semibold">{effectiveCouponCode}</span>}
             </div>
           </div>
           <button

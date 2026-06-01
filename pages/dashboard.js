@@ -444,7 +444,7 @@ function SessionCard({ b, i = 0, dim = false }) {
         {b.services?.duration_minutes && <p className="text-xs text-gray-300">{b.services.duration_minutes} min</p>}
       </div>
       <div className="flex-shrink-0 text-right">
-        <p className="text-sm font-bold text-brand mb-1">₹{Math.round((b.services?.price || 0) / 100).toLocaleString('en-IN')}</p>
+        <p className="text-sm font-bold text-brand mb-1">₹{Math.round((b.final_amount ?? b.services?.price ?? 0) / 100).toLocaleString('en-IN')}</p>
         <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[b.status] || 'bg-gray-100 text-gray-500'}`}>
           {b.status}
         </span>

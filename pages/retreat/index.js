@@ -218,10 +218,50 @@ function RetreatBookingModal({ isOpen, onClose, pkg }) {
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
+  const [couponInput, setCouponInput]   = useState('')
+  const [couponCode, setCouponCode]     = useState('')
+  const [couponStatus, setCouponStatus] = useState(null)
+  const [couponFlatPrice, setCouponFlatPrice] = useState(0)
+  const [couponError, setCouponError]   = useState('')
 
   useEffect(() => {
-    if (!isOpen) { setCheckIn(null); setForm({ name: '', email: '', phone: '' }); setErrors({}); setDone(false) }
+    if (!isOpen) {
+      setCheckIn(null); setForm({ name: '', email: '', phone: '' }); setErrors({}); setDone(false)
+      setCouponInput(''); setCouponCode(''); setCouponStatus(null); setCouponFlatPrice(0); setCouponError('')
+    }
   }, [isOpen])
+
+  const displayPrice = couponStatus === 'valid' ? Math.round(couponFlatPrice / 100) : pkg?.price
+
+  async function handleCouponApply() {
+    const code = couponInput.trim()
+    if (!code) return
+    setCouponStatus('loading')
+    setCouponError('')
+    try {
+      const res = await fetch('/api/payments/validate-coupon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ couponCode: code, userId: user?.id || 'guest' }),
+      })
+      const data = await res.json()
+      if (res.ok && data.valid) {
+        setCouponCode(code.toUpperCase())
+        setCouponStatus('valid')
+        setCouponFlatPrice(data.flat_price)
+      } else {
+        setCouponStatus('invalid')
+        setCouponError(data.error || 'Invalid coupon code')
+      }
+    } catch {
+      setCouponStatus('invalid')
+      setCouponError('Could not apply coupon. Try again.')
+    }
+  }
+
+  function handleCouponRemove() {
+    setCouponInput(''); setCouponCode(''); setCouponStatus(null); setCouponFlatPrice(0); setCouponError('')
+  }
 
   useEffect(() => {
     if (user?.email) {
@@ -268,11 +308,13 @@ function RetreatBookingModal({ isOpen, onClose, pkg }) {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          packageId: pkg.id,
+          packageId:  pkg.id,
           checkInDate,
-          name:  form.name,
-          email: form.email,
-          phone: form.phone,
+          name:       form.name,
+          email:      form.email,
+          phone:      form.phone,
+          couponCode: couponStatus === 'valid' ? couponCode : undefined,
+          userId:     user?.id || null,
         }),
       })
       const orderData = await orderRes.json()
@@ -438,10 +480,52 @@ function RetreatBookingModal({ isOpen, onClose, pkg }) {
                   ))}
                 </div>
 
+                {/* Coupon Input */}
+                <div className="mt-5 border-t border-gray-100 pt-4">
+                  {couponStatus === 'valid' ? (
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-3 py-2.5 mb-4">
+                      <div className="flex items-center gap-2">
+                        <CheckIcon className="w-4 h-4 text-green-600 flex-shrink-0" />
+                        <div>
+                          <p className="text-xs font-semibold text-green-700">{couponCode} applied!</p>
+                          <p className="text-[11px] text-green-600">You save ₹{(pkg.price - displayPrice).toLocaleString('en-IN')}</p>
+                        </div>
+                      </div>
+                      <button onClick={handleCouponRemove} className="text-xs text-gray-400 hover:text-red-500 transition-colors ml-2">Remove</button>
+                    </div>
+                  ) : (
+                    <div className="mb-4">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
+                          onKeyDown={e => e.key === 'Enter' && handleCouponApply()}
+                          placeholder="Coupon code (optional)"
+                          className={`flex-1 border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3520]/20 focus:border-[#1a3520] uppercase tracking-widest transition-all ${couponError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                        />
+                        <button
+                          onClick={handleCouponApply}
+                          disabled={!couponInput.trim() || couponStatus === 'loading'}
+                          className="rounded-xl bg-[#1a3520]/10 text-[#1a3520] px-4 py-2 text-sm font-semibold hover:bg-[#1a3520] hover:text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+                        >
+                          {couponStatus === 'loading' ? (
+                            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                          ) : 'Apply'}
+                        </button>
+                      </div>
+                      {couponError && <p className="text-red-500 text-xs mt-1.5">{couponError}</p>}
+                    </div>
+                  )}
+                </div>
+
                 <button
                   onClick={handlePay}
                   disabled={loading}
-                  className="mt-5 w-full rounded-full bg-[#1a3520] py-4 text-white font-semibold text-sm disabled:opacity-60 disabled:cursor-not-allowed hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                  className="w-full rounded-full bg-[#1a3520] py-4 text-white font-semibold text-sm disabled:opacity-60 disabled:cursor-not-allowed hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>
@@ -451,7 +535,12 @@ function RetreatBookingModal({ isOpen, onClose, pkg }) {
                       </svg>
                       Processing…
                     </>
-                  ) : `Pay ₹${pkg.price.toLocaleString('en-IN')}`}
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      {couponStatus === 'valid' && <span className="line-through text-white/40 text-xs">₹{pkg.price.toLocaleString('en-IN')}</span>}
+                      Pay ₹{displayPrice.toLocaleString('en-IN')}
+                    </span>
+                  )}
                 </button>
                 <p className="text-center text-xs text-gray-400 mt-3">Secure payment via Razorpay</p>
               </div>

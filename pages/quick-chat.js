@@ -20,8 +20,45 @@ function loadRazorpay() {
 export default function QuickChat() {
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
-  const [paying, setPaying] = useState(false)
-  const [error, setError] = useState('')
+  const [paying, setPaying]             = useState(false)
+  const [error, setError]               = useState('')
+  const [couponInput, setCouponInput]   = useState('')
+  const [couponCode, setCouponCode]     = useState('')
+  const [couponStatus, setCouponStatus] = useState(null)
+  const [couponFlatPrice, setCouponFlatPrice] = useState(0)
+  const [couponError, setCouponError]   = useState('')
+
+  const displayTotal = couponStatus === 'valid' ? Math.round(couponFlatPrice / 100) : 99
+
+  async function handleCouponApply() {
+    const code = couponInput.trim()
+    if (!code || !user) return
+    setCouponStatus('loading')
+    setCouponError('')
+    try {
+      const res = await fetch('/api/payments/validate-coupon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ couponCode: code, userId: user.id }),
+      })
+      const data = await res.json()
+      if (res.ok && data.valid) {
+        setCouponCode(code.toUpperCase())
+        setCouponStatus('valid')
+        setCouponFlatPrice(data.flat_price)
+      } else {
+        setCouponStatus('invalid')
+        setCouponError(data.error || 'Invalid coupon code')
+      }
+    } catch {
+      setCouponStatus('invalid')
+      setCouponError('Could not apply coupon. Try again.')
+    }
+  }
+
+  function handleCouponRemove() {
+    setCouponInput(''); setCouponCode(''); setCouponStatus(null); setCouponFlatPrice(0); setCouponError('')
+  }
 
   useEffect(() => {
     if (!authLoading && !user) router.replace('/login?redirect=/quick-chat')
@@ -37,7 +74,10 @@ export default function QuickChat() {
       const orderRes = await fetch('/api/chat/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id }),
+        body: JSON.stringify({
+          userId:     user.id,
+          couponCode: couponStatus === 'valid' ? couponCode : undefined,
+        }),
       })
       const orderData = await orderRes.json()
       if (!orderRes.ok) throw new Error(orderData.error || 'Could not create order.')
@@ -143,9 +183,55 @@ export default function QuickChat() {
                   ))}
                 </ul>
 
-                <div className="flex items-center justify-between mb-6 py-4 border-y border-gray-100">
+                <div className="flex items-center justify-between mb-4 py-4 border-y border-gray-100">
                   <span className="text-gray-500 text-sm">Total (chat + voice call)</span>
-                  <span className="text-2xl font-bold text-[#1a3520]">₹99</span>
+                  <div className="text-right">
+                    {couponStatus === 'valid' && (
+                      <span className="line-through text-gray-300 text-sm mr-2">₹99</span>
+                    )}
+                    <span className="text-2xl font-bold text-[#1a3520]">₹{displayTotal}</span>
+                  </div>
+                </div>
+
+                {/* Coupon Input */}
+                <div className="mb-5">
+                  {couponStatus === 'valid' ? (
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-3 py-2.5">
+                      <div className="flex items-center gap-2">
+                        <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <div>
+                          <p className="text-xs font-semibold text-green-700">{couponCode} applied!</p>
+                          <p className="text-[11px] text-green-600">You save ₹{99 - displayTotal}</p>
+                        </div>
+                      </div>
+                      <button onClick={handleCouponRemove} className="text-xs text-gray-400 hover:text-red-500 transition-colors ml-2">Remove</button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
+                          onKeyDown={e => e.key === 'Enter' && handleCouponApply()}
+                          placeholder="Coupon code (optional)"
+                          className={`flex-1 border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3520]/20 focus:border-[#1a3520] uppercase tracking-widest transition-all ${couponError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                        />
+                        <button
+                          onClick={handleCouponApply}
+                          disabled={!couponInput.trim() || couponStatus === 'loading' || !user}
+                          className="rounded-xl bg-[#1a3520]/10 text-[#1a3520] px-4 py-2 text-sm font-semibold hover:bg-[#1a3520] hover:text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+                        >
+                          {couponStatus === 'loading' ? (
+                            <div className="w-4 h-4 border-2 border-[#1a3520] border-t-transparent rounded-full animate-spin" />
+                          ) : 'Apply'}
+                        </button>
+                      </div>
+                      {couponError && <p className="text-red-500 text-xs mt-1.5">{couponError}</p>}
+                    </>
+                  )}
                 </div>
 
                 <AnimatePresence>
@@ -171,9 +257,7 @@ export default function QuickChat() {
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                       Opening payment…
                     </>
-                  ) : (
-                    'Start Session — ₹99'
-                  )}
+                  ) : `Start Session — ₹${displayTotal}`}
                 </button>
                 <p className="text-center text-xs text-gray-400 mt-3">Secure payment via Razorpay</p>
               </div>

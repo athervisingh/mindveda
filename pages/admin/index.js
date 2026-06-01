@@ -271,7 +271,7 @@ export default function AdminDashboard() {
     confirmed: bookings.filter(b => b.status === 'confirmed').length,
     pending:   bookings.filter(b => b.status === 'pending').length,
     revenue:   bookings.filter(b => ['confirmed','completed'].includes(b.status))
-                       .reduce((s, b) => s + Math.round((b.services?.price || 0) / 100), 0),
+                       .reduce((s, b) => s + Math.round((b.final_amount ?? b.services?.price ?? 0) / 100), 0),
   }
 
   // ── Guard ─────────────────────────────────────────
@@ -444,8 +444,11 @@ export default function AdminDashboard() {
                           </td>
                           <td className="px-4 py-3">
                             <span className="text-sm font-bold text-[#1a3520]">
-                              ₹{Math.round((b.services?.price || 0) / 100).toLocaleString('en-IN')}
+                              ₹{Math.round((b.final_amount ?? b.services?.price ?? 0) / 100).toLocaleString('en-IN')}
                             </span>
+                            {b.coupon_code && (
+                              <p className="text-[10px] text-green-600 font-semibold mt-0.5">{b.coupon_code}</p>
+                            )}
                           </td>
                           <td className="px-4 py-3">
                             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize whitespace-nowrap ${STATUS_STYLES[b.status] || 'bg-gray-100 text-gray-500'}`}>
@@ -710,7 +713,7 @@ export default function AdminDashboard() {
                                   </p>
                                 </div>
                                 <div className="text-right flex-shrink-0">
-                                  <p className="text-sm font-bold text-[#1a3520]">₹{Math.round((b.services?.price || 0) / 100)}</p>
+                                  <p className="text-sm font-bold text-[#1a3520]">₹{Math.round((b.final_amount ?? b.services?.price ?? 0) / 100)}</p>
                                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${STATUS_STYLES[b.status] || 'bg-gray-100 text-gray-500'}`}>
                                     {b.status}
                                   </span>
@@ -721,7 +724,7 @@ export default function AdminDashboard() {
                               <span className="text-gray-500 font-medium">Total Spent</span>
                               <span className="font-black text-[#1a3520]">
                                 ₹{userBookings.filter(b => ['confirmed','completed'].includes(b.status))
-                                    .reduce((s, b) => s + Math.round((b.services?.price || 0) / 100), 0)
+                                    .reduce((s, b) => s + Math.round((b.final_amount ?? b.services?.price ?? 0) / 100), 0)
                                     .toLocaleString('en-IN')}
                               </span>
                             </div>

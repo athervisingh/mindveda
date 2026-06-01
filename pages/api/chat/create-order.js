@@ -4,7 +4,7 @@ import { supabaseAdmin } from '../../../lib/supabaseAdmin'
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
-  const { userId } = req.body
+  const { userId, couponCode } = req.body
   if (!userId) return res.status(400).json({ error: 'userId required' })
 
   // Only first-time users can book Quick Chat
@@ -26,26 +26,58 @@ export default async function handler(req, res) {
 
   if (!service) return res.status(400).json({ error: 'Quick Chat service not found. Please add it in Supabase.' })
 
+  let finalAmountPaise = 9900 // ₹99 default
+
+  if (couponCode) {
+    const { data: coupon } = await supabaseAdmin
+      .from('coupons')
+      .select('*')
+      .eq('code', couponCode.trim().toUpperCase())
+      .eq('is_active', true)
+      .single()
+
+    if (!coupon) return res.status(400).json({ error: 'Invalid coupon code' })
+
+    if (coupon.expires_at && new Date(coupon.expires_at) < new Date()) {
+      return res.status(400).json({ error: 'Coupon expired' })
+    }
+
+    if (coupon.max_uses !== null && coupon.used_count >= coupon.max_uses) {
+      return res.status(400).json({ error: 'Coupon limit reached' })
+    }
+
+    // first_time_only check not needed here since chat is already first-time only
+    finalAmountPaise = coupon.flat_price
+
+    await supabaseAdmin
+      .from('coupons')
+      .update({ used_count: coupon.used_count + 1 })
+      .eq('id', coupon.id)
+  }
+
   const now = new Date()
   const bookingDate = now.toISOString().split('T')[0]
   const bookingTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
 
   const order = await getRazorpay().orders.create({
-    amount: 9900, // ₹99 — chat (5 min) + voice call (10 min) bundled
+    amount:   finalAmountPaise,
     currency: 'INR',
-    receipt: `chat_${Date.now()}`,
-    notes: { userId, type: 'quick-chat' },
+    receipt:  `chat_${Date.now()}`,
+    notes:    { userId, type: 'quick-chat' },
   })
 
   const { data: booking, error } = await supabaseAdmin
     .from('bookings')
     .insert({
-      user_id: userId,
-      service_id: service.id,
-      status: 'pending',
-      booking_date: bookingDate,
-      booking_time: bookingTime,
-      user_note: `rzp_order:${order.id}`,
+      user_id:         userId,
+      service_id:      service.id,
+      status:          'pending',
+      booking_date:    bookingDate,
+      booking_time:    bookingTime,
+      user_note:       `rzp_order:${order.id}`,
+      coupon_code:     couponCode ? couponCode.trim().toUpperCase() : null,
+      original_amount: 9900,
+      final_amount:    finalAmountPaise,
     })
     .select()
     .single()
@@ -53,12 +85,12 @@ export default async function handler(req, res) {
   if (error) return res.status(500).json({ error: error.message })
 
   await supabaseAdmin.from('payments').insert({
-    booking_id: booking.id,
-    user_id: userId,
+    booking_id:        booking.id,
+    user_id:           userId,
     razorpay_order_id: order.id,
-    amount: 9900,
-    status: 'created',
+    amount:            finalAmountPaise,
+    status:            'created',
   })
 
-  res.json({ orderId: order.id, bookingId: booking.id, amount: 9900 })
+  res.json({ orderId: order.id, bookingId: booking.id, amount: finalAmountPaise })
 }

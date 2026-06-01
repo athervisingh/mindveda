@@ -393,9 +393,9 @@ export default function ChatRoom() {
         )}
       </AnimatePresence>
 
-      {/* ── Audio room ready ── */}
+      {/* ── Audio room ready — only when admin triggers (status = 'audio') ── */}
       <AnimatePresence>
-        {audioRoomUrl && (
+        {isAudio && audioRoomUrl && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

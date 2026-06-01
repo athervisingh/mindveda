@@ -32,6 +32,7 @@ export default function Checkout() {
   const [couponCode, setCouponCode] = useState('')
   const [couponStatus, setCouponStatus] = useState(null)  // null | 'loading' | 'valid' | 'invalid'
   const [couponError, setCouponError] = useState('')
+  const [couponFlatPrice, setCouponFlatPrice] = useState(0) // paise from DB
 
   useEffect(() => {
     setMounted(true)
@@ -52,9 +53,9 @@ export default function Checkout() {
   }, [authLoading, user])
 
   const total = cart.reduce((s, p) => s + (p.price || 0), 0)
-  // If coupon valid: first item = ₹10, remaining items = normal price
+  const couponPriceRs = Math.round(couponFlatPrice / 100)
   const discountedTotal = couponStatus === 'valid'
-    ? 10 + cart.slice(1).reduce((s, p) => s + (p.price || 0), 0)
+    ? couponPriceRs + cart.slice(1).reduce((s, p) => s + (p.price || 0), 0)
     : total
   const couponSavings = total - discountedTotal
 
@@ -73,6 +74,7 @@ export default function Checkout() {
       if (res.ok && data.valid) {
         setCouponCode(code.toUpperCase())
         setCouponStatus('valid')
+        setCouponFlatPrice(data.flat_price)
       } else {
         setCouponStatus('invalid')
         setCouponError(data.error || 'Invalid coupon code')
@@ -88,6 +90,7 @@ export default function Checkout() {
     setCouponCode('')
     setCouponStatus(null)
     setCouponError('')
+    setCouponFlatPrice(0)
   }
 
   function validate() {
@@ -335,7 +338,7 @@ export default function Checkout() {
                       {couponStatus === 'valid' && idx === 0 ? (
                         <span className="font-medium ml-2 flex items-center gap-1.5">
                           <span className="line-through text-gray-300 text-xs">₹{item.price.toLocaleString('en-IN')}</span>
-                          <span className="text-green-600 font-semibold">₹10</span>
+                          <span className="text-green-600 font-semibold">₹{couponPriceRs}</span>
                         </span>
                       ) : (
                         <span className="font-medium ml-2">₹{item.price.toLocaleString('en-IN')}</span>

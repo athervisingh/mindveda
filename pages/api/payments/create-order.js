@@ -11,22 +11,43 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'items and userId required' })
   }
 
-  // Validate coupon
-  let couponValid = false
+  // Validate coupon from DB
+  let coupon = null
   if (couponCode) {
-    const FIRST_TIME_COUPON = process.env.FIRST_TIME_COUPON_CODE || 'FIRST10'
-    if (couponCode.trim().toUpperCase() !== FIRST_TIME_COUPON) {
+    const code = couponCode.trim().toUpperCase()
+
+    const { data: found } = await supabaseAdmin
+      .from('coupons')
+      .select('*')
+      .eq('code', code)
+      .eq('is_active', true)
+      .single()
+
+    if (!found) {
       return res.status(400).json({ error: 'Invalid coupon code' })
     }
-    const { count: paidCount } = await supabaseAdmin
-      .from('payments')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .eq('status', 'paid')
-    if (paidCount > 0) {
-      return res.status(400).json({ error: 'This coupon is for first-time customers only' })
+
+    if (found.expires_at && new Date(found.expires_at) < new Date()) {
+      return res.status(400).json({ error: 'Coupon expired' })
     }
-    couponValid = true
+
+    if (found.max_uses !== null && found.used_count >= found.max_uses) {
+      return res.status(400).json({ error: 'Coupon limit reached' })
+    }
+
+    if (found.first_time_only) {
+      const { count: paidCount } = await supabaseAdmin
+        .from('payments')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', userId)
+        .eq('status', 'paid')
+
+      if (paidCount > 0) {
+        return res.status(400).json({ error: 'This coupon is for first-time customers only' })
+      }
+    }
+
+    coupon = found
   }
 
   // Validate each item and calculate total
@@ -72,7 +93,8 @@ export default async function handler(req, res) {
       return res.status(409).json({ error: `"${service.name}" group session is full.` })
     }
 
-    const itemAmount = couponValid && i === 0 ? 1000 : service.price
+    // Coupon applies flat_price to first item only, rest at normal price
+    const itemAmount = coupon && i === 0 ? coupon.flat_price : service.price
     totalAmount += itemAmount
     processedItems.push({ service, bookingDate, bookingTime, itemAmount })
   }
@@ -89,20 +111,23 @@ export default async function handler(req, res) {
   const { data: bookings, error } = await supabaseAdmin
     .from('bookings')
     .insert(
-      processedItems.map(({ service, bookingDate, bookingTime }) => ({
-        user_id:      userId,
-        service_id:   service.id,
-        status:       'pending',
-        booking_date: bookingDate,
-        booking_time: bookingTime,
-        user_note:    `rzp_order:${order.id}`,
+      processedItems.map(({ service, bookingDate, bookingTime, itemAmount }, idx) => ({
+        user_id:         userId,
+        service_id:      service.id,
+        status:          'pending',
+        booking_date:    bookingDate,
+        booking_time:    bookingTime,
+        user_note:       `rzp_order:${order.id}`,
+        coupon_code:     coupon && idx === 0 ? coupon.code : null,
+        original_amount: service.price,
+        final_amount:    itemAmount,
       }))
     )
     .select()
 
   if (error) return res.status(500).json({ error: error.message })
 
-  // One payment record per booking (same order_id, individual amounts)
+  // One payment record per booking
   await supabaseAdmin.from('payments').insert(
     processedItems.map(({ itemAmount }, idx) => ({
       booking_id:        bookings[idx].id,
@@ -113,10 +138,18 @@ export default async function handler(req, res) {
     }))
   )
 
+  // Increment coupon used_count
+  if (coupon) {
+    await supabaseAdmin
+      .from('coupons')
+      .update({ used_count: coupon.used_count + 1 })
+      .eq('id', coupon.id)
+  }
+
   res.json({
-    orderId:      order.id,
-    bookingIds:   bookings.map(b => b.id),
-    amount:       totalAmount,
-    couponApplied: couponValid ? couponCode.trim().toUpperCase() : null,
+    orderId:       order.id,
+    bookingIds:    bookings.map(b => b.id),
+    amount:        totalAmount,
+    couponApplied: coupon ? coupon.code : null,
   })
 }
