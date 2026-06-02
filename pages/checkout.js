@@ -37,6 +37,14 @@ export default function Checkout() {
   useEffect(() => {
     setMounted(true)
     setCart(JSON.parse(localStorage.getItem('mv_cart') || '[]'))
+    // Auto-apply coupon saved from cart page
+    const saved = JSON.parse(localStorage.getItem('mv_coupon') || 'null')
+    if (saved?.code && saved?.flat_price) {
+      setCouponInput(saved.code)
+      setCouponCode(saved.code)
+      setCouponFlatPrice(saved.flat_price)
+      setCouponStatus('valid')
+    }
   }, [])
 
   useEffect(() => {
@@ -91,6 +99,7 @@ export default function Checkout() {
     setCouponStatus(null)
     setCouponError('')
     setCouponFlatPrice(0)
+    localStorage.removeItem('mv_coupon')
   }
 
   function validate() {
@@ -164,6 +173,7 @@ export default function Checkout() {
       })
 
       localStorage.setItem('mv_cart', '[]')
+      localStorage.removeItem('mv_coupon')
       window.dispatchEvent(new Event('cartUpdated'))
       setPaidEmail(form.email)
       setPaid(true)

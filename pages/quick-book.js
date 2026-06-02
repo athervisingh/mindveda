@@ -495,6 +495,51 @@ export default function QuickBook() {
                 {error}
               </div>
             )}
+
+            {/* Coupon — mobile/tablet only (XL has right column) */}
+            <div className="xl:hidden bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm p-4 sm:p-5">
+              <h2 className="text-sm sm:text-base font-semibold text-[#1a3520] mb-3">Have a Coupon?</h2>
+              {couponStatus === 'valid' ? (
+                <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-3 py-2.5">
+                  <div className="flex items-center gap-2">
+                    <CheckIcon className="w-4 h-4 text-green-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs font-semibold text-green-700">{couponCode} applied!</p>
+                      <p className="text-[11px] text-green-600">
+                        You save ₹{isChat ? chatBasePrice - displayTotal : (service.price - effectiveFlatPriceRs).toLocaleString('en-IN')}
+                      </p>
+                    </div>
+                  </div>
+                  <button onClick={handleCouponRemove} className="text-xs text-gray-400 hover:text-red-500 transition-colors ml-2">Remove</button>
+                </div>
+              ) : (
+                <>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={couponInput}
+                      onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
+                      onKeyDown={e => e.key === 'Enter' && handleCouponApply()}
+                      placeholder="Coupon code"
+                      className={`flex-1 border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3520]/20 focus:border-[#1a3520] transition-all uppercase tracking-widest ${couponError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                    />
+                    <button
+                      onClick={handleCouponApply}
+                      disabled={!couponInput.trim() || couponStatus === 'loading'}
+                      className="rounded-xl bg-[#1a3520]/10 text-[#1a3520] px-4 py-2.5 text-sm font-semibold hover:bg-[#1a3520] hover:text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+                    >
+                      {couponStatus === 'loading' ? (
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                        </svg>
+                      ) : 'Apply'}
+                    </button>
+                  </div>
+                  {couponError && <p className="text-red-500 text-xs mt-1.5">{couponError}</p>}
+                </>
+              )}
+            </div>
           </div>
 
           {/* RIGHT COLUMN */}

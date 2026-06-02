@@ -4,10 +4,17 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CartIcon, LotusIcon, CalendarIcon, ClockIcon, CheckIcon, ArrowRightIcon, ArrowLeftIcon } from '../components/Icons'
+import { useAuth } from '../context/AuthContext'
 
 export default function Cart() {
+  const { user } = useAuth()
   const [cart, setCart] = useState([])
   const [mounted, setMounted] = useState(false)
+  const [couponInput, setCouponInput] = useState('')
+  const [couponCode, setCouponCode] = useState('')
+  const [couponStatus, setCouponStatus] = useState(null)
+  const [couponFlatPrice, setCouponFlatPrice] = useState(0)
+  const [couponError, setCouponError] = useState('')
 
   useEffect(() => {
     setMounted(true)
@@ -21,7 +28,48 @@ export default function Cart() {
     window.dispatchEvent(new Event('cartUpdated'))
   }
 
+  async function handleCouponApply() {
+    const code = couponInput.trim()
+    if (!code || !user) return
+    setCouponStatus('loading')
+    setCouponError('')
+    try {
+      const res = await fetch('/api/payments/validate-coupon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ couponCode: code, userId: user.id }),
+      })
+      const data = await res.json()
+      if (data.valid) {
+        setCouponCode(code)
+        setCouponFlatPrice(data.flat_price)
+        setCouponStatus('valid')
+        localStorage.setItem('mv_coupon', JSON.stringify({ code, flat_price: data.flat_price }))
+      } else {
+        setCouponStatus('invalid')
+        setCouponError(data.error || 'Invalid coupon code')
+      }
+    } catch {
+      setCouponStatus(null)
+      setCouponError('Could not apply coupon. Try again.')
+    }
+  }
+
+  function handleCouponRemove() {
+    setCouponInput('')
+    setCouponCode('')
+    setCouponStatus(null)
+    setCouponFlatPrice(0)
+    setCouponError('')
+    localStorage.removeItem('mv_coupon')
+  }
+
   const total = cart.reduce((s, p) => s + (p.price || 0), 0)
+  const couponPriceRs = Math.round(couponFlatPrice / 100)
+  const discountedTotal = couponStatus === 'valid'
+    ? couponPriceRs + cart.slice(1).reduce((s, p) => s + (p.price || 0), 0)
+    : total
+  const couponSavings = total - discountedTotal
 
   if (!mounted) return null
 
@@ -138,16 +186,78 @@ export default function Cart() {
                 </div>
 
                 <div className="p-5 space-y-3">
-                  {cart.map((item) => (
+                  {cart.map((item, idx) => (
                     <div key={item.cartId} className="flex justify-between text-sm text-gray-600">
                       <span className="truncate max-w-[180px]">{item.title}</span>
-                      <span className="font-medium ml-2">₹{item.price.toLocaleString('en-IN')}</span>
+                      {couponStatus === 'valid' && idx === 0 ? (
+                        <span className="font-medium ml-2 flex items-center gap-1.5">
+                          <span className="line-through text-gray-300 text-xs">₹{item.price.toLocaleString('en-IN')}</span>
+                          <span className="text-green-600 font-semibold">₹{couponPriceRs}</span>
+                        </span>
+                      ) : (
+                        <span className="font-medium ml-2">₹{item.price.toLocaleString('en-IN')}</span>
+                      )}
                     </div>
                   ))}
 
+                  {/* Coupon Input */}
+                  <div className="border-t border-gray-100 pt-3">
+                    {couponStatus === 'valid' ? (
+                      <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-3 py-2.5">
+                        <div className="flex items-center gap-2">
+                          <CheckIcon className="w-4 h-4 text-green-600 flex-shrink-0" />
+                          <div>
+                            <p className="text-xs font-semibold text-green-700">{couponCode} applied!</p>
+                            <p className="text-[11px] text-green-600">You save ₹{couponSavings.toLocaleString('en-IN')}</p>
+                          </div>
+                        </div>
+                        <button onClick={handleCouponRemove} className="text-xs text-gray-400 hover:text-red-500 transition-colors ml-2">Remove</button>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={couponInput}
+                            onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
+                            onKeyDown={e => e.key === 'Enter' && handleCouponApply()}
+                            placeholder="Coupon code"
+                            className={`flex-1 border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3520]/20 focus:border-[#1a3520] transition-all uppercase tracking-widest ${couponError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                          />
+                          <button
+                            onClick={handleCouponApply}
+                            disabled={!couponInput.trim() || couponStatus === 'loading' || !user}
+                            className="rounded-xl bg-[#1a3520]/10 text-[#1a3520] px-3 py-2 text-sm font-semibold hover:bg-[#1a3520] hover:text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+                          >
+                            {couponStatus === 'loading' ? (
+                              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                              </svg>
+                            ) : 'Apply'}
+                          </button>
+                        </div>
+                        {couponError && <p className="text-red-500 text-xs mt-1.5">{couponError}</p>}
+                        {!user && <p className="text-xs text-gray-400 mt-1.5">Login to use coupon codes</p>}
+                      </>
+                    )}
+                  </div>
+
+                  {couponStatus === 'valid' && (
+                    <div className="flex justify-between text-sm text-green-600 font-medium">
+                      <span>Discount</span>
+                      <span>−₹{couponSavings.toLocaleString('en-IN')}</span>
+                    </div>
+                  )}
+
                   <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#1a3520]">
                     <span>Total</span>
-                    <span className="text-brand text-xl">₹{total.toLocaleString('en-IN')}</span>
+                    <div className="text-right">
+                      {couponStatus === 'valid' && (
+                        <div className="line-through text-gray-300 text-sm font-normal">₹{total.toLocaleString('en-IN')}</div>
+                      )}
+                      <span className="text-brand text-xl">₹{discountedTotal.toLocaleString('en-IN')}</span>
+                    </div>
                   </div>
 
                   <div className="pt-1 space-y-2 text-xs text-gray-400">

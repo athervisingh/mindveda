@@ -6,7 +6,6 @@ const orgSchema = {
   name: 'MindVeda',
   url: 'https://www.mindvedabybabita.com',
   logo: 'https://www.mindvedabybabita.com/logo.png',
-  telephone: '+919211488516',
   email: 'mindvedabybabita@gmail.com',
   address: { '@type': 'PostalAddress', addressCountry: 'IN' },
   founder: { '@type': 'Person', name: 'Babita' },

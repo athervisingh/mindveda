@@ -4,9 +4,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { NextSeo } from 'next-seo'
 
-const PHONE     = '919211488516'
-const PHONE_RAW = '+919211488516'
-const PHONE_DISPLAY = '+91 92114 88516'
+const EMAIL = 'mindvedabybabita@gmail.com'
 
 const TOPICS = [
   'Individual Counselling',
@@ -63,8 +61,9 @@ export default function ContactPage() {
 
   function handleSubmit(e) {
     e.preventDefault()
-    const text = `Hi Babita,\n\nI'm ${form.name}${form.contact ? ` (${form.contact})` : ''}.\n\nLooking for: ${form.topic || 'General Inquiry'}\n\n${form.message}`
-    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(text)}`, '_blank')
+    const subject = encodeURIComponent(`MindVeda Enquiry – ${form.topic || 'General Inquiry'}`)
+    const body = encodeURIComponent(`Hi Babita,\n\nI'm ${form.name}${form.contact ? ` (${form.contact})` : ''}.\n\nLooking for: ${form.topic || 'General Inquiry'}\n\n${form.message}`)
+    window.open(`mailto:${EMAIL}?subject=${subject}&body=${body}`, '_blank')
     setSent(true)
   }
 
@@ -105,28 +104,6 @@ export default function ContactPage() {
             <p className="text-white/50 text-sm leading-7 max-w-sm mb-10">
               Babita personally reads every message and responds within a few hours. Reach out — no judgment, no pressure.
             </p>
-
-            {/* Phone */}
-            <div className="mb-8">
-              <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-3">Phone</p>
-              <p className="text-white text-2xl font-semibold tracking-tight mb-4">{PHONE_DISPLAY}</p>
-              <div className="flex gap-3">
-                <a
-                  href={`tel:${PHONE_RAW}`}
-                  className="flex items-center gap-2 rounded-full border border-white/20 text-white text-sm font-semibold px-5 py-2.5 hover:bg-white hover:text-[#1a3520] transition-all duration-200"
-                >
-                  <PhoneIcon /> Call
-                </a>
-                <a
-                  href={`https://wa.me/${PHONE}?text=Hi%20Babita%2C%20I%27d%20like%20to%20know%20more%20about%20your%20services.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-full bg-[#25D366] text-white text-sm font-semibold px-5 py-2.5 hover:bg-[#1ebe57] transition-all duration-200"
-                >
-                  <WAIcon /> WhatsApp
-                </a>
-              </div>
-            </div>
 
             {/* Divider */}
             <div className="h-px bg-white/10 mb-8" />
@@ -266,16 +243,9 @@ export default function ContactPage() {
                       type="submit"
                       className="w-full flex items-center justify-center gap-2.5 rounded-full bg-[#1a3520] text-white text-sm font-semibold py-4 hover:bg-[#2d4f3a] active:scale-[0.98] transition-all duration-200"
                     >
-                      <WAIcon />
-                      Send via WhatsApp
+                      <MailIcon />
+                      Send Email
                     </button>
-                    <a
-                      href={`tel:${PHONE_RAW}`}
-                      className="w-full flex items-center justify-center gap-2.5 rounded-full border border-gray-200 text-gray-500 text-sm font-semibold py-4 hover:border-[#1a3520] hover:text-[#1a3520] transition-all duration-200"
-                    >
-                      <PhoneIcon />
-                      Call {PHONE_DISPLAY}
-                    </a>
                   </div>
                 </form>
               </>

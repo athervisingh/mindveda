@@ -618,8 +618,7 @@ export default function Home() {
                 Book a session, choose a package, or simply send a message. Warm, premium, and reassuring from the first click.
               </p>
               <div className="mt-5 md:mt-8 flex flex-col gap-3 text-xs sm:text-sm text-gray-600">
-                <div className="flex items-center gap-3"><PhoneIcon className="w-4 h-4 text-brand flex-shrink-0" /> +91 92114 88516</div>
-                <div className="flex items-center gap-3"><MailIcon className="w-4 h-4 text-brand flex-shrink-0" /> hello@mindveda.com</div>
+                <div className="flex items-center gap-3"><MailIcon className="w-4 h-4 text-brand flex-shrink-0" /> mindvedabybabita@gmail.com</div>
                 <div className="flex items-center gap-3"><MapPinIcon className="w-4 h-4 text-brand flex-shrink-0" /> Delhi | Rishikesh</div>
               </div>
             </div>
