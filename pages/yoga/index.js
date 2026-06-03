@@ -8,6 +8,41 @@ import { yogaPackages } from '../../lib/siteContent'
 import { useState } from 'react'
 import SlotPickerModal from '../../components/SlotPickerModal'
 import { NextSeo } from 'next-seo'
+import Head from 'next/head'
+import FaqSection from '../../components/FaqSection'
+
+const yogaFaqs = [
+  {
+    q: 'What is therapeutic yoga and how is it different from regular yoga?',
+    a: 'Therapeutic yoga at MindVeda combines traditional yoga asanas with psychology-informed techniques to address specific mental and physical health needs — such as anxiety, stress, chronic pain, or trauma. Unlike a regular fitness class, each session is personalised by certified instructor Babita to your individual goals and health condition.',
+  },
+  {
+    q: 'Do I need prior yoga experience to join MindVeda yoga sessions?',
+    a: 'No experience is needed. MindVeda offers sessions for complete beginners through to experienced practitioners. Your first session begins with an assessment of your current fitness, health goals, and any limitations, so the practice is fully adapted to where you are.',
+  },
+  {
+    q: 'Can I join online yoga classes from anywhere in India?',
+    a: 'Yes. All yoga sessions at MindVeda are available online via video call. You can join from Delhi, Mumbai, Bangalore, Hyderabad, Pune, Noida, Gurgaon or any other city in India — all you need is a mat and a stable internet connection.',
+  },
+  {
+    q: 'How much do yoga sessions cost at MindVeda?',
+    a: 'Individual yoga sessions at MindVeda start from ₹700 per session. Group yoga sessions are available at a lower price. Session packages offer better value for regular practice. Contact MindVeda for current package pricing.',
+  },
+  {
+    q: 'What are the benefits of yoga for mental health?',
+    a: 'Regular yoga practice has been clinically shown to reduce anxiety, lower cortisol (stress hormone) levels, improve sleep quality, boost mood, and build emotional resilience. At MindVeda, yoga is used alongside counselling as part of a holistic approach to mental wellness.',
+  },
+]
+
+const yogaFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: yogaFaqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}
 
 const STATS = [
   {
@@ -40,6 +75,12 @@ export default function Yoga() {
   return (
     <LazyMotion features={domAnimation}>
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(yogaFaqSchema) }}
+        />
+      </Head>
       <NextSeo
         title="Online Yoga Classes India — Therapeutic Yoga, Pranayama & Breathwork | MindVeda"
         description="Join online yoga & wellness classes with certified instructor Babita. Individual & group sessions — therapeutic yoga, pranayama, breathwork & asana. Serving Delhi, Mumbai, Bangalore & all India. Starting ₹700/session."
@@ -193,6 +234,7 @@ export default function Yoga() {
           </div>
         </section>
       </main>
+      <FaqSection faqs={yogaFaqs} subtitle="Yoga Questions" title="Everything You Need to Know About Our Yoga Sessions" />
       <Footer />
 
       <SlotPickerModal isOpen={!!modalItem} onClose={() => setModalItem(null)} item={modalItem} />

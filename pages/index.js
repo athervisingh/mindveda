@@ -10,12 +10,51 @@ import { featuredCards, homepageServices, blogArticles } from '../lib/siteConten
 import Image from 'next/image'
 import { PhoneIcon, MailIcon, MapPinIcon, ArrowRightIcon } from '../components/Icons'
 import { NextSeo } from 'next-seo'
+import Head from 'next/head'
+import FaqSection from '../components/FaqSection'
 
 const heroStats = [
   { value: '1000+', label: 'Lives transformed' },
   { value: '12+', label: 'Years experience' },
   { value: '18+', label: 'Cities & retreats' },
 ]
+
+const homeFaqs = [
+  {
+    q: 'What is MindVeda and what services does it offer?',
+    a: 'MindVeda by Babita is a certified mental health and wellness platform offering online counselling, yoga, and spiritual retreats across India. Services include individual counselling, anxiety therapy, depression support, couples therapy, child counselling, career counselling, stress management, family therapy, and yoga sessions. Sessions are available online from anywhere in India.',
+  },
+  {
+    q: 'Is online counselling effective for anxiety and depression?',
+    a: 'Yes. Multiple clinical studies confirm that online counselling is as effective as in-person therapy for anxiety, depression, stress, and relationship issues. MindVeda uses evidence-based approaches including CBT (Cognitive Behavioural Therapy), DBT, and mindfulness-based techniques delivered by certified psychologist Babita.',
+  },
+  {
+    q: 'How much does online therapy cost in India?',
+    a: 'At MindVeda, counselling sessions start from ₹1,200 per session (50 minutes). Yoga sessions start from ₹700. A free 15-minute discovery call is available to help you choose the right service.',
+  },
+  {
+    q: 'How do I book a session with a psychologist online?',
+    a: 'You can book a session directly on mindvedabybabita.com. Choose your service, pick a date and time, and complete payment through a secure Razorpay gateway. Sessions are conducted via video call.',
+  },
+  {
+    q: 'Does MindVeda offer counselling in Delhi, Mumbai, and Bangalore?',
+    a: 'Yes. MindVeda offers online counselling accessible from all cities across India including Delhi, Mumbai, Bangalore, Hyderabad, Pune, Noida, Gurgaon, Chennai, Kolkata and Jaipur. All sessions are conducted online so location is no barrier.',
+  },
+  {
+    q: 'What is the difference between a psychologist and a psychiatrist?',
+    a: 'A psychologist like Babita provides talk therapy, counselling, and evidence-based psychological interventions. A psychiatrist is a medical doctor who can prescribe medication. For most anxiety, depression, stress, and relationship concerns, a psychologist is the right first step.',
+  },
+]
+
+const homeFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: homeFaqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}
 
 export default function Home() {
   const router = useRouter()
@@ -36,6 +75,12 @@ export default function Home() {
           images: [{ url: 'https://www.mindvedabybabita.com/hero2.webp', width: 1200, height: 630, alt: 'MindVeda — Babita, Certified Psychologist' }],
         }}
       />
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }}
+        />
+      </Head>
       <Header />
 
       <main className="flex-1">
@@ -643,6 +688,8 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      <FaqSection faqs={homeFaqs} />
 
       <Footer />
 

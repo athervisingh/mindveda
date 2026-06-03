@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { allServices } from '../../lib/siteContent'
 import { NextSeo } from 'next-seo'
+import Head from 'next/head'
 
 function getNext14Days() {
   const days = []
@@ -232,8 +233,42 @@ export default function BookingPage({ service }) {
   }
 
   const pageUrl = `https://www.mindvedabybabita.com/book/${service.slug}`
+
+  const bookingFaqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What is ${service.title} and how does it help?`,
+        acceptedAnswer: { '@type': 'Answer', text: service.description },
+      },
+      {
+        '@type': 'Question',
+        name: `How much does ${service.title} cost at MindVeda?`,
+        acceptedAnswer: { '@type': 'Answer', text: `${service.title} at MindVeda costs ₹${service.price.toLocaleString('en-IN')} per session. Each session is ${service.duration} long with certified psychologist Babita.` },
+      },
+      {
+        '@type': 'Question',
+        name: `Can I book ${service.title} online in India?`,
+        acceptedAnswer: { '@type': 'Answer', text: `Yes. ${service.title} is available online across India — Delhi, Mumbai, Bangalore, Hyderabad, Pune, Noida, Gurgaon and all other cities. Sessions are conducted via secure video call with certified psychologist Babita.` },
+      },
+      {
+        '@type': 'Question',
+        name: `What can I expect in a ${service.title} session?`,
+        acceptedAnswer: { '@type': 'Answer', text: service.whatToExpect ? service.whatToExpect.join('. ') : `A ${service.title} session at MindVeda is a confidential, 50-minute online session tailored to your needs by certified psychologist Babita.` },
+      },
+    ],
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(bookingFaqSchema) }}
+        />
+      </Head>
       <NextSeo
         title={`${service.title} Online India — Book Session with Certified Psychologist | MindVeda`}
         description={`Book ${service.title.toLowerCase()} online with certified psychologist Babita. ${service.shortDescription} ₹${service.price.toLocaleString('en-IN')}/session · ${service.duration} · Available across Delhi, Mumbai, Bangalore & all India.`}

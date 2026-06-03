@@ -6,6 +6,45 @@ import { CheckIcon, RetreatActivityIcon, MapPinIcon } from '../../components/Ico
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { NextSeo } from 'next-seo'
+import Head from 'next/head'
+import FaqSection from '../../components/FaqSection'
+
+const retreatFaqs = [
+  {
+    q: 'What is included in the MindVeda 3-day Rishikesh retreat?',
+    a: 'The MindVeda Rishikesh retreat includes daily yoga sessions, Ganga Aarti experience, sound healing, Yoga Nidra (deep relaxation), guided meditation, sattvic vegetarian meals, and accommodation. The retreat is led by certified psychologist and yoga instructor Babita with a focus on holistic healing and inner transformation.',
+  },
+  {
+    q: 'Where exactly is the retreat located in Rishikesh?',
+    a: 'The retreat is held in Rishikesh, Uttarakhand — the yoga capital of the world, situated in the foothills of the Himalayas on the banks of the Ganga. The exact venue details are shared with participants upon booking confirmation.',
+  },
+  {
+    q: 'Is the Rishikesh retreat suitable for beginners with no yoga experience?',
+    a: 'Yes, absolutely. The MindVeda retreat is designed to be accessible for all levels — from complete beginners to experienced practitioners. The sessions are guided by certified instructor Babita who adapts the practice to each participant\'s comfort and ability.',
+  },
+  {
+    q: 'How many people are in each retreat batch?',
+    a: 'MindVeda retreats are intentionally kept small — limited seats ensure personal attention and an intimate healing environment. This allows Babita to give each participant personalised guidance throughout the 3-day experience.',
+  },
+  {
+    q: 'How do I book the Rishikesh healing retreat?',
+    a: 'You can book the retreat directly on mindvedabybabita.com. Select your preferred dates, complete the secure Razorpay payment, and you will receive a confirmation with all details. For queries, call or WhatsApp +91 92114 88516.',
+  },
+  {
+    q: 'Is this retreat good for stress, anxiety, or burnout?',
+    a: 'Yes. The MindVeda Rishikesh retreat is specifically designed to help people dealing with stress, anxiety, burnout, emotional exhaustion, or life transitions. The combination of yoga, sound healing, Yoga Nidra, and the healing energy of the Ganga provides deep rest and perspective.',
+  },
+]
+
+const retreatFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: retreatFaqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}
 
 function getNext60Days() {
   const days = []
@@ -704,6 +743,12 @@ export default function Retreat() {
           images: [{ url: 'https://www.mindvedabybabita.com/retreat.webp', width: 1200, height: 630, alt: 'MindVeda Retreat Rishikesh' }],
         }}
       />
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(retreatFaqSchema) }}
+        />
+      </Head>
       <Header />
 
       <RetreatBookingModal
@@ -996,6 +1041,7 @@ export default function Retreat() {
         </section>
 
       </main>
+      <FaqSection faqs={retreatFaqs} subtitle="Retreat Questions" title="Everything You Need to Know About the Rishikesh Retreat" />
       <Footer />
     </div>
   )

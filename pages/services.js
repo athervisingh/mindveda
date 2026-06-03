@@ -8,8 +8,43 @@ import { useState } from 'react'
 import SlotPickerModal from '../components/SlotPickerModal'
 import { ServiceCategoryIcon, ArrowRightIcon, PhoneIcon } from '../components/Icons'
 import { NextSeo } from 'next-seo'
+import Head from 'next/head'
+import FaqSection from '../components/FaqSection'
 
 const categories = ['All', 'Personal', 'Children', 'Family', 'Career', 'Relationships', 'Performance', 'Group']
+
+const servicesFaqs = [
+  {
+    q: 'What types of counselling services does MindVeda offer?',
+    a: 'MindVeda offers 14+ counselling services including individual counselling, anxiety therapy, depression support, couples counselling, child counselling, family therapy, career counselling, stress management, parental counselling, educational counselling, sports counselling, parent-child counselling, and group therapy. Yoga sessions are also available.',
+  },
+  {
+    q: 'Can I get online counselling from anywhere in India?',
+    a: 'Yes. All MindVeda counselling sessions are available online via video call, so you can access therapy from any city in India — Delhi, Mumbai, Bangalore, Hyderabad, Pune, Noida, Gurgaon, Chennai, Kolkata, Jaipur or any other location.',
+  },
+  {
+    q: 'How long is each counselling session?',
+    a: 'Each counselling session at MindVeda is 50 minutes long. This is the standard therapeutic hour used globally and provides enough time for meaningful progress in each session.',
+  },
+  {
+    q: 'What is the cost of counselling in India at MindVeda?',
+    a: 'Counselling sessions at MindVeda start from ₹1,200 per session. Yoga sessions start from ₹700. Prices vary by service type. A free 15-minute discovery call is available to help you choose the right option.',
+  },
+  {
+    q: 'Does MindVeda accept online payments?',
+    a: 'Yes. MindVeda uses secure Razorpay payment gateway. You can pay online using UPI, credit card, debit card, or net banking when booking your session.',
+  },
+]
+
+const servicesFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: servicesFaqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}
 
 export default function Services() {
   const [activeCategory, setActiveCategory] = useState('All')
@@ -21,6 +56,12 @@ export default function Services() {
 
   return (
     <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesFaqSchema) }}
+        />
+      </Head>
       <NextSeo
         title="Online Counselling Services India — Anxiety, Depression, Couples, Child Therapy | MindVeda"
         description="Book online counselling in India — anxiety therapy, depression support, couples counselling, child therapy, career guidance & more. Certified psychologist. Serving Delhi, Mumbai, Bangalore, Hyderabad, Pune & all India. Starting ₹500."
@@ -193,6 +234,8 @@ export default function Services() {
             <div className="text-center py-16 text-gray-400">No services found for this category.</div>
           )}
         </section>
+
+        <FaqSection faqs={servicesFaqs} subtitle="Common Questions" title="Frequently Asked Questions" />
 
         {/* CTA Section */}
         <section className="bg-gradient-to-r from-brand to-[#1a3520] py-16 md:py-20 text-white">
