@@ -75,13 +75,16 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
       <NextSeo
-        title="Contact MindVeda — Book a Session or Send an Enquiry"
-        description="Reach MindVeda for session booking, retreat enquiry or any support. Call +91 92114 88516, WhatsApp, or send a message. Mon–Sat, 9 AM–7 PM IST."
+        title="Contact a Psychologist Near You — Book Online Counselling Session | MindVeda"
+        description="Connect with certified psychologist Babita. Book an online counselling session for anxiety, depression, stress or relationships. Serving Delhi, Mumbai, Bangalore, Hyderabad, Pune, Noida, Gurgaon & all India. Call +91 92114 88516."
         canonical="https://www.mindvedabybabita.com/contact"
+        additionalMetaTags={[
+          { name: 'keywords', content: 'contact psychologist india, book therapy session online, online counsellor appointment, psychologist appointment delhi, therapist contact india, mental health helpline india, counsellor near me contact, book psychologist online, mindveda contact' },
+        ]}
         openGraph={{
           url: 'https://www.mindvedabybabita.com/contact',
-          title: 'Contact MindVeda — Book a Session or Send an Enquiry',
-          description: 'Call, WhatsApp or message us. Session booking, retreat enquiry & support. Mon–Sat, 9 AM–7 PM IST.',
+          title: 'Contact a Psychologist Near You — Book Online Counselling | MindVeda',
+          description: 'Book an online counselling session. Certified psychologist Babita. Delhi, Mumbai, Bangalore, Hyderabad & all India. Call +91 92114 88516.',
         }}
       />
       <Header />
@@ -206,7 +209,7 @@ export default function ContactPage() {
                       onChange={e => setForm(f => ({ ...f, contact: e.target.value }))}
                       onFocus={() => setFocus('contact')}
                       onBlur={() => setFocus('')}
-                      placeholder="+91 98765 43210"
+                      placeholder="Phone or Email"
                       className={inputBase('contact')}
                     />
                   </div>

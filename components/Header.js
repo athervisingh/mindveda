@@ -175,7 +175,7 @@ export default function Header() {
 
               {/* Book button — icon+short text at md, full text at lg */}
               <Link
-                href="/yoga"
+                href="/services"
                 className="hidden md:inline-flex items-center gap-1.5 bg-[#2d4f3a] text-white rounded-full font-medium hover:bg-[#1f3829] transition-colors flex-shrink-0"
                 style={{ fontSize: 'clamp(0.7rem, 0.9vw, 0.875rem)', padding: 'clamp(0.3rem, 0.5vw, 0.5rem) clamp(0.6rem, 1vw, 1rem)' }}
               >
@@ -201,7 +201,7 @@ export default function Header() {
               Dashboard
             </Link>
           ) : (
-            <Link href="/yoga" className="md:hidden inline-flex items-center gap-1 bg-[#2d4f3a] text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex-shrink-0">
+            <Link href="/services" className="md:hidden inline-flex items-center gap-1 bg-[#2d4f3a] text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex-shrink-0">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
@@ -304,7 +304,7 @@ export default function Header() {
               )}
 
               <Link
-                href="/yoga"
+                href="/services"
                 className="mt-2 flex items-center justify-center gap-2 bg-[#2d4f3a] text-white py-3 rounded-xl text-sm font-semibold"
                 onClick={() => setMenuOpen(false)}
               >

@@ -360,6 +360,7 @@ function RetreatBookingModal({ isOpen, onClose, pkg }) {
         rzp.open()
       })
 
+      localStorage.setItem('mv_has_purchased', '1')
       setDone(true)
     } catch (err) {
       if (err.message !== 'Payment cancelled') {
@@ -690,13 +691,16 @@ export default function Retreat() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
       <NextSeo
-        title="3-Day Spiritual Healing Retreat — Rishikesh | MindVeda"
-        description="Join MindVeda's immersive 3-day retreat in Rishikesh — yoga, Ganga Aarti, sound healing, Yoga Nidra & sattvic meals. Limited seats. Book now."
+        title="Spiritual Healing Retreat Rishikesh — Yoga, Meditation & Sound Healing | MindVeda"
+        description="Join MindVeda's 3-day spiritual healing retreat in Rishikesh. Yoga, Ganga Aarti, sound healing, Yoga Nidra & sattvic meals. Best wellness retreat India 2025. Limited seats — book now."
         canonical="https://www.mindvedabybabita.com/retreat"
+        additionalMetaTags={[
+          { name: 'keywords', content: 'spiritual retreat india, healing retreat rishikesh, yoga retreat india, meditation retreat rishikesh, wellness retreat india, sound healing retreat, yoga nidra retreat, best retreat india 2025, mental wellness retreat india, rishikesh retreat package, retreat near delhi, yoga retreat delhi, spiritual healing india' },
+        ]}
         openGraph={{
           url: 'https://www.mindvedabybabita.com/retreat',
-          title: '3-Day Healing Retreat in Rishikesh — MindVeda',
-          description: 'Yoga, meditation, Ganga Aarti & sound healing. 3 days of deep transformation. Limited seats. Book your spot.',
+          title: 'Spiritual Healing Retreat Rishikesh — Yoga, Meditation & Sound Healing | MindVeda',
+          description: '3-day spiritual retreat in Rishikesh. Yoga, meditation, Ganga Aarti & sound healing. Best wellness retreat India. Limited seats.',
           images: [{ url: 'https://www.mindvedabybabita.com/retreat.webp', width: 1200, height: 630, alt: 'MindVeda Retreat Rishikesh' }],
         }}
       />

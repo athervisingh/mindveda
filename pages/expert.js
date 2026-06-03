@@ -80,13 +80,16 @@ export default function Expert() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
       <NextSeo
-        title="Meet Babita — Certified Psychologist & Wellness Expert"
-        description="Babita is a certified psychologist with 15+ years of experience in counselling, yoga & holistic wellness. Serving 1000+ clients across 18+ cities in India."
+        title="Babita — Best Certified Psychologist & Wellness Expert in India | MindVeda"
+        description="Meet Babita — one of India's trusted certified psychologists with 15+ years experience. Specialises in anxiety, depression, couples therapy, child counselling & yoga. Available online across Delhi, Mumbai, Bangalore, Hyderabad, Pune & all India."
         canonical="https://www.mindvedabybabita.com/expert"
+        additionalMetaTags={[
+          { name: 'keywords', content: 'best psychologist india, certified psychologist delhi, babita psychologist, top psychologist india, experienced therapist india, online psychologist india, psychologist for anxiety india, psychologist for depression india, counsellor delhi, therapist mumbai, therapist bangalore, women psychologist india, holistic therapist india' },
+        ]}
         openGraph={{
           url: 'https://www.mindvedabybabita.com/expert',
-          title: 'Meet Babita — Certified Psychologist & Wellness Expert',
-          description: '15+ years experience. 1000+ clients. Counselling, yoga & spiritual retreats across India.',
+          title: 'Babita — Best Certified Psychologist & Wellness Expert in India | MindVeda',
+          description: 'Certified psychologist with 15+ years experience. Anxiety, depression, couples, child therapy & yoga. Delhi, Mumbai, Bangalore & all India.',
         }}
       />
       <Header />

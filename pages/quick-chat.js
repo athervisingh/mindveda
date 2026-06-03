@@ -117,6 +117,7 @@ export default function QuickChat() {
         })
         rzp.open()
       }).then(sessionId => {
+        localStorage.setItem('mv_has_purchased', '1')
         router.push(`/chat/${sessionId}`)
       })
     } catch (e) {

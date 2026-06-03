@@ -174,6 +174,7 @@ export default function Checkout() {
 
       localStorage.setItem('mv_cart', '[]')
       localStorage.removeItem('mv_coupon')
+      localStorage.setItem('mv_has_purchased', '1')
       window.dispatchEvent(new Event('cartUpdated'))
       setPaidEmail(form.email)
       setPaid(true)

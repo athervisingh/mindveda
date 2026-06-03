@@ -163,6 +163,7 @@ export default function QuickBook() {
           })
           rzp.open()
         })
+        localStorage.setItem('mv_has_purchased', '1')
         router.push(`/chat/${sessionId}`)
         return
       }
@@ -207,6 +208,7 @@ export default function QuickBook() {
         })
         rzp.open()
       }).then(chatSessionId => {
+        localStorage.setItem('mv_has_purchased', '1')
         if (chatSessionId) router.push(`/chat/${chatSessionId}`)
         else setPaid(true)
       })

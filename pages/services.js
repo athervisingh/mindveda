@@ -22,13 +22,16 @@ export default function Services() {
   return (
     <>
       <NextSeo
-        title="Counselling & Wellness Services"
-        description="Explore 12+ counselling services — individual, couples, child, career, stress, depression & more. Certified psychologists. Online sessions. Starting ₹500."
+        title="Online Counselling Services India — Anxiety, Depression, Couples, Child Therapy | MindVeda"
+        description="Book online counselling in India — anxiety therapy, depression support, couples counselling, child therapy, career guidance & more. Certified psychologist. Serving Delhi, Mumbai, Bangalore, Hyderabad, Pune & all India. Starting ₹500."
         canonical="https://www.mindvedabybabita.com/services"
+        additionalMetaTags={[
+          { name: 'keywords', content: 'online counselling india, anxiety therapist online, depression counselling india, couples therapy online, child psychologist india, career counselling online, stress counsellor near me, family therapy india, psychologist near me, online therapy india, mental health services delhi, counselling services bangalore, therapy near me, best therapist india, online psychiatrist india' },
+        ]}
         openGraph={{
           url: 'https://www.mindvedabybabita.com/services',
-          title: 'Counselling & Wellness Services — MindVeda',
-          description: '12+ counselling services by certified psychologists. Individual, couples, child, career, anxiety, depression & group sessions. Book online.',
+          title: 'Online Counselling Services India — Anxiety, Depression, Couples, Child Therapy | MindVeda',
+          description: 'Certified psychologist Babita. Online counselling for anxiety, depression, couples, child, career & more. Serving all India. Starting ₹500.',
           images: [{ url: 'https://www.mindvedabybabita.com/service.webp', width: 1376, height: 668, alt: 'MindVeda Counselling Services' }],
         }}
       />

@@ -7,13 +7,16 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#fbfaf7]">
       <NextSeo
-        title="About Babita — Certified Psychologist & Wellness Coach"
-        description="Meet Babita — 15+ years of experience in counselling, yoga & holistic wellness. Certified psychologist serving 1000+ clients across 18+ cities in India."
+        title="About Babita — Best Certified Psychologist in Delhi & Online India"
+        description="Meet Babita — certified psychologist & wellness coach with 15+ years experience. Trusted by 1000+ clients across Delhi, Mumbai, Bangalore, Hyderabad & all of India. Online & in-person counselling available."
         canonical="https://www.mindvedabybabita.com/about"
+        additionalMetaTags={[
+          { name: 'keywords', content: 'best psychologist in delhi, certified psychologist india, babita psychologist, psychologist near me, online therapist india, mental health expert india, wellness coach india, psychologist delhi ncr, psychologist noida, psychologist gurgaon, counsellor near me' },
+        ]}
         openGraph={{
           url: 'https://www.mindvedabybabita.com/about',
-          title: 'About Babita — Certified Psychologist & Wellness Coach',
-          description: '15+ years of experience in counselling, yoga & holistic wellness. 1000+ clients across 18+ cities.',
+          title: 'About Babita — Best Certified Psychologist in Delhi & Online India',
+          description: 'Certified psychologist & wellness coach. 15+ years experience. 1000+ clients across Delhi, Mumbai, Bangalore & all India.',
         }}
       />
       <Header />

@@ -41,13 +41,16 @@ export default function Yoga() {
     <LazyMotion features={domAnimation}>
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
       <NextSeo
-        title="Yoga & Wellness Classes — Online & Group Sessions"
-        description="Join MindVeda's online yoga & wellness classes. Individual & group sessions — breathwork, asana, pranayama & therapeutic yoga. Starting ₹700/session."
+        title="Online Yoga Classes India — Therapeutic Yoga, Pranayama & Breathwork | MindVeda"
+        description="Join online yoga & wellness classes with certified instructor Babita. Individual & group sessions — therapeutic yoga, pranayama, breathwork & asana. Serving Delhi, Mumbai, Bangalore & all India. Starting ₹700/session."
         canonical="https://www.mindvedabybabita.com/yoga"
+        additionalMetaTags={[
+          { name: 'keywords', content: 'online yoga classes india, yoga near me, therapeutic yoga india, pranayama classes online, yoga for anxiety india, yoga for mental health, breathwork india, yoga instructor delhi, yoga classes bangalore, yoga classes mumbai, online yoga india, wellness yoga india, yoga for stress relief' },
+        ]}
         openGraph={{
           url: 'https://www.mindvedabybabita.com/yoga',
-          title: 'Yoga & Wellness Classes — MindVeda',
-          description: 'Individual & group yoga sessions online. Breathwork, asana, pranayama & therapeutic yoga. Starting ₹700.',
+          title: 'Online Yoga Classes India — Therapeutic Yoga & Pranayama | MindVeda',
+          description: 'Certified yoga instructor Babita. Online individual & group yoga sessions. Therapeutic yoga, pranayama & breathwork. Delhi, Mumbai, Bangalore & all India.',
         }}
       />
       <Header />

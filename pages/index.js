@@ -23,13 +23,16 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
       <NextSeo
-        title="MindVeda — Counselling, Yoga & Wellness Retreats in India"
-        description="MindVeda by Babita — certified counselling, yoga, stress management & spiritual retreats. 1000+ lives transformed across 18+ cities. Book your session today."
+        title="MindVeda — Psychologist Near Me | Online Counselling India | Babita"
+        description="Looking for a psychologist near you? MindVeda by Babita offers online counselling, anxiety therapy, depression support & yoga across India — Delhi, Mumbai, Bangalore & more. 1000+ lives transformed. Book today."
         canonical="https://www.mindvedabybabita.com"
+        additionalMetaTags={[
+          { name: 'keywords', content: 'psychologist near me, online counselling india, therapist near me, mental health counsellor, anxiety therapist india, depression counselling, online therapy india, psychologist delhi, psychologist mumbai, psychologist bangalore, psychologist hyderabad, psychologist pune, psychologist noida, psychologist gurgaon, certified psychologist india, best psychologist india, counselling near me, mental health support india, babita psychologist, mindveda' },
+        ]}
         openGraph={{
           url: 'https://www.mindvedabybabita.com',
-          title: 'MindVeda — Healing & Growth',
-          description: 'Certified counselling, yoga & spiritual retreats. 1000+ lives transformed. Book a session today.',
+          title: 'MindVeda — Psychologist Near Me | Online Counselling India',
+          description: 'Online counselling, anxiety therapy, depression support & yoga. Certified psychologist Babita. Serving Delhi, Mumbai, Bangalore & all of India. 1000+ lives transformed.',
           images: [{ url: 'https://www.mindvedabybabita.com/hero2.webp', width: 1200, height: 630, alt: 'MindVeda — Babita, Certified Psychologist' }],
         }}
       />

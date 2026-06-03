@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const STORAGE_KEY = 'mv_popup_seen'
+const PURCHASED_KEY = 'mv_has_purchased'
+const SESSION_KEY   = 'mv_popup_dismissed'
 
 // Pages where popup should NOT appear
 const EXCLUDED_PATHS = ['/quick-book', '/checkout', '/cart', '/login', '/signup', '/admin', '/join']
@@ -16,8 +17,11 @@ export default function FirstTimePopup() {
     const path = router.pathname
     if (EXCLUDED_PATHS.some(p => path.startsWith(p))) return
 
-    // Don't show if already seen
-    if (localStorage.getItem(STORAGE_KEY)) return
+    // Don't show if user has already purchased anything
+    if (localStorage.getItem(PURCHASED_KEY)) return
+
+    // Don't show again in the same browser session after dismissing
+    if (sessionStorage.getItem(SESSION_KEY)) return
 
     // Show after 2 seconds
     const timer = setTimeout(() => setVisible(true), 2000)
@@ -26,7 +30,8 @@ export default function FirstTimePopup() {
 
   function close() {
     setVisible(false)
-    localStorage.setItem(STORAGE_KEY, '1')
+    // Only dismiss for this session — popup returns on next visit until purchase happens
+    sessionStorage.setItem(SESSION_KEY, '1')
   }
 
   function goBook() {

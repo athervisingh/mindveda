@@ -235,13 +235,16 @@ export default function BookingPage({ service }) {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
       <NextSeo
-        title={`${service.title} — Book a Session`}
-        description={`${service.shortDescription} ₹${service.price.toLocaleString('en-IN')}/session · ${service.duration} · Certified psychologist. Book online now.`}
+        title={`${service.title} Online India — Book Session with Certified Psychologist | MindVeda`}
+        description={`Book ${service.title.toLowerCase()} online with certified psychologist Babita. ${service.shortDescription} ₹${service.price.toLocaleString('en-IN')}/session · ${service.duration} · Available across Delhi, Mumbai, Bangalore & all India.`}
         canonical={pageUrl}
+        additionalMetaTags={[
+          { name: 'keywords', content: `${service.title.toLowerCase()}, ${service.title.toLowerCase()} online india, ${service.title.toLowerCase()} near me, ${service.title.toLowerCase()} delhi, ${service.title.toLowerCase()} mumbai, ${service.title.toLowerCase()} bangalore, book ${service.title.toLowerCase()}, certified psychologist india, online therapy india, mindveda` },
+        ]}
         openGraph={{
           url: pageUrl,
-          title: `${service.title} — MindVeda`,
-          description: service.shortDescription,
+          title: `${service.title} Online India — Certified Psychologist | MindVeda`,
+          description: `${service.shortDescription} Book online with certified psychologist Babita. Delhi, Mumbai, Bangalore & all India.`,
         }}
       />
       <Header />

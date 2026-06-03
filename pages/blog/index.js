@@ -30,13 +30,16 @@ export default function BlogIndex() {
   return (
     <div className="min-h-screen bg-[#fbfaf7] flex flex-col">
       <NextSeo
-        title="Wellness & Mental Health Blog"
-        description="Expert articles on mental health, mindfulness, relationships, stress management & holistic wellness by Babita — certified psychologist at MindVeda."
+        title="Mental Health Blog India — Anxiety, Depression, Relationships & Wellness Tips | MindVeda"
+        description="Read expert mental health articles by certified psychologist Babita. Tips on anxiety, depression, stress management, relationships, mindfulness & holistic wellness in India. Free resources for better mental health."
         canonical="https://www.mindvedabybabita.com/blog"
+        additionalMetaTags={[
+          { name: 'keywords', content: 'mental health blog india, anxiety tips india, depression help india, stress management tips, relationship advice india, mindfulness india, wellness blog india, psychologist blog, mental health articles hindi, self care india, emotional health tips' },
+        ]}
         openGraph={{
           url: 'https://www.mindvedabybabita.com/blog',
-          title: 'Wellness & Mental Health Blog — MindVeda',
-          description: 'Expert articles on mindfulness, relationships, stress & holistic wellness by certified psychologist Babita.',
+          title: 'Mental Health Blog India — Anxiety, Depression & Wellness Tips | MindVeda',
+          description: 'Expert mental health articles by certified psychologist Babita. Anxiety, depression, stress, relationships & mindfulness tips for India.',
         }}
       />
       <Header />
