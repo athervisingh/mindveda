@@ -409,9 +409,9 @@ export default function Home() {
               <div key={copy} style={{ display: 'flex', alignItems: 'center' }}>
                 {Array.from({ length: 5 }).map((_, i) => (
                   <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '14px', whiteSpace: 'nowrap', paddingRight: '52px' }}>
-                    <span style={{ background: '#f5a623', color: '#1a3520', fontWeight: 800, fontSize: '11px', letterSpacing: '0.14em', padding: '3px 9px', borderRadius: '4px' }}>FIRST10</span>
+                    <span style={{ background: '#f5a623', color: '#1a3520', fontWeight: 800, fontSize: '11px', letterSpacing: '0.14em', padding: '3px 9px', borderRadius: '4px' }}>FIRST99</span>
                     <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '12.5px', fontWeight: 500, fontFamily: 'Lato, sans-serif', letterSpacing: '0.01em' }}>
-                      First-time customers get <strong style={{ color: '#f5a623', fontWeight: 700 }}>any service for just ₹99</strong> — Use code <strong style={{ color: '#f5a623', fontWeight: 700 }}>FIRST10</strong> at checkout &nbsp;·&nbsp; One-time offer &nbsp;·&nbsp; New customers only
+                      First-time customers get <strong style={{ color: '#f5a623', fontWeight: 700 }}>any service for just ₹99</strong> — Use code <strong style={{ color: '#f5a623', fontWeight: 700 }}>FIRST99</strong> at checkout &nbsp;·&nbsp; One-time offer &nbsp;·&nbsp; New customers only
                     </span>
                     <span style={{ color: '#f5a623', fontSize: '11px' }}>✦</span>
                   </span>
@@ -421,7 +421,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── FIRST10 PROMO CARD ── */}
+        {/* ── FIRST99 PROMO CARD ── */}
         <section className="bg-[#fbfaf7] py-3 px-0 sm:px-6">
           <div className="max-w-3xl mx-auto relative">
 
@@ -580,12 +580,14 @@ export default function Home() {
                 {
                   src: 'https://res.cloudinary.com/dhqhgw8ds/video/upload/q_auto:low,f_auto,w_1280/v1779439363/testimonial_opt1_mpbsgl.mp4',
                   poster: 'https://res.cloudinary.com/dhqhgw8ds/video/upload/q_auto,f_jpg,so_2,w_1280/v1779439363/testimonial_opt1_mpbsgl.jpg',
-                  label: 'Client Story #1',
+                  label: 'Uma Shrikant',
+                  location: 'Africa',
                 },
                 {
                   src: 'https://res.cloudinary.com/dhqhgw8ds/video/upload/q_auto:low,f_auto,w_1280/v1779439363/testimonial_opt2_z6htsk.mp4',
                   poster: 'https://res.cloudinary.com/dhqhgw8ds/video/upload/q_auto,f_jpg,so_2,w_1280/v1779439363/testimonial_opt2_z6htsk.jpg',
-                  label: 'Client Story #2',
+                  label: 'Akansha Gupta & Kashish Gupta',
+                  location: 'Delhi',
                 },
               ].map((video, i) => (
                 <motion.div
@@ -608,7 +610,8 @@ export default function Home() {
                     </video>
                   </div>
                   <div className="px-4 py-3">
-                    <p className="text-xs font-semibold text-[#8a6914] uppercase tracking-[0.18em]">{video.label}</p>
+                    <p className="text-sm font-semibold text-[#1a3520]">{video.label}</p>
+                    <p className="text-xs text-[#8a6914] mt-0.5">📍 {video.location}</p>
                   </div>
                 </motion.div>
               ))}
@@ -666,7 +669,7 @@ export default function Home() {
                 Book a session, choose a package, or simply send a message. Warm, premium, and reassuring from the first click.
               </p>
               <div className="mt-5 md:mt-8 flex flex-col gap-3 text-xs sm:text-sm text-gray-600">
-                <div className="flex items-center gap-3"><MailIcon className="w-4 h-4 text-brand flex-shrink-0" /> mindvedabybabita@gmail.com</div>
+                <div className="flex items-center gap-3"><MailIcon className="w-4 h-4 text-brand flex-shrink-0" /> support@mindvedabybabita.com</div>
                 <div className="flex items-center gap-3"><MapPinIcon className="w-4 h-4 text-brand flex-shrink-0" /> Delhi | Rishikesh</div>
               </div>
             </div>

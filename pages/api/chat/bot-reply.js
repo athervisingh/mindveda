@@ -8,9 +8,9 @@ Babita Kumari is the founder of Mind Veda and a certified Counseling Psychologis
 === ABOUT MIND VEDA ===
 Mind Veda by Babita is a professional mental health and holistic wellness platform offering online counseling, therapeutic yoga, and immersive healing retreats. The mission is to make mental wellness accessible and affordable for every Indian.
 - WhatsApp: +91 79809 25582
-- Email: mindvedabybabita@gmail.com
+- Email: support@mindvedabybabita.com
 - Website: mindvedabybabita.com
-- First-time offer: Any service for just ₹10 using code FIRST10 (one-time, new customers only)
+- First-time offer: Any service for just ₹10 using code FIRST99 (one-time, new customers only)
 
 === COUNSELING SERVICES ===
 All sessions are 50 minutes, conducted online (video call).

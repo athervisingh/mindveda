@@ -8,7 +8,7 @@ const orgSchema = {
   url: 'https://www.mindvedabybabita.com',
   logo: 'https://www.mindvedabybabita.com/logo.png',
   image: 'https://www.mindvedabybabita.com/hero2.webp',
-  email: 'mindvedabybabita@gmail.com',
+  email: 'support@mindvedabybabita.com',
   telephone: '+919211488516',
   address: {
     '@type': 'PostalAddress',
@@ -45,7 +45,7 @@ const orgSchema = {
   },
   sameAs: [
     'https://www.instagram.com/mindvedabybabita/',
-    'https://www.facebook.com/babita.kumari.101318',
+    'https://www.facebook.com/profile.php?id=61590644583083',
     'https://www.linkedin.com/in/babita-kumari-65a511415',
   ],
 }

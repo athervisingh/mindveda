@@ -275,7 +275,7 @@ export default function QuickBook() {
     (isChat || (selectedDay && selectedTime))
 
   const autoFirst10  = isFirstTime === true && !isChat && couponStatus !== 'valid'
-  const effectiveCouponCode  = couponStatus === 'valid' ? couponCode : (autoFirst10 ? 'FIRST10' : null)
+  const effectiveCouponCode  = couponStatus === 'valid' ? couponCode : (autoFirst10 ? 'FIRST99' : null)
   const effectiveFlatPriceRs = couponStatus === 'valid' ? Math.round(couponFlatPrice / 100) : (autoFirst10 ? 99 : null)
   const chatBasePrice = 99
   const displayTotal = isChat
@@ -564,7 +564,7 @@ export default function QuickBook() {
                   <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-2xl px-4 py-3">
                     <CheckIcon className="w-4 h-4 text-green-600 flex-shrink-0" />
                     <div>
-                      <p className="text-xs font-semibold text-green-700">FIRST10 auto-applied</p>
+                      <p className="text-xs font-semibold text-green-700">FIRST99 auto-applied</p>
                       <p className="text-[11px] text-green-600">First-time discount · New customers only</p>
                     </div>
                   </div>

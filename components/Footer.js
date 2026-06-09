@@ -26,7 +26,7 @@ export default function Footer() {
             <p className="text-sm leading-6">Improving lives through counselling & wellness.</p>
             <div className="flex gap-4 mt-4">
               {[
-                { Icon: FacebookIcon, href: 'https://www.facebook.com/babita.kumari.101318', label: 'Facebook' },
+                { Icon: FacebookIcon, href: 'https://www.facebook.com/profile.php?id=61590644583083', label: 'Facebook' },
                 { Icon: InstagramIcon, href: 'https://www.instagram.com/mindvedabybabita/', label: 'Instagram' },
                 { Icon: YoutubeIcon, href: 'https://www.youtube.com/@MindvedabyBabita', label: 'YouTube' },
                 { Icon: LinkedInIcon, href: 'https://www.linkedin.com/in/babita-kumari-65a511415', label: 'LinkedIn' },

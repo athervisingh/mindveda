@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { NextSeo } from 'next-seo'
 
-const EMAIL = 'mindvedabybabita@gmail.com'
+const EMAIL = 'support@mindvedabybabita.com'
 
 const TOPICS = [
   'Individual Counselling',
@@ -114,7 +114,7 @@ export default function ContactPage() {
             {/* Info rows */}
             <div className="space-y-5 mb-10">
               {[
-                { icon: <MailIcon />,   label: 'Email',   value: 'mindvedabybabita@gmail.com', href: 'mailto:mindvedabybabita@gmail.com' },
+                { icon: <MailIcon />,   label: 'Email',   value: 'support@mindvedabybabita.com', href: 'mailto:support@mindvedabybabita.com' },
                 { icon: <ClockIcon />,  label: 'Hours',   value: 'Mon – Sat · 9 AM – 7 PM IST' },
                 { icon: <ShieldIcon />, label: 'Privacy', value: '100% Confidential Sessions' },
               ].map(({ icon, label, value, href }) => (
