@@ -26,9 +26,10 @@ export default function Footer() {
             <p className="text-sm leading-6">Improving lives through counselling & wellness.</p>
             <div className="flex gap-4 mt-4">
               {[
-                { Icon: FacebookIcon, href: 'https://www.facebook.com/babita.gautam.140/', label: 'Facebook' },
-                { Icon: InstagramIcon, href: 'https://www.instagram.com/mindveda_by_babita/', label: 'Instagram' },
+                { Icon: FacebookIcon, href: 'https://www.facebook.com/babita.kumari.101318', label: 'Facebook' },
+                { Icon: InstagramIcon, href: 'https://www.instagram.com/mindvedabybabita/', label: 'Instagram' },
                 { Icon: YoutubeIcon, href: 'https://www.youtube.com/@MindvedabyBabita', label: 'YouTube' },
+                { Icon: LinkedInIcon, href: 'https://www.linkedin.com/in/babita-kumari-65a511415', label: 'LinkedIn' },
               ].map(({ Icon, href, label }) => (
                 <motion.a key={label} whileHover={{ scale: 1.2 }} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="text-gray-400 hover:text-brand transition-colors">
                   <Icon className="w-5 h-5" />

@@ -44,8 +44,9 @@ const orgSchema = {
     ],
   },
   sameAs: [
-    'https://www.instagram.com/mindvedabybabita',
-    'https://www.facebook.com/mindvedabybabita',
+    'https://www.instagram.com/mindvedabybabita/',
+    'https://www.facebook.com/babita.kumari.101318',
+    'https://www.linkedin.com/in/babita-kumari-65a511415',
   ],
 }
 
