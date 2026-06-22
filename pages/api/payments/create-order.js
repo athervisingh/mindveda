@@ -6,7 +6,7 @@ const GROUP_CAPACITY = 50
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
-  const { items, userId, couponCode } = req.body
+  const { items, userId, couponCode, packageDiscount } = req.body
   if (!items?.length || !userId) {
     return res.status(400).json({ error: 'items and userId required' })
   }
@@ -93,10 +93,20 @@ export default async function handler(req, res) {
       return res.status(409).json({ error: `"${service.name}" group session is full.` })
     }
 
-    // Coupon applies flat_price to first item only, rest at normal price
     const itemAmount = coupon && i === 0 ? coupon.flat_price : service.price
     totalAmount += itemAmount
     processedItems.push({ service, bookingDate, bookingTime, itemAmount })
+  }
+
+  // Apply package discount (passed in rupees, convert to paise)
+  if (packageDiscount && Number.isInteger(packageDiscount) && packageDiscount > 0) {
+    const discountPaise = packageDiscount * 100
+    const perItem       = Math.floor(discountPaise / processedItems.length)
+    const remainder     = discountPaise - perItem * processedItems.length
+    processedItems.forEach((item, i) => {
+      item.itemAmount = Math.max(0, item.itemAmount - perItem - (i === 0 ? remainder : 0))
+    })
+    totalAmount = Math.max(0, totalAmount - discountPaise)
   }
 
   // One Razorpay order for the full total

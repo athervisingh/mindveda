@@ -33,11 +33,11 @@ export default function Checkout() {
   const [couponStatus, setCouponStatus] = useState(null)  // null | 'loading' | 'valid' | 'invalid'
   const [couponError, setCouponError] = useState('')
   const [couponFlatPrice, setCouponFlatPrice] = useState(0) // paise from DB
+  const [pkgDiscount, setPkgDiscount] = useState(null)
 
   useEffect(() => {
     setMounted(true)
     setCart(JSON.parse(localStorage.getItem('mv_cart') || '[]'))
-    // Auto-apply coupon saved from cart page
     const saved = JSON.parse(localStorage.getItem('mv_coupon') || 'null')
     if (saved?.code && saved?.flat_price) {
       setCouponInput(saved.code)
@@ -45,6 +45,8 @@ export default function Checkout() {
       setCouponFlatPrice(saved.flat_price)
       setCouponStatus('valid')
     }
+    const pkg = JSON.parse(localStorage.getItem('mv_package_discount') || 'null')
+    if (pkg?.amount) setPkgDiscount(pkg)
   }, [])
 
   useEffect(() => {
@@ -62,10 +64,12 @@ export default function Checkout() {
 
   const total = cart.reduce((s, p) => s + (p.price || 0), 0)
   const couponPriceRs = Math.round(couponFlatPrice / 100)
-  const discountedTotal = couponStatus === 'valid'
+  const afterCoupon = couponStatus === 'valid'
     ? couponPriceRs + cart.slice(1).reduce((s, p) => s + (p.price || 0), 0)
     : total
-  const couponSavings = total - discountedTotal
+  const pkgDiscountAmt = pkgDiscount?.amount || 0
+  const discountedTotal = Math.max(0, afterCoupon - pkgDiscountAmt)
+  const couponSavings = total - afterCoupon
 
   async function handleCouponApply() {
     const code = couponInput.trim()
@@ -130,8 +134,9 @@ export default function Checkout() {
             bookingDate: item.bookingDate,
             bookingTime: item.bookingTime,
           })),
-          userId:     user.id,
-          couponCode: couponStatus === 'valid' ? couponCode : undefined,
+          userId:          user.id,
+          couponCode:      couponStatus === 'valid' ? couponCode : undefined,
+          packageDiscount: pkgDiscountAmt > 0 ? pkgDiscountAmt : undefined,
         }),
       })
       const orderData = await orderRes.json()
@@ -174,6 +179,7 @@ export default function Checkout() {
 
       localStorage.setItem('mv_cart', '[]')
       localStorage.removeItem('mv_coupon')
+      localStorage.removeItem('mv_package_discount')
       localStorage.setItem('mv_has_purchased', '1')
       window.dispatchEvent(new Event('cartUpdated'))
       setPaidEmail(form.email)
@@ -401,17 +407,24 @@ export default function Checkout() {
                   )}
                 </div>
 
-                {couponStatus === 'valid' && (
+                {couponStatus === 'valid' && couponSavings > 0 && (
                   <div className="flex justify-between text-sm text-green-600 font-medium mb-2">
-                    <span>Discount</span>
+                    <span>Coupon Discount</span>
                     <span>−₹{couponSavings.toLocaleString('en-IN')}</span>
+                  </div>
+                )}
+
+                {pkgDiscount && (
+                  <div className="flex justify-between text-sm text-green-600 font-medium mb-2">
+                    <span>{pkgDiscount.label}</span>
+                    <span>−₹{pkgDiscount.amount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
 
                 <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#1a3520] mb-5">
                   <span>Total</span>
                   <div className="text-right">
-                    {couponStatus === 'valid' && (
+                    {(couponStatus === 'valid' || pkgDiscount) && (
                       <div className="line-through text-gray-300 text-sm font-normal">₹{total.toLocaleString('en-IN')}</div>
                     )}
                     <span className="text-brand text-2xl">₹{discountedTotal.toLocaleString('en-IN')}</span>

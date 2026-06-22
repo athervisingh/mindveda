@@ -15,10 +15,13 @@ export default function Cart() {
   const [couponStatus, setCouponStatus] = useState(null)
   const [couponFlatPrice, setCouponFlatPrice] = useState(0)
   const [couponError, setCouponError] = useState('')
+  const [pkgDiscount, setPkgDiscount] = useState(null)
 
   useEffect(() => {
     setMounted(true)
     setCart(JSON.parse(localStorage.getItem('mv_cart') || '[]'))
+    const saved = JSON.parse(localStorage.getItem('mv_package_discount') || 'null')
+    if (saved?.amount) setPkgDiscount(saved)
   }, [])
 
   function removeItem(cartId) {
@@ -64,12 +67,19 @@ export default function Cart() {
     localStorage.removeItem('mv_coupon')
   }
 
+  function removePkgDiscount() {
+    setPkgDiscount(null)
+    localStorage.removeItem('mv_package_discount')
+  }
+
   const total = cart.reduce((s, p) => s + (p.price || 0), 0)
   const couponPriceRs = Math.round(couponFlatPrice / 100)
-  const discountedTotal = couponStatus === 'valid'
+  const afterCoupon = couponStatus === 'valid'
     ? couponPriceRs + cart.slice(1).reduce((s, p) => s + (p.price || 0), 0)
     : total
-  const couponSavings = total - discountedTotal
+  const pkgDiscountAmt = pkgDiscount?.amount || 0
+  const discountedTotal = Math.max(0, afterCoupon - pkgDiscountAmt)
+  const couponSavings = total - afterCoupon
 
   if (!mounted) return null
 
@@ -243,17 +253,27 @@ export default function Cart() {
                     )}
                   </div>
 
-                  {couponStatus === 'valid' && (
+                  {couponStatus === 'valid' && couponSavings > 0 && (
                     <div className="flex justify-between text-sm text-green-600 font-medium">
-                      <span>Discount</span>
+                      <span>Coupon Discount</span>
                       <span>−₹{couponSavings.toLocaleString('en-IN')}</span>
+                    </div>
+                  )}
+
+                  {pkgDiscount && (
+                    <div className="flex items-center justify-between text-sm text-green-600 font-medium">
+                      <div className="flex items-center gap-1.5">
+                        <span>{pkgDiscount.label}</span>
+                        <button onClick={removePkgDiscount} className="text-gray-300 hover:text-red-400 transition-colors text-xs ml-1">✕</button>
+                      </div>
+                      <span>−₹{pkgDiscount.amount.toLocaleString('en-IN')}</span>
                     </div>
                   )}
 
                   <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#1a3520]">
                     <span>Total</span>
                     <div className="text-right">
-                      {couponStatus === 'valid' && (
+                      {(couponStatus === 'valid' || pkgDiscount) && (
                         <div className="line-through text-gray-300 text-sm font-normal">₹{total.toLocaleString('en-IN')}</div>
                       )}
                       <span className="text-brand text-xl">₹{discountedTotal.toLocaleString('en-IN')}</span>

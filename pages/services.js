@@ -171,14 +171,25 @@ export default function Services() {
                 whileHover={{ y: -5, scale: 1.01 }}
                 transition={{ duration: 0.45, delay: (index % 6) * 0.07 }}
                 viewport={{ once: true }}
-                className="card-anim group bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col"
+                className={`card-anim group relative rounded-3xl overflow-hidden flex flex-col ${
+                  service.slug === 'deaddiction-counselling'
+                    ? 'bg-emerald-50 shadow-sm border border-emerald-200'
+                    : 'bg-white shadow-sm border border-gray-100'
+                }`}
               >
+                {/* Diagonal corner ribbon for De-Addiction */}
+                {service.slug === 'deaddiction-counselling' && (
+                  <div className="absolute top-[28px] -right-[36px] w-44 rotate-45 bg-gradient-to-r from-red-500 to-rose-600 text-white text-[11px] font-extrabold py-2.5 text-center tracking-[0.15em] z-10 pointer-events-none shadow-lg drop-shadow-md">
+                    ✦ Specialized
+                  </div>
+                )}
+
                 {/* Top gradient band with SVG icon */}
                 <div className={`bg-gradient-to-r ${service.color} px-6 pt-6 pb-4 flex items-start justify-between`}>
                   <div className="w-14 h-14 rounded-2xl bg-white/60 backdrop-blur-sm flex items-center justify-center text-brand shadow-sm">
                     <ServiceCategoryIcon type={service.icon} className="w-8 h-8" />
                   </div>
-                  {service.badge && (
+                  {service.badge && service.slug !== 'deaddiction-counselling' && (
                     <span className="text-xs font-semibold bg-brand text-white px-2.5 py-1 rounded-full">
                       {service.badge}
                     </span>

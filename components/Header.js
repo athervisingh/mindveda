@@ -109,6 +109,7 @@ export default function Header() {
         <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
           <NavLink label="Home"     href="/" />
           <NavLink label="Services" href="/services" dropdown="services" />
+          <NavLink label="Packages" href="/packages" />
           <NavLink label="Expert"   href="/expert" />
           <NavLink label="Yoga"     href="/yoga"    dropdown="yoga" />
           <NavLink label="Retreat"  href="/retreat" />
@@ -239,6 +240,7 @@ export default function Header() {
               {[
                 { label: 'Home',     href: '/' },
                 { label: 'Services', href: '/services' },
+                { label: 'Packages', href: '/packages' },
                 { label: 'Expert',   href: '/expert' },
                 { label: 'Yoga',     href: '/yoga' },
                 { label: 'Retreat',  href: '/retreat' },
