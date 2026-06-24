@@ -62,9 +62,7 @@ export default function Packages() {
   const [loadingSlots, setLoadingSlots] = useState(false)
   const [slotsError,   setSlotsError]   = useState(null)
 
-  useEffect(() => {
-    if (!authLoading && !user) router.replace('/login?redirect=/packages')
-  }, [authLoading, user])
+  // no redirect — guests can browse; login only required at checkout
 
   function resetPicker() {
     setSelectedDay(null)
@@ -117,6 +115,10 @@ export default function Packages() {
   }
 
   function addToCart() {
+    if (!user) {
+      router.push('/login?redirect=/packages')
+      return
+    }
     const existing = JSON.parse(localStorage.getItem('mv_cart') || '[]')
     const ts = Date.now()
     pickedSlots.forEach((slot, i) => {
@@ -159,16 +161,6 @@ export default function Packages() {
 
   const total      = service && pkg ? service.price * pkg.sessions : 0
   const finalTotal = total - (pkg?.discount || 0)
-
-  if (authLoading || !user) {
-    return (
-      <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
-        <Header />
-        <main className="flex-1 flex items-center justify-center"><Spinner /></main>
-        <Footer />
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
@@ -494,10 +486,10 @@ export default function Packages() {
                     onClick={addToCart}
                     className="w-full rounded-full bg-brand py-4 text-white font-semibold text-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                   >
-                    Add to Cart &amp; Checkout <ArrowRightIcon className="w-4 h-4" />
+                    {user ? <>Add to Cart &amp; Checkout <ArrowRightIcon className="w-4 h-4" /></> : <>Login to Book <ArrowRightIcon className="w-4 h-4" /></>}
                   </button>
                   <p className="text-center text-xs text-gray-400 mt-3">
-                    Review your cart before payment
+                    {user ? 'Review your cart before payment' : 'Login required to complete booking'}
                   </p>
                 </div>
               </div>
