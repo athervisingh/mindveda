@@ -4,9 +4,10 @@ import Footer from '../components/Footer'
 import Link from 'next/link'
 import ServiceCard from '../components/ServiceCard'
 import FeaturedService from '../components/FeaturedService'
+import ProgramCard from '../components/ProgramCard'
 import TestimonialCarousel from '../components/TestimonialCarousel'
 import { motion } from 'framer-motion'
-import { featuredCards, homepageServices, blogArticles } from '../lib/siteContent'
+import { featuredCards, programCards, homepageServices, blogArticles } from '../lib/siteContent'
 import Image from 'next/image'
 import { PhoneIcon, MailIcon, MapPinIcon, ArrowRightIcon } from '../components/Icons'
 import { NextSeo } from 'next-seo'
@@ -406,70 +407,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── COUPON MARQUEE — hero ke bilkul niche, chipka hua ── */}
-        <div className="bg-[#1a3520] overflow-hidden" style={{ height: '38px', display: 'flex', alignItems: 'center' }}>
-          <style>{`@keyframes mv-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}`}</style>
-          <div style={{ display: 'flex', width: 'max-content', animation: 'mv-marquee 36s linear infinite', willChange: 'transform' }}>
-            {[0, 1].map(copy => (
-              <div key={copy} style={{ display: 'flex', alignItems: 'center' }}>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '14px', whiteSpace: 'nowrap', paddingRight: '52px' }}>
-                    <span style={{ background: '#f5a623', color: '#1a3520', fontWeight: 800, fontSize: '11px', letterSpacing: '0.14em', padding: '3px 9px', borderRadius: '4px' }}>FIRST99</span>
-                    <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '12.5px', fontWeight: 500, fontFamily: 'Lato, sans-serif', letterSpacing: '0.01em' }}>
-                      First-time customers get <strong style={{ color: '#f5a623', fontWeight: 700 }}>any service for just ₹99</strong> — Use code <strong style={{ color: '#f5a623', fontWeight: 700 }}>FIRST99</strong> at checkout &nbsp;·&nbsp; One-time offer &nbsp;·&nbsp; New customers only
-                    </span>
-                    <span style={{ color: '#f5a623', fontSize: '11px' }}>✦</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── FIRST99 PROMO CARD ── */}
-        <section className="bg-[#fbfaf7] py-3 px-0 sm:px-6">
-          <div className="max-w-3xl mx-auto relative">
-
-            {/* white fade edges — mobile only */}
-            <div className="absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-[#fbfaf7] to-transparent z-10 pointer-events-none sm:hidden" />
-            <div className="absolute inset-y-0 right-0 w-3 bg-gradient-to-l from-[#fbfaf7] to-transparent z-10 pointer-events-none sm:hidden" />
-
-            <Link href="/quick-book">
-              <div className="group relative flex items-center gap-3 sm:gap-5 bg-gradient-to-r from-[#0d1f12] via-[#1a3520] to-[#0d1f12] rounded-none sm:rounded-2xl px-5 sm:px-6 py-3 sm:py-3.5 cursor-pointer hover:shadow-xl transition-all duration-200 overflow-hidden active:scale-[0.99]">
-                {/* shimmer top line */}
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#f5a623]/50 to-transparent" />
-                {/* subtle glow spot */}
-                <div className="absolute left-1/4 -top-6 w-32 h-16 bg-[#f5a623]/8 blur-2xl rounded-full pointer-events-none" />
-
-                {/* Price */}
-                <div className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5">
-                  <span className="text-white/70 line-through decoration-red-400 decoration-2 font-medium text-[0.65rem] sm:text-[0.8rem]">₹2500</span>
-                  <span className="text-[#f5a623] font-black drop-shadow-[0_0_8px_rgba(245,166,35,0.7)] text-[1.25rem] sm:text-[1.7rem]" style={{ lineHeight: 1 }}>₹99</span>
-                </div>
-
-                {/* Text */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold text-[11px] min-[380px]:text-xs sm:text-[15px] leading-tight">
-                    New to Mind Veda?&nbsp;<span className="text-[#f5a623]">Chat + Voice Call ₹99</span>
-                  </p>
-                  <p className="text-white/45 text-[10px] sm:text-[11px] mt-0.5 tracking-wide truncate">
-                    <span className="sm:hidden">5-min AI chat + 10-min Babita call · One-time</span>
-                    <span className="hidden sm:inline">5-min AI chat + 10-min voice call with Babita &nbsp;·&nbsp; First-time only &nbsp;·&nbsp; One-time</span>
-                  </p>
-                </div>
-
-                {/* CTA chip */}
-                <div className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5 bg-[#f5a623] text-[#0d1f12] rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-4 sm:py-2 font-bold text-[11px] sm:text-sm group-hover:bg-[#ffd166] transition-colors whitespace-nowrap">
-                  Book
-                  <svg className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </section>
-
         {/* ── QUOTE BANNER ── */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.7 }} viewport={{ once: true }} className="bg-white border-y border-gray-100">
           <div className="max-w-4xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-center gap-3">
@@ -483,6 +420,19 @@ export default function Home() {
             </p>
           </div>
         </motion.div>
+
+        {/* ── PROGRAM CARDS ── */}
+        <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-center mb-8 md:mb-12">
+            <p className="text-brand text-xs sm:text-sm uppercase tracking-[0.28em] font-semibold">Our Programs</p>
+            <h2 className="heading-hover mt-2 md:mt-3 text-xl sm:text-2xl md:text-4xl font-semibold text-[#1a3520]">Grow with the right guidance</h2>
+          </motion.div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 items-stretch">
+            {programCards.map((card, index) => (
+              <ProgramCard key={card.title} index={index} title={card.title} hook={card.hook} description={card.description} features={card.features} gradient={card.gradient} />
+            ))}
+          </div>
+        </section>
 
         {/* ── FEATURED CARDS ── */}
         <section className="max-w-[1800px] mx-auto px-4 sm:px-6 py-10 md:py-16">
@@ -559,6 +509,51 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
+          </div>
+        </section>
+
+        {/* ── MISSION & VISION ── */}
+        <section className="bg-white py-14 md:py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="rounded-[24px] bg-[#f4f1ea] p-8 md:p-10"
+              >
+                <div className="w-full aspect-[16/10] rounded-[16px] bg-gray-200 mb-6 flex items-center justify-center overflow-hidden">
+                  <span className="text-gray-400 text-sm">Photo placeholder</span>
+                </div>
+                <p className="text-brand text-xs uppercase tracking-[0.26em] font-semibold mb-3">Our Mission</p>
+                <h3 className="heading-hover text-2xl md:text-3xl font-semibold text-[#1a3520] leading-snug mb-4">
+                  Clarity and support for every mind we meet
+                </h3>
+                <p className="text-gray-600 leading-7 text-sm md:text-base">
+                  We exist to walk beside every mind we meet — student, professional, or organization — offering the clarity and support needed to grow. Every session, test, and program is built around one goal: real, lasting well-being.
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="rounded-[24px] bg-[#f4f1ea] p-8 md:p-10"
+              >
+                <div className="w-full aspect-[16/10] rounded-[16px] bg-gray-200 mb-6 flex items-center justify-center overflow-hidden">
+                  <span className="text-gray-400 text-sm">Photo placeholder</span>
+                </div>
+                <p className="text-brand text-xs uppercase tracking-[0.26em] font-semibold mb-3">Our Vision</p>
+                <h3 className="heading-hover text-2xl md:text-3xl font-semibold text-[#1a3520] leading-snug mb-4">
+                  Where wellness, career & growth come together
+                </h3>
+                <p className="text-gray-600 leading-7 text-sm md:text-base">
+                  We envision MindVeda as the one space where mental wellness, career direction, and skill-building truly come together. Not just a place to cope with challenges, but one to genuinely thrive in every area of life.
+                </p>
+              </motion.div>
+            </div>
           </div>
         </section>
 

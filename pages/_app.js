@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import { DefaultSeo } from 'next-seo'
 import { AuthProvider } from '../context/AuthContext'
-import FirstTimePopup from '../components/FirstTimePopup'
+import ChatWidget from '../components/ChatWidget'
 
 const DEFAULT_SEO = {
   titleTemplate: '%s | MindVeda',
@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }) {
       <DefaultSeo {...DEFAULT_SEO} />
       <AuthProvider>
         <Component {...pageProps} />
-        <FirstTimePopup />
+        <ChatWidget />
       </AuthProvider>
     </>
   )
