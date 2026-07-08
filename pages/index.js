@@ -543,8 +543,8 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="rounded-[24px] bg-[#f4f1ea] p-8 md:p-10"
               >
-                <div className="w-full aspect-[16/10] rounded-[16px] bg-gray-200 mb-6 flex items-center justify-center overflow-hidden">
-                  <span className="text-gray-400 text-sm">Photo placeholder</span>
+                <div className="relative w-full aspect-[16/10] rounded-[16px] bg-gray-200 mb-6 overflow-hidden">
+                  <Image src="/mission.webp" alt="Our Mission — Mind Veda" fill className="object-cover" />
                 </div>
                 <p className="text-brand text-xs uppercase tracking-[0.26em] font-semibold mb-3">Our Mission</p>
                 <h3 className="heading-hover text-2xl md:text-3xl font-semibold text-[#1a3520] leading-snug mb-4">
@@ -562,8 +562,8 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="rounded-[24px] bg-[#f4f1ea] p-8 md:p-10"
               >
-                <div className="w-full aspect-[16/10] rounded-[16px] bg-gray-200 mb-6 flex items-center justify-center overflow-hidden">
-                  <span className="text-gray-400 text-sm">Photo placeholder</span>
+                <div className="relative w-full aspect-[16/10] rounded-[16px] bg-gray-200 mb-6 overflow-hidden">
+                  <Image src="/vission.webp" alt="Our Vision — Mind Veda" fill className="object-cover" />
                 </div>
                 <p className="text-brand text-xs uppercase tracking-[0.26em] font-semibold mb-3">Our Vision</p>
                 <h3 className="heading-hover text-2xl md:text-3xl font-semibold text-[#1a3520] leading-snug mb-4">

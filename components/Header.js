@@ -113,6 +113,7 @@ export default function Header() {
           <NavLink label="Expert"   href="/expert" />
           <NavLink label="Yoga"     href="/yoga"    dropdown="yoga" />
           <NavLink label="Retreat"  href="/retreat" />
+          <NavLink label="Shop"     href="/shop" />
           <NavLink label="Blog"     href="/blog" />
           <NavLink label="Contact"  href="/contact" />
         </nav>
@@ -244,6 +245,7 @@ export default function Header() {
                 { label: 'Expert',   href: '/expert' },
                 { label: 'Yoga',     href: '/yoga' },
                 { label: 'Retreat',  href: '/retreat' },
+                { label: 'Shop',     href: '/shop' },
                 { label: 'Blog',     href: '/blog' },
                 { label: 'Contact',  href: '/contact' },
               ].map(({ label, href }) => {
