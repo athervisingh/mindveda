@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { CheckIcon, WhatsAppIcon } from './Icons'
 
 const WA_LINK = 'https://wa.me/918851452070'
 
-export default function ProgramCard({ title, hook, description, features, gradient, index }) {
+export default function ProgramCard({ title, hook, description, features, gradient, image, index }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -13,12 +14,22 @@ export default function ProgramCard({ title, hook, description, features, gradie
       viewport={{ once: true }}
       className="card-anim group bg-white rounded-2xl md:rounded-[20px] shadow-soft border border-gray-100 flex flex-col overflow-hidden"
     >
-      <div className={`relative w-full aspect-[3/2] bg-gradient-to-br ${gradient} flex flex-col items-center justify-center px-6`}>
-        <svg width="36" height="36" viewBox="0 0 40 40" fill="none" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="opacity-40 mb-3">
+      <div className={`relative w-full aspect-[3/2] bg-gradient-to-br ${gradient} flex flex-col items-center justify-center px-6 overflow-hidden`}>
+        {image && (
+          <Image
+            src={image}
+            alt={title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-cover"
+          />
+        )}
+        <div className={`absolute inset-0 bg-gradient-to-br ${gradient} ${image ? 'opacity-55' : ''}`} />
+        <svg width="36" height="36" viewBox="0 0 40 40" fill="none" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="relative opacity-40 mb-3">
           <path d="M20 34C20 34 8 26 8 17C8 12 12 10 16 12.5C16 10 17.5 7.5 20 7.5C22.5 7.5 24 10 24 12.5C28 10 32 12 32 17C32 26 20 34 20 34Z" />
           <path d="M20 34V16" />
         </svg>
-        <p className="text-white/90 text-center text-sm md:text-base font-semibold italic leading-snug" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+        <p className="relative text-white/90 text-center text-sm md:text-base font-semibold italic leading-snug" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
           "{hook}"
         </p>
       </div>

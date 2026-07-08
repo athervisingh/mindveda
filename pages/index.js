@@ -407,6 +407,26 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── COUPON MARQUEE — hero ke bilkul niche, chipka hua ── */}
+        <div className="bg-[#1a3520] overflow-hidden" style={{ height: '38px', display: 'flex', alignItems: 'center' }}>
+          <style>{`@keyframes mv-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}`}</style>
+          <div style={{ display: 'flex', width: 'max-content', animation: 'mv-marquee 36s linear infinite', willChange: 'transform' }}>
+            {[0, 1].map(copy => (
+              <div key={copy} style={{ display: 'flex', alignItems: 'center' }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '14px', whiteSpace: 'nowrap', paddingRight: '52px' }}>
+                    <span style={{ background: '#f5a623', color: '#1a3520', fontWeight: 800, fontSize: '11px', letterSpacing: '0.14em', padding: '3px 9px', borderRadius: '4px' }}>FREE CHAT</span>
+                    <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '12.5px', fontWeight: 500, fontFamily: 'Lato, sans-serif', letterSpacing: '0.01em' }}>
+                      Talk to Veda, your <strong style={{ color: '#f5a623', fontWeight: 700 }}>free AI wellness guide</strong> — anytime, no cost &nbsp;·&nbsp; 100% confidential &nbsp;·&nbsp; Tap the chat icon to start
+                    </span>
+                    <span style={{ color: '#f5a623', fontSize: '11px' }}>✦</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* ── QUOTE BANNER ── */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.7 }} viewport={{ once: true }} className="bg-white border-y border-gray-100">
           <div className="max-w-4xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-center gap-3">
@@ -429,7 +449,7 @@ export default function Home() {
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 items-stretch">
             {programCards.map((card, index) => (
-              <ProgramCard key={card.title} index={index} title={card.title} hook={card.hook} description={card.description} features={card.features} gradient={card.gradient} />
+              <ProgramCard key={card.title} index={index} title={card.title} hook={card.hook} description={card.description} features={card.features} gradient={card.gradient} image={card.image} />
             ))}
           </div>
         </section>
