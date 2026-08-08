@@ -31,6 +31,13 @@ export default function Cart() {
     window.dispatchEvent(new Event('cartUpdated'))
   }
 
+  function updateQuantity(cartId, delta) {
+    const updated = cart.map(c => c.cartId === cartId ? { ...c, quantity: Math.max(1, (c.quantity || 1) + delta) } : c)
+    setCart(updated)
+    localStorage.setItem('mv_cart', JSON.stringify(updated))
+    window.dispatchEvent(new Event('cartUpdated'))
+  }
+
   async function handleCouponApply() {
     const code = couponInput.trim()
     if (!code || !user) return
@@ -72,14 +79,18 @@ export default function Cart() {
     localStorage.removeItem('mv_package_discount')
   }
 
-  const total = cart.reduce((s, p) => s + (p.price || 0), 0)
+  const lineTotal = p => (p.price || 0) * (p.type === 'product' ? (p.quantity || 1) : 1)
+  const total = cart.reduce((s, p) => s + lineTotal(p), 0)
+  const couponEligible = couponStatus === 'valid' && cart[0]?.type !== 'product'
   const couponPriceRs = Math.round(couponFlatPrice / 100)
-  const afterCoupon = couponStatus === 'valid'
-    ? couponPriceRs + cart.slice(1).reduce((s, p) => s + (p.price || 0), 0)
+  const afterCoupon = couponEligible
+    ? couponPriceRs + cart.slice(1).reduce((s, p) => s + lineTotal(p), 0)
     : total
   const pkgDiscountAmt = pkgDiscount?.amount || 0
   const discountedTotal = Math.max(0, afterCoupon - pkgDiscountAmt)
   const couponSavings = total - afterCoupon
+  const hasProducts = cart.some(c => c.type === 'product')
+  const hasSessions  = cart.some(c => c.type !== 'product')
 
   if (!mounted) return null
 
@@ -124,7 +135,50 @@ export default function Cart() {
           <div className="grid lg:grid-cols-[1fr_340px] gap-6 items-start">
             <div className="space-y-4">
               <AnimatePresence>
-                {cart.map((item) => (
+                {cart.map((item) => item.type === 'product' ? (
+                  <motion.div
+                    key={item.cartId}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, x: -40, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex gap-4"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-brand/10 flex-shrink-0 overflow-hidden">
+                      {item.image ? <img src={item.image} alt="" className="w-full h-full object-cover" /> : (
+                        <div className="w-full h-full flex items-center justify-center text-brand"><CartIcon className="w-6 h-6" /></div>
+                      )}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <span className="text-xs font-medium text-brand/60 uppercase tracking-wider">Product</span>
+                          <h3 className="text-base font-semibold text-[#1a3520] mt-0.5">{item.title}</h3>
+                        </div>
+                        <span className="text-lg font-bold text-brand flex-shrink-0">
+                          ₹{(item.price * item.quantity).toLocaleString('en-IN')}
+                        </span>
+                      </div>
+
+                      <div className="mt-3 flex items-center gap-3">
+                        <span className="text-xs text-gray-400">₹{item.price.toLocaleString('en-IN')} each</span>
+                        <div className="flex items-center border border-gray-200 rounded-full">
+                          <button onClick={() => updateQuantity(item.cartId, -1)} className="w-7 h-7 flex items-center justify-center text-gray-500 hover:text-brand">−</button>
+                          <span className="w-7 text-center text-xs font-semibold">{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.cartId, 1)} className="w-7 h-7 flex items-center justify-center text-gray-500 hover:text-brand">+</button>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => removeItem(item.cartId)}
+                        className="mt-3 text-xs text-red-400 hover:text-red-600 transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </motion.div>
+                ) : (
                   <motion.div
                     key={item.cartId}
                     initial={{ opacity: 0, y: 16 }}
@@ -198,19 +252,20 @@ export default function Cart() {
                 <div className="p-5 space-y-3">
                   {cart.map((item, idx) => (
                     <div key={item.cartId} className="flex justify-between text-sm text-gray-600">
-                      <span className="truncate max-w-[180px]">{item.title}</span>
-                      {couponStatus === 'valid' && idx === 0 ? (
+                      <span className="truncate max-w-[180px]">{item.title}{item.type === 'product' && item.quantity > 1 ? ` × ${item.quantity}` : ''}</span>
+                      {couponEligible && idx === 0 ? (
                         <span className="font-medium ml-2 flex items-center gap-1.5">
-                          <span className="line-through text-gray-300 text-xs">₹{item.price.toLocaleString('en-IN')}</span>
+                          <span className="line-through text-gray-300 text-xs">₹{lineTotal(item).toLocaleString('en-IN')}</span>
                           <span className="text-green-600 font-semibold">₹{couponPriceRs}</span>
                         </span>
                       ) : (
-                        <span className="font-medium ml-2">₹{item.price.toLocaleString('en-IN')}</span>
+                        <span className="font-medium ml-2">₹{lineTotal(item).toLocaleString('en-IN')}</span>
                       )}
                     </div>
                   ))}
 
-                  {/* Coupon Input */}
+                  {/* Coupon Input — sessions/packages only */}
+                  {hasSessions && (
                   <div className="border-t border-gray-100 pt-3">
                     {couponStatus === 'valid' ? (
                       <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-3 py-2.5">
@@ -252,8 +307,9 @@ export default function Cart() {
                       </>
                     )}
                   </div>
+                  )}
 
-                  {couponStatus === 'valid' && couponSavings > 0 && (
+                  {couponEligible && couponSavings > 0 && (
                     <div className="flex justify-between text-sm text-green-600 font-medium">
                       <span>Coupon Discount</span>
                       <span>−₹{couponSavings.toLocaleString('en-IN')}</span>
@@ -273,7 +329,7 @@ export default function Cart() {
                   <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-[#1a3520]">
                     <span>Total</span>
                     <div className="text-right">
-                      {(couponStatus === 'valid' || pkgDiscount) && (
+                      {(couponEligible || pkgDiscount) && (
                         <div className="line-through text-gray-300 text-sm font-normal">₹{total.toLocaleString('en-IN')}</div>
                       )}
                       <span className="text-brand text-xl">₹{discountedTotal.toLocaleString('en-IN')}</span>
@@ -288,12 +344,22 @@ export default function Cart() {
                     ))}
                   </div>
 
-                  <Link
-                    href="/checkout"
-                    className="mt-2 flex items-center justify-center gap-2 w-full rounded-full bg-brand py-3.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
-                  >
-                    Proceed to Checkout <ArrowRightIcon className="w-4 h-4" />
-                  </Link>
+                  {hasSessions && (
+                    <Link
+                      href="/checkout"
+                      className="mt-2 flex items-center justify-center gap-2 w-full rounded-full bg-brand py-3.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                    >
+                      Checkout Sessions <ArrowRightIcon className="w-4 h-4" />
+                    </Link>
+                  )}
+                  {hasProducts && (
+                    <Link
+                      href="/shop/checkout"
+                      className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-opacity ${hasSessions ? 'mt-2 border border-brand text-brand hover:bg-brand/5' : 'mt-2 bg-brand text-white hover:opacity-90'}`}
+                    >
+                      Checkout Products <ArrowRightIcon className="w-4 h-4" />
+                    </Link>
+                  )}
                 </div>
               </div>
 

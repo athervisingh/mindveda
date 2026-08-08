@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
 import { NextSeo } from 'next-seo'
+import ShopTab from '../../components/admin/ShopTab'
 
 const STATUS_STYLES = {
   confirmed:   'bg-green-100 text-green-700',
@@ -21,6 +22,7 @@ const TABS = [
   { id: 'schedule', label: 'Schedule',  icon: '🗓️' },
   { id: 'chats',    label: 'Live Chats', icon: '💬' },
   { id: 'retreats', label: 'Retreats',  icon: '🏕️' },
+  { id: 'shop',     label: 'Shop',      icon: '🛍️' },
 ]
 
 function fmt12(t) {
@@ -955,6 +957,9 @@ export default function AdminDashboard() {
             )}
           </div>
         )}
+
+        {/* ══════════════ SHOP TAB ══════════════ */}
+        {activeTab === 'shop' && <ShopTab />}
 
       </main>
     </div>

@@ -6,17 +6,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
 import { CartIcon, LotusIcon, CalendarIcon, ClockIcon, CheckIcon, ArrowLeftIcon, ArrowRightIcon } from '../components/Icons'
-
-function loadRazorpay() {
-  return new Promise((resolve) => {
-    if (window.Razorpay) return resolve(true)
-    const script = document.createElement('script')
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-    script.onload = () => resolve(true)
-    script.onerror = () => resolve(false)
-    document.body.appendChild(script)
-  })
-}
+import { loadRazorpay } from '../lib/loadRazorpay'
 
 export default function Checkout() {
   const router = useRouter()
@@ -37,7 +27,8 @@ export default function Checkout() {
 
   useEffect(() => {
     setMounted(true)
-    setCart(JSON.parse(localStorage.getItem('mv_cart') || '[]'))
+    // Product line items belong to the shop checkout flow (/shop/checkout), not this session checkout.
+    setCart(JSON.parse(localStorage.getItem('mv_cart') || '[]').filter(i => i.type !== 'product'))
     const saved = JSON.parse(localStorage.getItem('mv_coupon') || 'null')
     if (saved?.code && saved?.flat_price) {
       setCouponInput(saved.code)
