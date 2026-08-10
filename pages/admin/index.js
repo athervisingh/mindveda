@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabaseClient'
 import { NextSeo } from 'next-seo'
 import ShopTab from '../../components/admin/ShopTab'
 import RetreatPackagesTab from '../../components/admin/RetreatPackagesTab'
+import NewsTab from '../../components/admin/NewsTab'
 
 const STATUS_STYLES = {
   confirmed:   'bg-green-100 text-green-700',
@@ -25,6 +26,7 @@ const TABS = [
   { id: 'retreats', label: 'Retreats',  icon: '🏕️' },
   { id: 'retreat-packages', label: 'Retreat Packages', icon: '🏔️' },
   { id: 'shop',     label: 'Shop',      icon: '🛍️' },
+  { id: 'news',     label: 'News',      icon: '📰' },
 ]
 
 function fmt12(t) {
@@ -965,6 +967,7 @@ export default function AdminDashboard() {
 
         {/* ══════════════ SHOP TAB ══════════════ */}
         {activeTab === 'shop' && <ShopTab />}
+        {activeTab === 'news' && <NewsTab />}
 
       </main>
     </div>

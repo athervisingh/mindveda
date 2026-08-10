@@ -1,4 +1,6 @@
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { supabase } from '../lib/supabaseClient'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Link from 'next/link'
@@ -59,6 +61,19 @@ const homeFaqSchema = {
 
 export default function Home() {
   const router = useRouter()
+  const [newsItems, setNewsItems] = useState([])
+
+  useEffect(() => {
+    async function fetchNews() {
+      const { data } = await supabase
+        .from('news_items')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order')
+      setNewsItems(data || [])
+    }
+    fetchNews()
+  }, [])
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7] text-gray-900">
@@ -426,6 +441,42 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        {/* ── NEWS MARQUEE — admin panel se control hota hai (news_items table) ── */}
+        {newsItems.length > 0 && (
+          <div className="bg-white border-b border-[#e0d9c4] overflow-hidden" style={{ height: '34px', display: 'flex', alignItems: 'center' }}>
+            <style>{`@keyframes mv-news-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}`}</style>
+            <div style={{ display: 'flex', width: 'max-content', animation: 'mv-news-marquee 42s linear infinite', willChange: 'transform' }}>
+              {[0, 1].map(copy => (
+                <div key={copy} style={{ display: 'flex', alignItems: 'center' }}>
+                  {Array.from({ length: 3 }).flatMap((_, i) =>
+                    newsItems.map((item, j) => {
+                      const key = `${i}-${item.id}-${j}`
+                      const inner = (
+                        <>
+                          <span style={{ background: '#1a3520', color: '#f5a623', fontWeight: 800, fontSize: '10.5px', letterSpacing: '0.14em', padding: '3px 9px', borderRadius: '4px' }}>NEWS</span>
+                          <span style={{ color: '#3d3d2a', fontSize: '12.5px', fontWeight: 500, fontFamily: 'Lato, sans-serif', letterSpacing: '0.01em' }}>
+                            {item.headline}
+                          </span>
+                          <span style={{ color: '#c9b97a', fontSize: '11px' }}>✦</span>
+                        </>
+                      )
+                      return item.link ? (
+                        <Link key={key} href={item.link} style={{ display: 'inline-flex', alignItems: 'center', gap: '14px', whiteSpace: 'nowrap', paddingRight: '52px' }}>
+                          {inner}
+                        </Link>
+                      ) : (
+                        <span key={key} style={{ display: 'inline-flex', alignItems: 'center', gap: '14px', whiteSpace: 'nowrap', paddingRight: '52px' }}>
+                          {inner}
+                        </span>
+                      )
+                    })
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* ── QUOTE BANNER ── */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.7 }} viewport={{ once: true }} className="bg-white border-y border-gray-100">
