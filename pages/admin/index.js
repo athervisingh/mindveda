@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
 import { NextSeo } from 'next-seo'
 import ShopTab from '../../components/admin/ShopTab'
+import RetreatPackagesTab from '../../components/admin/RetreatPackagesTab'
 
 const STATUS_STYLES = {
   confirmed:   'bg-green-100 text-green-700',
@@ -22,6 +23,7 @@ const TABS = [
   { id: 'schedule', label: 'Schedule',  icon: '🗓️' },
   { id: 'chats',    label: 'Live Chats', icon: '💬' },
   { id: 'retreats', label: 'Retreats',  icon: '🏕️' },
+  { id: 'retreat-packages', label: 'Retreat Packages', icon: '🏔️' },
   { id: 'shop',     label: 'Shop',      icon: '🛍️' },
 ]
 
@@ -957,6 +959,9 @@ export default function AdminDashboard() {
             )}
           </div>
         )}
+
+        {/* ══════════════ RETREAT PACKAGES TAB ══════════════ */}
+        {activeTab === 'retreat-packages' && <RetreatPackagesTab />}
 
         {/* ══════════════ SHOP TAB ══════════════ */}
         {activeTab === 'shop' && <ShopTab />}

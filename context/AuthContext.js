@@ -67,6 +67,18 @@ export function AuthProvider({ children }) {
     return data
   }
 
+  const loginWithGoogle = async (redirectPath = '/') => {
+    if (!supabase) {
+      throw new Error('Google sign-in is not configured.')
+    }
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}${redirectPath}` },
+    })
+    if (error) throw error
+    return data
+  }
+
   const logout = async () => {
     if (supabase) {
       await supabase.auth.signOut()
@@ -75,7 +87,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, loginWithGoogle }}>
       {children}
     </AuthContext.Provider>
   )

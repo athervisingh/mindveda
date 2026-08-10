@@ -1,11 +1,6 @@
 import { getRazorpay } from '../../../lib/razorpay'
 import { supabaseAdmin } from '../../../lib/supabaseAdmin'
 
-const PACKAGE_PRICES = {
-  'twin-sharing': 15000,
-  'single-stay':  18000,
-}
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
@@ -14,10 +9,17 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'All fields are required' })
   }
 
-  const priceRupees = PACKAGE_PRICES[packageId]
-  if (!priceRupees) return res.status(400).json({ error: 'Invalid package' })
+  const { data: pkg } = await supabaseAdmin
+    .from('retreat_packages')
+    .select('price, is_active, sold_out')
+    .eq('slug', packageId)
+    .single()
 
-  let finalAmountPaise = priceRupees * 100
+  if (!pkg || !pkg.is_active || pkg.sold_out) {
+    return res.status(400).json({ error: 'Invalid package' })
+  }
+
+  let finalAmountPaise = pkg.price * 100
 
   if (couponCode) {
     const { data: coupon } = await supabaseAdmin

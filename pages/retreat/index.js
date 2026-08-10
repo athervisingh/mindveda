@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { CheckIcon, RetreatActivityIcon, MapPinIcon } from '../../components/Icons'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import { supabase } from '../../lib/supabaseClient'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import FaqSection from '../../components/FaqSection'
@@ -110,37 +111,6 @@ const ITINERARY = [
   },
 ]
 
-const PACKAGES = [
-  {
-    id: 'quad-sharing',
-    label: '4 SHARING ROOM',
-    subtitle: '1 Room (4 Beds)',
-    Icon: QuadIcon,
-    originalPrice: 12500,
-    price: 10000,
-    soldOut: true,
-    features: ['4 Sharing Room', 'Sattvic Meals', 'All Retreat Sessions', 'Temple Visits', 'Nature Activities', 'Ganga Aarti'],
-  },
-  {
-    id: 'twin-sharing',
-    label: 'TWIN SHARING ROOM',
-    subtitle: '1 Room (2 Beds)',
-    Icon: BedIcon,
-    originalPrice: 18750,
-    price: 15000,
-    features: ['Twin Sharing Room', 'Sattvic Meals', 'All Retreat Sessions', 'Temple Visits', 'Nature Activities', 'Ganga Aarti'],
-  },
-  {
-    id: 'single-stay',
-    label: 'SINGLE STAY',
-    subtitle: 'Private Room',
-    Icon: PersonIcon,
-    originalPrice: 22500,
-    price: 18000,
-    features: ['Private Room', 'Sattvic Meals', 'All Retreat Sessions', 'Temple Visits', 'Nature Activities', 'Ganga Aarti'],
-  },
-]
-
 function QuadIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 96 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -189,6 +159,23 @@ function PersonIcon({ className }) {
       <path d="M4 68c0-14 11-24 24-24s24 10 24 24"/>
     </svg>
   )
+}
+
+const ICON_MAP = { quad: QuadIcon, bed: BedIcon, person: PersonIcon, group: GroupIcon }
+const ICON_SIZE_MAP = { quad: 'w-24 h-10', bed: 'w-20 h-12', person: 'w-10 h-14', group: 'w-20 h-12' }
+
+function mapPackageRow(row) {
+  return {
+    id: row.slug,
+    label: row.label,
+    subtitle: row.subtitle,
+    Icon: ICON_MAP[row.icon_key] || BedIcon,
+    iconSize: ICON_SIZE_MAP[row.icon_key] || 'w-20 h-12',
+    originalPrice: row.original_price,
+    price: row.price,
+    soldOut: row.sold_out,
+    features: row.features || [],
+  }
 }
 
 const PROPERTY_SECTIONS = [
@@ -726,6 +713,21 @@ function ItinerarySection() {
 
 export default function Retreat() {
   const [modalPkg, setModalPkg] = useState(null)
+  const [packages, setPackages] = useState([])
+  const [loadingPackages, setLoadingPackages] = useState(true)
+
+  useEffect(() => {
+    async function fetchPackages() {
+      const { data } = await supabase
+        .from('retreat_packages')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order')
+      setPackages((data || []).map(mapPackageRow))
+      setLoadingPackages(false)
+    }
+    fetchPackages()
+  }, [])
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf7]">
@@ -803,8 +805,13 @@ export default function Retreat() {
             <p className="mt-2 text-gray-500 text-sm">All packages include meals, all activities & accommodation</p>
           </motion.div>
 
+          {loadingPackages ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map(i => <div key={i} className="h-96 bg-gray-100 rounded-3xl animate-pulse" />)}
+            </div>
+          ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PACKAGES.map((plan, i) => (
+            {packages.map((plan, i) => (
               <motion.div
                 key={plan.id}
                 initial={{ opacity: 0, y: 24 }}
@@ -828,7 +835,7 @@ export default function Retreat() {
                   <p className="text-xs text-gray-400 mb-5">{plan.subtitle}</p>
                   <div className="w-full border-t border-gray-100 mb-6" />
                   <div className="mb-6 flex items-center justify-center" style={{ height: '56px' }}>
-                    <plan.Icon className={`text-[#7a5c14] ${plan.id === 'single-stay' ? 'w-10 h-14' : plan.id === 'quad-sharing' ? 'w-24 h-10' : 'w-20 h-12'}`} />
+                    <plan.Icon className={`text-[#7a5c14] ${plan.iconSize}`} />
                   </div>
                   <p className="text-sm text-gray-400 line-through mb-1">₹{plan.originalPrice.toLocaleString('en-IN')}/-</p>
                   <p className="text-4xl font-bold text-[#1a1a1a] leading-tight mb-1">₹ {plan.price.toLocaleString('en-IN')}/-</p>
@@ -857,6 +864,7 @@ export default function Retreat() {
               </motion.div>
             ))}
           </div>
+          )}
           <p className="text-center text-xs text-gray-400 mt-4">* All prices per person · GST applicable · 3 days / 2 nights</p>
         </section>
 
