@@ -1,8 +1,10 @@
 import { supabaseAdmin } from '../../../lib/supabaseAdmin'
 
-// Shiprocket calls this with shipment status updates. Configure the webhook URL + this token
-// in the Shiprocket dashboard once an account exists — exact header name may need adjusting
-// against their current docs at that time (SHIPROCKET_WEBHOOK_TOKEN is a secret we define ourselves).
+// Courier partner calls this with shipment status updates. Configure the webhook URL + this token
+// in the courier dashboard — exact header name may need adjusting against their current docs
+// (SHIPROCKET_WEBHOOK_TOKEN is a secret we define ourselves).
+// Path deliberately avoids the courier's name in the URL — their own webhook setup form
+// rejects URLs containing "shiprocket"/"kartrocket"/"sr"/"kr".
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
