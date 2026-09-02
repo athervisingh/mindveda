@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import { getRazorpay } from '../../../lib/razorpay'
 import { supabaseAdmin } from '../../../lib/supabaseAdmin'
 import { CHALLENGE_PRICE_PAISE } from '../../../lib/pf16'
+import { lookupCoupon } from './validate-coupon'
 
 function clean(v, max) {
   if (typeof v !== 'string') return null
@@ -23,8 +24,16 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Please enter a valid email ID' })
   }
 
-  // Amount hamesha server par tay hota hai — client bhej hi nahi sakta.
-  const amount = CHALLENGE_PRICE_PAISE
+  // Amount hamesha server par tay hota hai — client sirf code bhejta hai,
+  // keemat nahi. Galat/expired code par poori keemat lagti hai.
+  let amount     = CHALLENGE_PRICE_PAISE
+  let couponCode = null
+  if (clean(req.body?.couponCode, 40)) {
+    const { coupon, error: couponError } = await lookupCoupon(req.body.couponCode, email)
+    if (couponError) return res.status(400).json({ error: couponError })
+    amount     = coupon.flat_price
+    couponCode = coupon.code
+  }
 
   let order
   try {
@@ -44,6 +53,8 @@ export default async function handler(req, res) {
     .insert({
       full_name, email, mobile,
       amount,
+      original_amount: CHALLENGE_PRICE_PAISE,
+      coupon_code: couponCode,
       status: 'created',
       razorpay_order_id: order.id,
       access_token: crypto.randomBytes(24).toString('hex'),
@@ -60,6 +71,7 @@ export default async function handler(req, res) {
     attemptId: data.id,
     orderId:   order.id,
     amount,
+    couponApplied: couponCode,
     keyId:     process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
   })
 }

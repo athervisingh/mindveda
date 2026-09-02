@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   // laakar test nahi khol sakta.
   const { data: attempt } = await supabaseAdmin
     .from('pf16_attempts')
-    .select('id, status, access_token, razorpay_order_id')
+    .select('id, status, access_token, razorpay_order_id, coupon_code')
     .eq('id', attemptId)
     .single()
 
@@ -35,6 +35,14 @@ export default async function handler(req, res) {
       .from('pf16_attempts')
       .update({ status: 'paid', razorpay_payment_id, paid_at: new Date().toISOString() })
       .eq('id', attempt.id)
+
+    // used_count sirf tab badhta hai jab payment sach me ho gayi ho —
+    // abandoned checkouts coupon nahi kharchte.
+    if (attempt.coupon_code) {
+      const { data: c } = await supabaseAdmin
+        .from('coupons').select('id, used_count').eq('code', attempt.coupon_code).single()
+      if (c) await supabaseAdmin.from('coupons').update({ used_count: (c.used_count || 0) + 1 }).eq('id', c.id)
+    }
   }
 
   res.json({ success: true, attemptId: attempt.id, accessToken: attempt.access_token })

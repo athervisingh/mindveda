@@ -20,6 +20,8 @@ export default function TestPage() {
   const [left, setLeft]       = useState(TEST_SECONDS)
   const [timedOut, setTimedOut] = useState(false)
   const advanceRef = useRef(null)
+  const savedRef   = useRef(false)
+  const startedRef = useRef(null)
 
   const test = groupId ? TESTS[groupId] : null
   const t    = (obj) => (obj ? obj[lang] : '')
@@ -46,6 +48,8 @@ export default function TestPage() {
 
   function startTest(id) {
     clearTimeout(advanceRef.current)
+    savedRef.current   = false
+    startedRef.current = Date.now()
     setGroupId(id)
     setAnswers({})
     setIndex(0)
@@ -89,6 +93,24 @@ export default function TestPage() {
     }
     return { score: s, attempted: n }
   }, [test, answers])
+
+  // ── Result bante hi ek baar server par save — admin panel ke liye ──
+  useEffect(() => {
+    if (phase !== 'result' || !test || savedRef.current) return
+    savedRef.current = true
+    fetch('/api/mindcheck/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        groupId: test.id,
+        lang,
+        answers,
+        timedOut,
+        durationSeconds: startedRef.current ? Math.floor((Date.now() - startedRef.current) / 1000) : null,
+        registrationId: typeof router.query.r === 'string' ? router.query.r : null,
+      }),
+    }).catch(() => { /* result user ko phir bhi dikhta hai */ })
+  }, [phase, test, lang, answers, timedOut, router.query.r])
 
   const band    = test ? bandFor(test, score) : null
   const funQ    = test?.questions.find(q => !q.scored)
@@ -137,7 +159,7 @@ export default function TestPage() {
                   onClick={() => startTest(item.id)}
                   whileHover={{ y: -4 }}
                   whileTap={{ scale: 0.98 }}
-                  className="text-left bg-white rounded-2xl border-2 border-[#dcd3ba] p-6 shadow-[0_6px_24px_-10px_rgba(26,53,32,0.3)] hover:border-[#f5a623] transition-colors"
+                  className="text-left bg-white rounded-2xl border-2 border-[#dcd3ba] p-5 sm:p-6 shadow-[0_6px_24px_-10px_rgba(26,53,32,0.3)] hover:border-[#f5a623] transition-colors"
                 >
                   <span className="text-3xl">{item.emoji}</span>
                   <p className="mt-3 inline-block bg-[#1a3520] text-[#ffd27a] text-[11px] font-extrabold uppercase tracking-[0.18em] rounded-full px-3 py-1">
@@ -166,11 +188,11 @@ export default function TestPage() {
           <div className="max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
             {/* Timer */}
             <div className="mb-6">
-              <div className="flex items-center justify-between text-[12px] font-extrabold mb-2">
-                <span className="text-[#4f6354]">
+              <div className="flex items-center justify-between gap-2 text-[11px] sm:text-[12px] font-extrabold mb-2">
+                <span className="text-[#4f6354] truncate">
                   {t(UI.question)} {index + 1} {t(UI.of)} {test.questions.length}
                 </span>
-                <span className={left <= 15 ? 'text-red-600' : 'text-[#1a3520]'}>
+                <span className={`flex-shrink-0 ${left <= 15 ? 'text-red-600' : 'text-[#1a3520]'}`}>
                   ⏱ {t(UI.timeLeft)}: {left}s
                 </span>
               </div>
@@ -291,7 +313,7 @@ export default function TestPage() {
                 >
                   {band.emoji}
                 </motion.div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                <h2 className="text-[22px] sm:text-3xl font-bold text-white leading-tight break-words" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
                   {t(band.title)}
                 </h2>
                 <p className="text-[#ffd27a] font-extrabold text-sm mt-3">
@@ -333,11 +355,11 @@ export default function TestPage() {
                   {test.questions.map((q, i) => {
                     const a = answers[q.id]
                     return (
-                      <div key={q.id} className="flex items-start justify-between gap-3">
-                        <p className="text-[13px] text-[#4f6354] font-medium leading-5 flex-1">
+                      <div key={q.id} className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-3">
+                        <p className="text-[13px] text-[#4f6354] font-medium leading-5 sm:flex-1 min-w-0">
                           <span className="font-extrabold text-[#1a3520]">{i + 1}.</span> {t(q.text)}
                         </p>
-                        <span className={`text-[12px] font-bold whitespace-nowrap ${a === undefined ? 'text-gray-400' : 'text-[#1a3520]'}`}>
+                        <span className={`text-[12px] font-bold break-words sm:text-right sm:max-w-[45%] sm:flex-shrink-0 ${a === undefined ? 'text-gray-400' : 'text-[#1a3520]'}`}>
                           {a === undefined
                             ? t(UI.notAnswered)
                             : `${t(q.options[a].label)}${q.scored ? ` · ${q.options[a].score}` : ''}`}

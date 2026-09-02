@@ -87,7 +87,8 @@ export default function RegistrationPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.')
       // Registration save ho gaya — seedha Mind Check test par bhej do.
-      router.push('/test?from=registration')
+      // id saath jaati hai taaki test ka result usi registration se juda rahe.
+      router.push(`/test?from=registration${data.id ? `&r=${data.id}` : ''}`)
       return
     } catch (err) {
       setError(err.message)

@@ -8,6 +8,8 @@ import ShopTab from '../../components/admin/ShopTab'
 import RetreatPackagesTab from '../../components/admin/RetreatPackagesTab'
 import NewsTab from '../../components/admin/NewsTab'
 import RegistrationsTab from '../../components/admin/RegistrationsTab'
+import MindCheckTab from '../../components/admin/MindCheckTab'
+import ChallengeTab from '../../components/admin/ChallengeTab'
 
 const STATUS_STYLES = {
   confirmed:   'bg-green-100 text-green-700',
@@ -29,6 +31,8 @@ const TABS = [
   { id: 'shop',     label: 'Shop',      icon: '🛍️' },
   { id: 'news',     label: 'News',      icon: '📰' },
   { id: 'registrations', label: 'Registrations', icon: '📝' },
+  { id: 'mind-check', label: 'Mind Check', icon: '🧠' },
+  { id: 'challenge',  label: 'Mind Challenge', icon: '🎯' },
 ]
 
 function fmt12(t) {
@@ -971,6 +975,8 @@ export default function AdminDashboard() {
         {activeTab === 'shop' && <ShopTab />}
         {activeTab === 'news' && <NewsTab />}
         {activeTab === 'registrations' && <RegistrationsTab />}
+        {activeTab === 'mind-check' && <MindCheckTab />}
+        {activeTab === 'challenge' && <ChallengeTab />}
 
       </main>
     </div>

@@ -25,6 +25,9 @@ export default function ChallengePage() {
   const [form, setForm]       = useState({ full_name: '', email: '', mobile: '' })
   const [paying, setPaying]   = useState(false)
   const [error, setError]     = useState('')
+  const [coupon, setCoupon]   = useState('')
+  const [couponState, setCouponState] = useState(null)   // { code, flat_price, message } | { error }
+  const [checkingCoupon, setCheckingCoupon] = useState(false)
   const [access, setAccess]   = useState(null)        // { attemptId, accessToken }
   const [answers, setAnswers] = useState(() => Array(TOTAL_ITEMS).fill(null))
   const [page, setPage]       = useState(0)
@@ -33,6 +36,7 @@ export default function ChallengePage() {
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult]   = useState(null)
   const [ready, setReady]     = useState(false)
+  const [headerH, setHeaderH] = useState(60)
   const topRef = useRef(null)
 
   // ── Paid attempt + draft ko wapas uthao (refresh ya band ho jaane par) ──
@@ -46,6 +50,17 @@ export default function ChallengePage() {
       setPhase(s.answers ? 'test' : 'intro')
     }
     setReady(true)
+  }, [])
+
+  // ── Sticky progress bar header ke thik neeche baithe, har screen par ──
+  useEffect(() => {
+    const measure = () => {
+      const h = document.querySelector('header')?.getBoundingClientRect().height
+      if (h) setHeaderH(Math.round(h))
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
   }, [])
 
   // ── Elapsed timer (koi limit nahi — sirf guide, ~35 min expected) ──
@@ -62,6 +77,34 @@ export default function ChallengePage() {
     writeStore({ ...(readStore() || {}), ...access, ...patch })
   }, [access])
 
+  // ── Secret code ──
+  async function applyCoupon() {
+    const code = coupon.trim()
+    if (!code) return
+    setCheckingCoupon(true)
+    setCouponState(null)
+    try {
+      const res  = await fetch('/api/challenge/validate-coupon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ couponCode: code, email: form.email }),
+      })
+      const data = await res.json()
+      setCouponState(res.ok ? data : { error: data.error || 'Invalid code' })
+    } catch {
+      setCouponState({ error: 'Could not check the code. Please try again.' })
+    } finally {
+      setCheckingCoupon(false)
+    }
+  }
+
+  function clearCoupon() {
+    setCoupon('')
+    setCouponState(null)
+  }
+
+  const payable = couponState?.valid ? Math.round(couponState.flat_price / 100) : PRICE
+
   // ── Payment ──
   async function handlePay(e) {
     e.preventDefault()
@@ -74,7 +117,7 @@ export default function ChallengePage() {
       const res  = await fetch('/api/challenge/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, couponCode: couponState?.valid ? couponState.code : null }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Could not start the payment.')
@@ -222,7 +265,10 @@ export default function ChallengePage() {
                 <div className="bg-white rounded-2xl border-2 border-[#dcd3ba] shadow-[0_6px_24px_-10px_rgba(26,53,32,0.3)] overflow-hidden">
                   <div className="bg-[#fff8e8] border-b-2 border-[#f0dfae] px-6 py-6 text-center">
                     <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#8a6914]">Unlock the full test</p>
-                    <p className="text-4xl font-extrabold text-[#1a3520] mt-2" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>₹{PRICE}</p>
+                    <p className="text-4xl font-extrabold text-[#1a3520] mt-2 flex items-baseline justify-center gap-2 flex-wrap" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                      {couponState?.valid && <span className="text-2xl text-[#9aa79c] line-through font-bold">₹{PRICE}</span>}
+                      <span>₹{payable}</span>
+                    </p>
                     <p className="text-[13px] font-semibold text-[#4f6354] mt-1">one-time · includes your personal report</p>
                   </div>
 
@@ -260,6 +306,38 @@ export default function ChallengePage() {
                         className="w-full bg-white border-2 border-[#c7d3c6] rounded-xl px-4 py-3.5 text-[16px] font-medium text-[#12251a] placeholder-[#93a394] focus:outline-none focus:ring-4 focus:ring-[#f5a623]/35 focus:border-[#f5a623] transition-all"
                       />
 
+                      {/* Secret code */}
+                      {couponState?.valid ? (
+                        <div className="flex items-center justify-between gap-3 rounded-xl bg-[#eaf4ec] border-2 border-[#1a3520]/20 px-4 py-3">
+                          <p className="text-[13px] font-bold text-[#1a3520] leading-5">
+                            <span className="font-mono">{couponState.code}</span> applied — you pay ₹{payable}
+                          </p>
+                          <button type="button" onClick={clearCoupon}
+                            className="text-[12px] font-bold text-[#4f6354] underline underline-offset-2 flex-shrink-0">Remove</button>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="flex flex-col xs:flex-row gap-2">
+                            <input
+                              type="text" value={coupon}
+                              onChange={e => { setCoupon(e.target.value); setCouponState(null) }}
+                              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); applyCoupon() } }}
+                              placeholder="Have a secret code?"
+                              className="flex-1 min-w-0 bg-white border-2 border-[#c7d3c6] rounded-xl px-4 py-3 text-[15px] font-semibold uppercase tracking-wide text-[#12251a] placeholder-[#93a394] placeholder:normal-case placeholder:tracking-normal placeholder:font-medium focus:outline-none focus:ring-4 focus:ring-[#f5a623]/35 focus:border-[#f5a623] transition-all"
+                            />
+                            <button
+                              type="button" onClick={applyCoupon} disabled={checkingCoupon || !coupon.trim()}
+                              className="flex-shrink-0 rounded-xl border-2 border-[#1a3520]/25 px-5 py-3 text-[14px] font-extrabold text-[#1a3520] hover:bg-[#1a3520] hover:text-white disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[#1a3520] transition-all"
+                            >
+                              {checkingCoupon ? 'Checking…' : 'Apply'}
+                            </button>
+                          </div>
+                          {couponState?.error && (
+                            <p className="text-[12.5px] font-semibold text-[#a02020] mt-1.5">{couponState.error}</p>
+                          )}
+                        </div>
+                      )}
+
                       {error && (
                         <div className="rounded-xl bg-[#fdeeee] border-2 border-[#f3c9c9] px-4 py-3 text-[13.5px] font-semibold text-[#a02020]">{error}</div>
                       )}
@@ -268,7 +346,7 @@ export default function ChallengePage() {
                         type="submit" disabled={paying}
                         className="w-full bg-gradient-to-r from-[#f5a623] to-[#f0901c] text-[#1a3520] rounded-xl py-4 text-lg font-extrabold tracking-wide shadow-[0_8px_24px_-6px_rgba(245,166,35,0.75)] hover:brightness-105 disabled:opacity-60 transition-all"
                       >
-                        {paying ? 'Opening payment…' : `Pay ₹${PRICE} & Start`}
+                        {paying ? 'Opening payment…' : `Pay ₹${payable} & Start`}
                       </button>
                       <p className="text-center text-[12.5px] font-semibold text-[#4f6354]">
                         🔒 Secure payment by Razorpay · answers stay confidential
@@ -340,10 +418,10 @@ export default function ChallengePage() {
             {phase === 'test' && (
               <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
                 {/* Sticky progress */}
-                <div className="sticky top-[68px] z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3 bg-[#fdf8ec]/95 backdrop-blur border-b border-[#e6dcc4] mb-6">
-                  <div className="flex items-center justify-between text-[12px] font-extrabold mb-2">
-                    <span className="text-[#1a3520]">{answeredCount} / {TOTAL_ITEMS} answered</span>
-                    <span className="text-[#4f6354]">⏱ {mm}:{ss} · page {page + 1}/{PAGES}</span>
+                <div style={{ top: headerH }} className="sticky z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3 bg-[#fdf8ec]/95 backdrop-blur border-b border-[#e6dcc4] mb-6">
+                  <div className="flex items-center justify-between gap-2 text-[11px] sm:text-[12px] font-extrabold mb-2">
+                    <span className="text-[#1a3520] whitespace-nowrap">{answeredCount} / {TOTAL_ITEMS}<span className="hidden xs:inline"> answered</span></span>
+                    <span className="text-[#4f6354] whitespace-nowrap">⏱ {mm}:{ss} · {page + 1}/{PAGES}</span>
                   </div>
                   <div className="h-2 w-full rounded-full bg-[#e6dcc4] overflow-hidden">
                     <div className="h-full rounded-full bg-[#f5a623] transition-[width] duration-300"
@@ -399,23 +477,23 @@ export default function ChallengePage() {
                 <div className="flex items-center justify-between gap-3 mt-6">
                   <button
                     onClick={() => goPage(page - 1)} disabled={page === 0}
-                    className="text-sm font-bold text-[#4f6354] px-5 py-3 rounded-full border-2 border-[#dcd3ba] hover:bg-white disabled:opacity-35"
+                    className="text-[13px] sm:text-sm font-bold text-[#4f6354] px-4 sm:px-5 py-3 rounded-full border-2 border-[#dcd3ba] hover:bg-white disabled:opacity-35 flex-shrink-0"
                   >
                     ← Previous
                   </button>
                   {page + 1 < PAGES ? (
                     <button
                       onClick={() => goPage(page + 1)}
-                      className="text-sm font-extrabold text-[#1a3520] bg-[#f5a623] rounded-full px-8 py-3 shadow-md hover:brightness-105"
+                      className="text-[13px] sm:text-sm font-extrabold text-[#1a3520] bg-[#f5a623] rounded-full px-7 sm:px-8 py-3 shadow-md hover:brightness-105 flex-shrink-0"
                     >
                       Next →
                     </button>
                   ) : (
                     <button
                       onClick={handleSubmit} disabled={submitting}
-                      className="text-sm font-extrabold text-[#1a3520] bg-[#f5a623] rounded-full px-8 py-3 shadow-md hover:brightness-105 disabled:opacity-60"
+                      className="text-[13px] sm:text-sm font-extrabold text-[#1a3520] bg-[#f5a623] rounded-full px-6 sm:px-8 py-3 shadow-md hover:brightness-105 disabled:opacity-60 flex-shrink-0"
                     >
-                      {submitting ? 'Submitting…' : 'Submit answer sheet'}
+                      {submitting ? 'Submitting…' : 'Submit sheet'}
                     </button>
                   )}
                 </div>
