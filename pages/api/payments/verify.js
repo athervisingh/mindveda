@@ -127,7 +127,7 @@ export default async function handler(req, res) {
     }
 
     const serviceSlug = b.services?.slug || ''
-    const serviceName = b.services?.name || 'Counseling'
+    const serviceName = b.services?.name || 'Counselling'
     const now = new Date()
     const endsAt = new Date(now.getTime() + 5 * 60 * 1000)
 
@@ -147,12 +147,12 @@ export default async function handler(req, res) {
     if (chatSession) {
       chatSessionId = chatSession.id
       const welcomeMap = {
-        'individual-counseling': `Namaste! I'm Veda, your Mind Veda wellness guide. I see you're interested in **Individual Counseling**. Before your session with Babita, I'd love to understand you better. What's been weighing on your mind lately — is it stress, relationships, anxiety, or something else?`,
-        'child-counseling': `Namaste! I'm Veda from Mind Veda. I see you've booked **Child Counseling** — you're taking a wonderful step for your child. To help Babita prepare, could you tell me: How old is your child, and what changes in behavior or emotions have you noticed?`,
-        'stress-counseling': `Namaste! I'm Veda from Mind Veda. You've booked **Stress Counseling** — a great decision. To help Babita understand your situation, tell me: Where is most of your stress coming from right now — work, family, health, or finances?`,
-        'career-counseling': `Namaste! I'm Veda from Mind Veda. You've booked **Career Counseling**. I'd love to understand your situation better. Are you feeling stuck in your current job, confused about which career to choose, or looking for a change? Tell me more.`,
-        'family-counseling': `Namaste! I'm Veda from Mind Veda. You've booked **Family Counseling**. Family matters can be deeply complex. To help Babita prepare, could you share: What's the main challenge in your family right now — communication, conflict, or something else?`,
-        'sports-counseling': `Namaste! I'm Veda from Mind Veda. You've booked **Sports Counseling**. Mental strength is key to great performance. Tell me: What sport do you play, and what mental challenges are affecting your game — anxiety, focus, pressure, or motivation?`,
+        'individual-counseling': `Namaste! I'm Veda, your Mind Veda wellness guide. I see you're interested in **Individual Counselling**. Before your session with Babita, I'd love to understand you better. What's been weighing on your mind lately — is it stress, relationships, anxiety, or something else?`,
+        'child-counseling': `Namaste! I'm Veda from Mind Veda. I see you've booked **Child Counselling** — you're taking a wonderful step for your child. To help Babita prepare, could you tell me: How old is your child, and what changes in behavior or emotions have you noticed?`,
+        'stress-counseling': `Namaste! I'm Veda from Mind Veda. You've booked **Stress Counselling** — a great decision. To help Babita understand your situation, tell me: Where is most of your stress coming from right now — work, family, health, or finances?`,
+        'career-counseling': `Namaste! I'm Veda from Mind Veda. You've booked **Career Counselling**. I'd love to understand your situation better. Are you feeling stuck in your current job, confused about which career to choose, or looking for a change? Tell me more.`,
+        'family-counseling': `Namaste! I'm Veda from Mind Veda. You've booked **Family Counselling**. Family matters can be deeply complex. To help Babita prepare, could you share: What's the main challenge in your family right now — communication, conflict, or something else?`,
+        'sports-counseling': `Namaste! I'm Veda from Mind Veda. You've booked **Sports Counselling**. Mental strength is key to great performance. Tell me: What sport do you play, and what mental challenges are affecting your game — anxiety, focus, pressure, or motivation?`,
       }
       const welcomeText = welcomeMap[serviceSlug] ||
         `Namaste! I'm Veda, your Mind Veda wellness guide. You've booked **${serviceName}** — I'm here to understand your needs before your session with Babita. How are you feeling today, and what brings you here?`

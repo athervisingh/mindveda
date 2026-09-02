@@ -87,7 +87,7 @@ export default function BlogIndex() {
               className="md:text-right max-w-xs"
             >
               <p className="text-gray-500 text-sm leading-7 mb-5">
-                Practical insights by Babita Kumari — 12+ years of psychology, social counseling &amp; holistic wellness.
+                Practical insights by Babita Kumari — 12+ years of psychology, social counselling &amp; holistic wellness.
               </p>
               <div className="flex md:justify-end gap-8">
                 {[{ val: `${blogArticles.length}+`, label: 'Articles' }, { val: '12+', label: 'Years Exp.' }].map(s => (

@@ -947,7 +947,7 @@ export default function Retreat() {
                 { icon: 'mic',        text: 'Expert Lectures & Workshops' },
                 { icon: 'namaste',    text: 'Farewell Blessings Ceremony' },
                 { icon: 'sleep',      text: 'Accommodation (2 Nights)' },
-                { icon: 'mind',       text: 'Chakra & Counseling Sessions' },
+                { icon: 'mind',       text: 'Chakra & Counselling Sessions' },
                 { icon: 'mala',       text: 'Rudraksh Mala Gift' },
               ].map((item, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }} viewport={{ once: true }}
@@ -988,7 +988,7 @@ export default function Retreat() {
               <ul className="space-y-3">
                 {[
                   '3 full days of immersive healing in Rishikesh',
-                  'Expert-led yoga, counseling & meditation',
+                  'Expert-led yoga, counselling & meditation',
                   'Authentic Vedic ceremonies & fire rituals',
                   'Sattvic meals — pure, nourishing, healing',
                   'Small group — personal attention guaranteed',

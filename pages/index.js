@@ -560,10 +560,10 @@ export default function Home() {
 
               <div className="space-y-4 text-gray-600 leading-7 text-sm md:text-base">
                 <p>
-                  Babita Kumari is a <strong>Counseling Psychologist</strong> with 5 years of dedicated experience helping individuals navigate stress, anxiety, emotional challenges, relationship concerns, and personal growth — through a compassionate and practical approach that creates lasting change.
+                  Babita Kumari is a <strong>Counselling Psychologist</strong> with 5 years of dedicated experience helping individuals navigate stress, anxiety, emotional challenges, relationship concerns, and personal growth — through a compassionate and practical approach that creates lasting change.
                 </p>
                 <p>
-                  With <strong>10 years of social counseling</strong> through NGO work, she has walked alongside individuals and families from diverse backgrounds, supporting them in overcoming personal and social challenges with empathy, clarity, and grounded guidance.
+                  With <strong>10 years of social counselling</strong> through NGO work, she has walked alongside individuals and families from diverse backgrounds, supporting them in overcoming personal and social challenges with empathy, clarity, and grounded guidance.
                 </p>
                 <p>
                   Deeply rooted in holistic well-being, Babita brings <strong>12+ years of yoga and wellness</strong> expertise — seamlessly integrating mindful practices to restore emotional balance, build inner resilience, and nurture overall well-being in every person she works with.

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { FacebookIcon, InstagramIcon, YoutubeIcon, LinkedInIcon, LotusIcon } from './Icons'
 
 export default function Footer() {
@@ -15,8 +16,8 @@ export default function Footer() {
             className="col-span-2 md:col-span-1"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-white flex-shrink-0">
-                <LotusIcon className="w-4 h-4" />
+              <div className="w-10 h-10 relative flex-shrink-0">
+                <Image src="/logo-mark.png" alt="MindVeda by Babita logo" fill className="object-contain" />
               </div>
               <div>
                 <div className="font-semibold text-white">MindVeda</div>
@@ -63,7 +64,7 @@ export default function Footer() {
           >
             <h3 className="font-semibold text-white mb-3 md:mb-4 text-sm md:text-base">Our Services</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/services" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Individual Counseling</Link></li>
+              <li><Link href="/services" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Individual Counselling</Link></li>
               <li><Link href="/services" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Couples Therapy</Link></li>
               <li><Link href="/yoga" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Yoga & Wellness</Link></li>
               <li><Link href="/retreat" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Retreats</Link></li>

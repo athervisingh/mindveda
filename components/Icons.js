@@ -379,7 +379,7 @@ export function RetreatActivityIcon({ type, className = 'w-5 h-5' }) {
 export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
   const base = { className, viewBox: '0 0 56 56', fill: 'none', stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round' }
 
-  // Individual Counseling — person + peaceful mind / thought cloud
+  // Individual Counselling — person + peaceful mind / thought cloud
   if (type === 'mind') return (
     <svg {...base} strokeWidth="1.8">
       {/* head */}
@@ -396,7 +396,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Child Counseling — smiling sun, bright & cheerful
+  // Child Counselling — smiling sun, bright & cheerful
   if (type === 'star') return (
     <svg {...base} strokeWidth="1.8">
       <circle cx="28" cy="28" r="10" />
@@ -416,7 +416,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Stress Counseling — calm breathing / waves
+  // Stress Counselling — calm breathing / waves
   if (type === 'wave') return (
     <svg {...base} strokeWidth="1.8">
       {/* three calm waves */}
@@ -428,7 +428,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Career Counseling — compass with clear needle
+  // Career Counselling — compass with clear needle
   if (type === 'compass') return (
     <svg {...base} strokeWidth="1.8">
       <circle cx="28" cy="28" r="18" />
@@ -444,7 +444,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Family Counseling — house with a heart inside
+  // Family Counselling — house with a heart inside
   if (type === 'home') return (
     <svg {...base} strokeWidth="1.8">
       {/* house */}
@@ -455,7 +455,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Sports Counseling — lightning bolt (performance/energy)
+  // Sports Counselling — lightning bolt (performance/energy)
   if (type === 'trophy') return (
     <svg {...base} strokeWidth="1.8">
       {/* trophy cup */}
@@ -471,7 +471,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Anxiety Counseling — lotus flower (calm, peace)
+  // Anxiety Counselling — lotus flower (calm, peace)
   if (type === 'calm') return (
     <svg {...base} strokeWidth="1.8">
       {/* center petal */}
@@ -491,7 +491,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Parental Counseling — adult + child hands / protective embrace
+  // Parental Counselling — adult + child hands / protective embrace
   if (type === 'heart') return (
     <svg {...base} strokeWidth="1.8">
       {/* large adult figure */}
@@ -507,7 +507,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Depression Counseling — plant/leaf growing from ground (hope, growth)
+  // Depression Counselling — plant/leaf growing from ground (hope, growth)
   if (type === 'leaf') return (
     <svg {...base} strokeWidth="1.8">
       {/* ground line */}
@@ -523,7 +523,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Educational Counseling — open book with light/knowledge
+  // Educational Counselling — open book with light/knowledge
   if (type === 'book') return (
     <svg {...base} strokeWidth="1.8">
       {/* open book left page */}
@@ -544,7 +544,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Parent-Child Counseling — two people with a connecting bridge/bond
+  // Parent-Child Counselling — two people with a connecting bridge/bond
   if (type === 'bond') return (
     <svg {...base} strokeWidth="1.8">
       {/* adult figure left */}
@@ -560,7 +560,7 @@ export function ServiceCategoryIcon({ type, className = 'w-10 h-10' }) {
     </svg>
   )
 
-  // Couples Counseling — two hearts interlinked
+  // Couples Counselling — two hearts interlinked
   if (type === 'couple') return (
     <svg {...base} strokeWidth="1.8">
       {/* left heart */}

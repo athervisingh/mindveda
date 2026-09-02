@@ -814,7 +814,7 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-2xl font-bold text-[#1a3520]">Live Chats</h1>
-                <p className="text-gray-400 text-sm mt-1">Active chat sessions — click to read and reply as counselor.</p>
+                <p className="text-gray-400 text-sm mt-1">Active chat sessions — click to read and reply as counsellor.</p>
               </div>
               <button onClick={fetchChats} className="px-4 py-2 rounded-xl bg-[#1a3520] text-white text-sm font-medium hover:opacity-90">Refresh</button>
             </div>
@@ -887,7 +887,7 @@ export default function AdminDashboard() {
                         <div className="px-4 py-3 border-t border-gray-100 flex gap-2">
                           <input type="text" value={staffInput} onChange={e => setStaffInput(e.target.value)}
                             onKeyDown={e => e.key === 'Enter' && sendStaffMessage()}
-                            placeholder="Reply as Babita (counselor)…"
+                            placeholder="Reply as Babita (counsellor)…"
                             className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1a3520] bg-[#fbfaf7]" />
                           <button onClick={sendStaffMessage} disabled={!staffInput.trim() || sendingStaff}
                             className="px-5 py-2.5 bg-[#1a3520] text-white rounded-xl text-sm font-medium hover:opacity-90 disabled:opacity-40">

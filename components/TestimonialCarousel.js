@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const testimonials = [
   { id: 1, name: 'Priya S.', role: 'Anxiety support', initials: 'PS', color: 'bg-rose-100 text-rose-600', text: 'I was hesitant about therapy. She made me feel heard and supported from the very first session.' },
-  { id: 2, name: 'Rahul & Anjali D.', role: 'Couples counseling', initials: 'RA', color: 'bg-blue-100 text-blue-600', text: 'Couples counseling at MindVeda saved our marriage. We learned how to actually listen to each other again.' },
-  { id: 3, name: 'Sandra K.', role: 'Burnout recovery', initials: 'SK', color: 'bg-emerald-100 text-emerald-700', text: 'The combination of yoga and counseling was exactly what I needed. I feel like a completely new person.' },
+  { id: 2, name: 'Rahul & Anjali D.', role: 'Couples counselling', initials: 'RA', color: 'bg-blue-100 text-blue-600', text: 'Couples counselling at MindVeda saved our marriage. We learned how to actually listen to each other again.' },
+  { id: 3, name: 'Sandra K.', role: 'Burnout recovery', initials: 'SK', color: 'bg-emerald-100 text-emerald-700', text: 'The combination of yoga and counselling was exactly what I needed. I feel like a completely new person.' },
 ]
 
 export default function TestimonialCarousel() {

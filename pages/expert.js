@@ -10,7 +10,7 @@ const pillars = [
   {
     years: '5',
     unit: 'Years',
-    domain: 'Psychological Counseling',
+    domain: 'Psychological Counselling',
     description:
       'Guiding individuals through stress, anxiety, emotional challenges, relationship concerns, and personal growth — with a compassionate, practical, and non-judgmental presence.',
     icon: (
@@ -28,7 +28,7 @@ const pillars = [
   {
     years: '10',
     unit: 'Years',
-    domain: 'Social Counseling',
+    domain: 'Social Counselling',
     description:
       'Through dedicated NGO work, supporting individuals and families in overcoming personal and social challenges — bringing empathy, clarity, and meaningful guidance to every interaction.',
     icon: (
@@ -68,7 +68,7 @@ const pillars = [
 const specializations = [
   'Stress & Anxiety Management',
   'Emotional Wellbeing',
-  'Relationship Counseling',
+  'Relationship Counselling',
   'Personal Growth & Resilience',
   'Community & Family Support',
   'Yoga & Mindful Wellness',
@@ -123,7 +123,7 @@ export default function Expert() {
                   <span className="text-[#f5a623]">Expert Care</span>
                 </h1>
                 <p className="hidden md:block text-white/75 text-sm lg:text-base xl:text-lg leading-7 mb-6 max-w-lg">
-                  From individual therapy to group support, our certified psychologists offer evidence-based counseling for every stage of your mental wellness journey.
+                  From individual therapy to group support, our certified psychologists offer evidence-based counselling for every stage of your mental wellness journey.
                 </p>
                 <div className="hidden md:flex gap-8 lg:gap-12">
                   {[
@@ -176,10 +176,10 @@ export default function Expert() {
 
               <div className="space-y-4 text-gray-600 leading-7 text-sm md:text-base">
                 <p>
-                  Babita Kumari is a <strong>Counseling Psychologist</strong> with 5 years of dedicated experience helping individuals navigate stress, anxiety, emotional challenges, relationship concerns, and personal growth — through a compassionate and practical approach that creates lasting change.
+                  Babita Kumari is a <strong>Counselling Psychologist</strong> with 5 years of dedicated experience helping individuals navigate stress, anxiety, emotional challenges, relationship concerns, and personal growth — through a compassionate and practical approach that creates lasting change.
                 </p>
                 <p>
-                  With <strong>10 years of social counseling</strong> through NGO work, she has walked alongside individuals and families from diverse backgrounds, supporting them in overcoming personal and social challenges with empathy, clarity, and grounded guidance.
+                  With <strong>10 years of social counselling</strong> through NGO work, she has walked alongside individuals and families from diverse backgrounds, supporting them in overcoming personal and social challenges with empathy, clarity, and grounded guidance.
                 </p>
                 <p>
                   Deeply rooted in holistic well-being, Babita brings <strong>12+ years of yoga and wellness</strong> expertise — seamlessly integrating mindful practices to restore emotional balance, build inner resilience, and nurture overall well-being in every person she works with.

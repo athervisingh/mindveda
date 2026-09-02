@@ -92,7 +92,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-1.5 sm:gap-2 hover:opacity-80 transition-opacity flex-shrink-0">
           <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 relative flex-shrink-0">
-            <Image src="/lotus.webp" alt="MindVeda Logo" fill className="object-contain" />
+            <Image src="/logo-mark.png" alt="MindVeda by Babita logo" fill priority className="object-contain" />
           </div>
           <div className="leading-tight">
             <div className="text-[#2d4f3a] leading-none font-semibold" style={{ fontFamily: 'Playfair Display, Georgia, serif', fontSize: 'clamp(0.9rem, 2.5vw, 1.5rem)' }}>

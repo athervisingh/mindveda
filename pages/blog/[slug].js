@@ -79,7 +79,7 @@ export default function BlogArticlePage({ article, related }) {
               </div>
               <div>
                 <p className="text-sm font-semibold text-[#1a3520]">{article.author}</p>
-                <p className="text-[11px] sm:text-xs text-gray-400">Counseling Psychologist · Yoga & Wellness Expert</p>
+                <p className="text-[11px] sm:text-xs text-gray-400">Counselling Psychologist · Yoga & Wellness Expert</p>
               </div>
             </div>
           </motion.div>
@@ -156,7 +156,7 @@ export default function BlogArticlePage({ article, related }) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-sm sm:text-base text-[#1a3520]">{article.author}</p>
-                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5 mb-2 leading-relaxed">Counseling Psychologist · Social Counselor · Yoga & Wellness Expert</p>
+                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5 mb-2 leading-relaxed">Counselling Psychologist · Social Counsellor · Yoga & Wellness Expert</p>
                 <p className="text-xs sm:text-sm text-gray-500 leading-6">
                   Babita Kumari has been helping individuals navigate emotional challenges, relationships, and personal growth for over 12 years through psychology, holistic wellness, and compassionate guidance.
                 </p>
@@ -218,7 +218,7 @@ export default function BlogArticlePage({ article, related }) {
               Ready to go deeper?
             </h2>
             <p className="mt-4 text-white/70 text-sm md:text-base leading-7 max-w-xl mx-auto">
-              Reading opens the door. Working with Babita walks you through it — through counseling, yoga, or an immersive healing retreat.
+              Reading opens the door. Working with Babita walks you through it — through counselling, yoga, or an immersive healing retreat.
             </p>
             <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 justify-center items-center">
               <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">

@@ -149,7 +149,7 @@ export default function ChatRoom() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-[#1a3520]">
-                  {session?.type === 'staff' ? 'Mind Veda Counselor' : 'Veda — Wellness Guide'}
+                  {session?.type === 'staff' ? 'Mind Veda Counsellor' : 'Veda — Wellness Guide'}
                 </p>
                 <p className="text-xs text-gray-400">
                   {session?.type === 'staff' ? '🟢 Staff is with you' : '🤖 AI Assistant'}

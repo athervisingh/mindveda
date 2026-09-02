@@ -6,7 +6,7 @@ const orgSchema = {
   name: 'MindVeda by Babita',
   alternateName: ['MindVeda', 'Mind Veda', 'Mindveda by Babita'],
   url: 'https://www.mindvedabybabita.com',
-  logo: 'https://www.mindvedabybabita.com/logo.png',
+  logo: 'https://www.mindvedabybabita.com/logo2.png',
   image: 'https://www.mindvedabybabita.com/hero2.webp',
   email: 'support@mindvedabybabita.com',
   telephone: '+919211488516',
@@ -67,6 +67,10 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        {/* Brand icons — logo2.png se banaye gaye */}
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <meta name="theme-color" content="#2d4f3a" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Great+Vibes&family=Lato:wght@300;400;600&display=swap" rel="stylesheet" />

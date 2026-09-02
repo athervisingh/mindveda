@@ -1,7 +1,7 @@
 import { supabaseAdmin } from '../../../lib/supabaseAdmin'
 import { CHALLENGE_PRICE_PAISE } from '../../../lib/pf16'
 
-// Wahi coupons table jo counseling/shop checkout par use hoti hai.
+// Wahi coupons table jo counselling/shop checkout par use hoti hai.
 // Yahan koi logged-in user nahi hota, isliye first_time_only ko email se
 // check kiya jaata hai — pehle se koi paid attempt ho to coupon nahi chalega.
 export async function lookupCoupon(rawCode, email) {
