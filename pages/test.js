@@ -349,6 +349,33 @@ export default function TestPage() {
               </div>
             </motion.div>
 
+            {/* ── Paid 16 PF upsell ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="mt-6 rounded-2xl bg-gradient-to-br from-[#1a3520] to-[#24492c] border-2 border-[#f5a623]/40 p-6 text-center shadow-[0_10px_30px_-14px_rgba(26,53,32,0.6)]"
+            >
+              <p className="inline-block bg-[#f5a623] text-[#1a3520] text-[10px] font-extrabold uppercase tracking-[0.22em] rounded-full px-3 py-1">
+                {t(UI.challengeTag)}
+              </p>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mt-3" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+                {t(UI.challengeTitle)}
+              </h3>
+              <p className="text-white/80 text-[14px] font-medium leading-7 mt-2.5 max-w-md mx-auto">
+                {t(UI.challengeBody)}
+              </p>
+              <Link
+                href="/challenge"
+                className="inline-flex items-center gap-2 mt-5 bg-[#f5a623] text-[#1a3520] font-extrabold rounded-full px-7 py-3 text-sm shadow-lg hover:brightness-105 active:scale-95 transition-all"
+              >
+                {t(UI.challengeCta)}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </motion.div>
+
             <div className="grid sm:grid-cols-2 gap-3 mt-6">
               <button
                 onClick={() => startTest(test.id)}
