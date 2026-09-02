@@ -1,6 +1,7 @@
 import { supabaseAdmin } from '../../../lib/supabaseAdmin'
 import { resend } from '../../../lib/resend'
-import { ITEMS, TOTAL_ITEMS, scorePF16, FACTORS } from '../../../lib/pf16'
+import { scorePF16, FACTORS } from '../../../lib/pf16'
+import { fetchPf16Items } from '../../../lib/testContent'
 
 const LETTER = ['a', 'b', 'c']
 
@@ -10,6 +11,11 @@ export default async function handler(req, res) {
   const { attemptId, accessToken, answers, durationSeconds } = req.body || {}
 
   if (!attemptId || !accessToken) return res.status(400).json({ error: 'Missing access details' })
+
+  // Wahi sawal jo user ko dikhe the — admin ne edit kiye ho to DB wale.
+  const ITEMS = await fetchPf16Items(supabaseAdmin)
+  const TOTAL_ITEMS = ITEMS.length
+
   if (!Array.isArray(answers) || answers.length !== TOTAL_ITEMS) {
     return res.status(400).json({ error: 'Answer sheet is incomplete or malformed' })
   }
@@ -39,6 +45,9 @@ export default async function handler(req, res) {
     .from('pf16_attempts')
     .update({
       answers: clean,
+      // Sheet ke saath uske sawal bhi save — baad me sawal badle to bhi
+      // purani sheet sahi padhi jaye.
+      questions_snapshot: ITEMS,
       answered_count: answered,
       duration_seconds: Number.isFinite(durationSeconds) ? Math.round(durationSeconds) : null,
       status: 'submitted',

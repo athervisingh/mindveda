@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { supabase } from '../../lib/supabaseClient'
-import { ITEMS, TOTAL_ITEMS } from '../../lib/pf16'
+import { ITEMS as STATIC_ITEMS } from '../../lib/pf16'
+import { fetchPf16Items } from '../../lib/testContent'
 
 const LETTER = ['a', 'b', 'c']
 
@@ -35,8 +36,15 @@ export default function ChallengeTab() {
   const [search, setSearch]   = useState('')
   const [status, setStatus]   = useState('all')
   const [selected, setSelected] = useState(null)
+  const [items, setItems]       = useState(STATIC_ITEMS)
 
   useEffect(() => { fetchRows() }, [])
+  useEffect(() => { fetchPf16Items(supabase).then(setItems).catch(() => {}) }, [])
+
+  const TOTAL_ITEMS = items.length
+  // Har attempt apni sheet ke sawal saath rakhti hai — sawal baad me badle
+  // ho to bhi purani sheet sahi padhi jaati hai.
+  const sheetItems = selected?.questions_snapshot?.length ? selected.questions_snapshot : items
 
   async function fetchRows() {
     setLoading(true)
@@ -93,7 +101,7 @@ export default function ChallengeTab() {
     const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`
     const csv = [
       ['q_no', 'question', 'answer_letter', 'answer_text'].join(','),
-      ...ITEMS.map((item, i) => {
+      ...(row.questions_snapshot?.length ? row.questions_snapshot : items).map((item, i) => {
         const a = row.answers?.[i]
         const picked = a === 0 || a === 1 || a === 2
         return [i + 1, item[0], picked ? LETTER[a] : '', picked ? item[a + 1] : ''].map(esc).join(',')
@@ -242,14 +250,14 @@ export default function ChallengeTab() {
                 {selected.answers?.length ? (
                   <>
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100 mb-2">
-                      <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Answer sheet — {TOTAL_ITEMS} items</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Answer sheet — {sheetItems.length} items</p>
                       <button onClick={() => exportSheet(selected)}
                         className="text-xs text-[#1a3520] border border-[#1a3520]/30 px-3 py-1.5 rounded-lg hover:bg-[#1a3520] hover:text-white transition-all">
                         Download sheet CSV
                       </button>
                     </div>
                     <div className="space-y-1.5">
-                      {ITEMS.map((item, i) => {
+                      {sheetItems.map((item, i) => {
                         const a = selected.answers[i]
                         const picked = a === 0 || a === 1 || a === 2
                         return (

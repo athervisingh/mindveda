@@ -5,7 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { TESTS, UI, TEST_SECONDS, bandFor } from '../lib/mindTest'
+import { TESTS as STATIC_TESTS, UI, TEST_SECONDS, bandFor } from '../lib/mindTest'
+import { supabase } from '../lib/supabaseClient'
+import { fetchMindTest } from '../lib/testContent'
 
 const GREEN = '#1a3520'
 const GOLD  = '#f5a623'
@@ -13,6 +15,7 @@ const GOLD  = '#f5a623'
 export default function TestPage() {
   const router = useRouter()
   const [lang, setLang]       = useState('en')
+  const [tests, setTests]     = useState(STATIC_TESTS)   // DB aane tak defaults
   const [phase, setPhase]     = useState('choose')   // choose | quiz | result
   const [groupId, setGroupId] = useState(null)
   const [answers, setAnswers] = useState({})         // { [qid]: optionIndex }
@@ -22,10 +25,29 @@ export default function TestPage() {
   const advanceRef = useRef(null)
   const savedRef   = useRef(false)
   const startedRef = useRef(null)
+  const phaseRef   = useRef('choose')
 
-  const test = groupId ? TESTS[groupId] : null
+  const test = groupId ? tests[groupId] : null
   const t    = (obj) => (obj ? obj[lang] : '')
   const fromRegistration = router.query.from === 'registration'
+
+  useEffect(() => { phaseRef.current = phase }, [phase])
+
+  // ── Admin ke edit kiye hue sawal DB se — na milen to defaults chalte rehte hain ──
+  useEffect(() => {
+    let cancelled = false
+    Promise.all(Object.keys(STATIC_TESTS).map(id => fetchMindTest(supabase, id)))
+      .then(list => {
+        if (cancelled) return
+        const next = {}
+        list.forEach(t => { if (t) next[t.id] = t })
+        if (!Object.keys(next).length) return
+        // Quiz shuru ho chuka ho to sawal beech me na badlein — agli baar lagenge.
+        setTests(prev => (phaseRef.current === 'choose' ? next : prev))
+      })
+      .catch(() => { /* defaults hi rahenge */ })
+    return () => { cancelled = true }
+  }, [])
 
   // ── Countdown — sirf quiz ke dauraan chalta hai ──
   useEffect(() => {
@@ -153,7 +175,7 @@ export default function TestPage() {
               {t(UI.chooseTitle)}
             </h2>
             <div className="grid sm:grid-cols-2 gap-5">
-              {Object.values(TESTS).map(item => (
+              {Object.values(tests).map(item => (
                 <motion.button
                   key={item.id}
                   onClick={() => startTest(item.id)}

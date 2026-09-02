@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '../../../lib/supabaseAdmin'
-import { TESTS, bandFor } from '../../../lib/mindTest'
+import { bandFor } from '../../../lib/mindTest'
+import { fetchMindTest } from '../../../lib/testContent'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -8,7 +9,11 @@ export default async function handler(req, res) {
 
   const { groupId, lang, answers, timedOut, durationSeconds, registrationId } = req.body || {}
 
-  const test = TESTS[groupId]
+  if (groupId !== 'under-20' && groupId !== 'above-20') {
+    return res.status(400).json({ error: 'Unknown age group' })
+  }
+  // Wahi sawal jo user ko dikhe the — admin ne edit kiye ho to DB wale.
+  const test = await fetchMindTest(supabaseAdmin, groupId)
   if (!test) return res.status(400).json({ error: 'Unknown age group' })
   if (!answers || typeof answers !== 'object') return res.status(400).json({ error: 'Answers missing' })
 

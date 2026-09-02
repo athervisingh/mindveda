@@ -5,10 +5,11 @@ import { NextSeo } from 'next-seo'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { loadRazorpay } from '../lib/loadRazorpay'
-import { INTRO, EXAMPLES, ITEMS, TOTAL_ITEMS, CHALLENGE_PRICE_PAISE } from '../lib/pf16'
+import { INTRO, EXAMPLES, ITEMS as STATIC_ITEMS, CHALLENGE_PRICE_PAISE } from '../lib/pf16'
+import { supabase } from '../lib/supabaseClient'
+import { fetchPf16Items } from '../lib/testContent'
 
 const PER_PAGE  = 10
-const PAGES     = Math.ceil(TOTAL_ITEMS / PER_PAGE)
 const STORE_KEY = 'mv16pf'
 const LETTER    = ['a', 'b', 'c']
 const PRICE     = Math.round(CHALLENGE_PRICE_PAISE / 100)
@@ -29,7 +30,8 @@ export default function ChallengePage() {
   const [couponState, setCouponState] = useState(null)   // { code, flat_price, message } | { error }
   const [checkingCoupon, setCheckingCoupon] = useState(false)
   const [access, setAccess]   = useState(null)        // { attemptId, accessToken }
-  const [answers, setAnswers] = useState(() => Array(TOTAL_ITEMS).fill(null))
+  const [items, setItems]     = useState(STATIC_ITEMS)   // DB aane tak defaults
+  const [answers, setAnswers] = useState(() => Array(STATIC_ITEMS.length).fill(null))
   const [page, setPage]       = useState(0)
   const [startedAt, setStartedAt] = useState(null)
   const [elapsed, setElapsed] = useState(0)
@@ -39,17 +41,33 @@ export default function ChallengePage() {
   const [headerH, setHeaderH] = useState(60)
   const topRef = useRef(null)
 
-  // ── Paid attempt + draft ko wapas uthao (refresh ya band ho jaane par) ──
+  // ── Admin ke edit kiye sawal + paid attempt ka draft, dono uthao ──
   useEffect(() => {
-    const s = readStore()
-    if (s?.attemptId && s?.accessToken) {
-      setAccess({ attemptId: s.attemptId, accessToken: s.accessToken })
-      if (Array.isArray(s.answers) && s.answers.length === TOTAL_ITEMS) setAnswers(s.answers)
-      setStartedAt(s.startedAt || Date.now())
-      setPage(s.page || 0)
-      setPhase(s.answers ? 'test' : 'intro')
-    }
-    setReady(true)
+    let cancelled = false
+    fetchPf16Items(supabase)
+      .catch(() => STATIC_ITEMS)
+      .then(list => {
+        if (cancelled) return
+        const total = list.length
+        setItems(list)
+
+        const s = readStore()
+        if (s?.attemptId && s?.accessToken) {
+          setAccess({ attemptId: s.attemptId, accessToken: s.accessToken })
+          // Sawal badal gaye ho to draft ko naye size par fit kar do.
+          const draft = Array.isArray(s.answers) ? s.answers.slice(0, total) : []
+          while (draft.length < total) draft.push(null)
+          if (Array.isArray(s.answers)) setAnswers(draft)
+          else setAnswers(Array(total).fill(null))
+          setStartedAt(s.startedAt || Date.now())
+          setPage(Math.min(s.page || 0, Math.max(0, Math.ceil(total / PER_PAGE) - 1)))
+          setPhase(s.answers ? 'test' : 'intro')
+        } else {
+          setAnswers(Array(total).fill(null))
+        }
+        setReady(true)
+      })
+    return () => { cancelled = true }
   }, [])
 
   // ── Sticky progress bar header ke thik neeche baithe, har screen par ──
@@ -70,6 +88,8 @@ export default function ChallengePage() {
     return () => clearInterval(id)
   }, [phase, startedAt])
 
+  const TOTAL_ITEMS = items.length
+  const PAGES       = Math.max(1, Math.ceil(TOTAL_ITEMS / PER_PAGE))
   const answeredCount = useMemo(() => answers.filter(a => a !== null).length, [answers])
   const firstUnanswered = useMemo(() => answers.findIndex(a => a === null), [answers])
 
@@ -225,7 +245,7 @@ export default function ChallengePage() {
     }
   }
 
-  const pageItems = ITEMS.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
+  const pageItems = items.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
   const mm = String(Math.floor(elapsed / 60)).padStart(2, '0')
   const ss = String(elapsed % 60).padStart(2, '0')
 
