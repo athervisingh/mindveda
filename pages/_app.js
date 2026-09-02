@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import { DefaultSeo } from 'next-seo'
 import { AuthProvider } from '../context/AuthContext'
 import ChatWidget from '../components/ChatWidget'
+import RegistrationWidget from '../components/RegistrationWidget'
 
 const DEFAULT_SEO = {
   titleTemplate: '%s | MindVeda',
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }) {
       <AuthProvider>
         <Component {...pageProps} />
         <ChatWidget />
+        <RegistrationWidget />
       </AuthProvider>
     </>
   )

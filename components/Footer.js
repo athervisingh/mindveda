@@ -47,6 +47,7 @@ export default function Footer() {
             <h3 className="font-semibold text-white mb-3 md:mb-4 text-sm md:text-base">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Home</Link></li>
+              <li><Link href="/registration" className="text-[#f5a623] font-semibold hover:text-[#ffb733] transition-colors hover:underline hover:underline-offset-2">Registration Form</Link></li>
               <li><Link href="/yoga" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Yoga</Link></li>
               <li><Link href="/retreat" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">Retreat</Link></li>
               <li><Link href="/about" className="hover:text-brand-light transition-colors hover:underline hover:underline-offset-2">About</Link></li>

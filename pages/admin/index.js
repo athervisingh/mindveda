@@ -7,6 +7,7 @@ import { NextSeo } from 'next-seo'
 import ShopTab from '../../components/admin/ShopTab'
 import RetreatPackagesTab from '../../components/admin/RetreatPackagesTab'
 import NewsTab from '../../components/admin/NewsTab'
+import RegistrationsTab from '../../components/admin/RegistrationsTab'
 
 const STATUS_STYLES = {
   confirmed:   'bg-green-100 text-green-700',
@@ -27,6 +28,7 @@ const TABS = [
   { id: 'retreat-packages', label: 'Retreat Packages', icon: '🏔️' },
   { id: 'shop',     label: 'Shop',      icon: '🛍️' },
   { id: 'news',     label: 'News',      icon: '📰' },
+  { id: 'registrations', label: 'Registrations', icon: '📝' },
 ]
 
 function fmt12(t) {
@@ -968,6 +970,7 @@ export default function AdminDashboard() {
         {/* ══════════════ SHOP TAB ══════════════ */}
         {activeTab === 'shop' && <ShopTab />}
         {activeTab === 'news' && <NewsTab />}
+        {activeTab === 'registrations' && <RegistrationsTab />}
 
       </main>
     </div>
