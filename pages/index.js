@@ -478,39 +478,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* ── REGISTRATION BANNER — form ka main entry point ── */}
-        <section className="bg-[#1a3520] border-b border-[#f5a623]/30">
-          <div className="max-w-[1800px] mx-auto px-4 sm:px-6 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-center sm:text-left">
-            <div className="flex items-center gap-3">
-              <span className="hidden sm:flex w-10 h-10 rounded-full bg-[#f5a623] text-[#1a3520] items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 4H7a2 2 0 00-2 2v13a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-2" />
-                  <rect x="9" y="2.5" width="6" height="3.5" rx="1" />
-                  <path d="M8.5 12h7M8.5 16h4" />
-                </svg>
-              </span>
-              <div>
-                <div className="text-white font-semibold text-sm sm:text-base" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-                  Naye students ke liye <span className="text-[#f5a623]">Registration Form</span>
-                </div>
-                <div className="text-white/70 text-xs sm:text-sm" style={{ fontFamily: 'Lato, sans-serif' }}>
-                  Sirf 2 minute — apni details bhejein, hum aapse contact karenge.
-                </div>
-              </div>
-            </div>
-            <Link
-              href="/registration"
-              className="inline-flex items-center gap-2 bg-[#f5a623] text-[#1a3520] font-bold rounded-full px-5 py-2.5 text-sm hover:bg-[#ffb733] active:scale-95 transition-all flex-shrink-0 shadow-lg"
-              style={{ fontFamily: 'Lato, sans-serif' }}
-            >
-              Fill the Form
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-        </section>
-
         {/* ── QUOTE BANNER ── */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.7 }} viewport={{ once: true }} className="bg-white border-y border-gray-100">
           <div className="max-w-4xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-center gap-3">

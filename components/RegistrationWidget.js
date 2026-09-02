@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 
 // ChatWidget ke bilkul upar baithta hai — wahi circle shape, sirf colour alag (gold).
-const HIDDEN_PATHS = ['/chat', '/admin', '/login', '/signup', '/registration']
+const HIDDEN_PATHS = ['/chat', '/admin', '/login', '/signup', '/registration', '/test']
 
 export default function RegistrationWidget() {
   const router = useRouter()

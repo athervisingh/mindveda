@@ -121,22 +121,6 @@ export default function Header() {
         {/* Right actions */}
         <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
 
-          {/* Registration CTA — har screen size par visible, sabse pehle */}
-          <Link
-            href="/registration"
-            title="Registration Form"
-            className="relative inline-flex items-center gap-1 sm:gap-1.5 bg-[#f5a623] text-[#1a3520] rounded-full font-bold hover:bg-[#ffb733] active:scale-95 transition-all flex-shrink-0 shadow-sm ring-2 ring-[#f5a623]/30 px-2 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-sm whitespace-nowrap"
-            style={{ fontFamily: 'Lato, sans-serif' }}
-          >
-            <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 4H7a2 2 0 00-2 2v13a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-2" />
-              <rect x="9" y="2.5" width="6" height="3.5" rx="1" />
-              <path d="M8.5 12h7M8.5 16h4" />
-            </svg>
-            <span className="sm:hidden">Form</span>
-            <span className="hidden sm:inline">Registration Form</span>
-          </Link>
-
           {/* Cart — always visible */}
           <Link href="/cart" className="relative p-1.5 sm:p-2 rounded-full hover:bg-black/5 active:bg-black/10 transition-colors flex-shrink-0">
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -265,16 +249,6 @@ export default function Header() {
             className="lg:hidden bg-[#f7f4eb] border-t border-[#e8dfc0] overflow-hidden"
           >
             <nav className="px-4 py-3 flex flex-col gap-0.5">
-              <Link
-                href="/registration"
-                className="mb-1 text-sm py-3 px-3 rounded-xl flex items-center justify-between font-bold bg-[#f5a623] text-[#1a3520] hover:bg-[#ffb733] transition-colors"
-                onClick={() => setMenuOpen(false)}
-              >
-                Registration Form
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </Link>
               {[
                 { label: 'Home',     href: '/' },
                 { label: 'Services', href: '/services' },

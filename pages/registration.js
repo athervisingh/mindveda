@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import Header from '../components/Header'
@@ -37,12 +37,6 @@ const SECTION_THEMES = {
   4: { bar: 'from-[#5b6ec2] to-[#93a3ea]', badge: 'bg-[#5b6ec2] text-white',     tint: 'bg-[#f2f4ff]' },
 }
 
-const CheckIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-9 h-9">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-  </svg>
-)
-
 const labelCls = 'block text-[15px] font-bold text-[#1a3520] mb-2'
 const fieldCls = 'w-full bg-white border-2 border-[#c7d3c6] rounded-xl px-4 py-3.5 text-[16px] font-medium text-[#12251a] placeholder-[#93a394] shadow-sm focus:outline-none focus:ring-4 focus:ring-[#f5a623]/35 focus:border-[#f5a623] hover:border-[#8fae95] transition-all'
 const reqCls = 'text-[#c2321f] font-extrabold'
@@ -73,10 +67,10 @@ function Section({ step, title, subtitle, children }) {
 }
 
 export default function RegistrationPage() {
+  const router                = useRouter()
   const [form, setForm]       = useState(EMPTY)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError]     = useState('')
-  const [done, setDone]       = useState(false)
 
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }))
 
@@ -92,11 +86,11 @@ export default function RegistrationPage() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.')
-      setDone(true)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      // Registration save ho gaya — seedha Mind Check test par bhej do.
+      router.push('/test?from=registration')
+      return
     } catch (err) {
       setError(err.message)
-    } finally {
       setSubmitting(false)
     }
   }
@@ -130,28 +124,6 @@ export default function RegistrationPage() {
           </div>
         </div>
 
-        {done ? (
-          <div className="max-w-xl mx-auto px-6 py-20 text-center">
-            <motion.div
-              initial={{ scale: 0.7, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 200 }}
-              className="w-20 h-20 rounded-full bg-[#f5a623] flex items-center justify-center mx-auto mb-6 text-[#1a3520] shadow-lg"
-            >
-              <CheckIcon />
-            </motion.div>
-            <h2 className="text-3xl font-bold text-[#1a3520] mb-3" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-              Registration Received
-            </h2>
-            <p className="text-[#3d4f42] text-[15px] font-medium leading-8">
-              Thank you, {form.full_name.split(' ')[0]}. We have received your details and our team will get in touch with you shortly.
-              A confirmation email has been sent to {form.email}.
-            </p>
-            <Link href="/" className="inline-block mt-8 text-sm font-bold text-[#1a3520] bg-[#f5a623] rounded-full px-8 py-3.5 shadow-md hover:brightness-105 hover:scale-[1.03] transition-all">
-              Back to Home
-            </Link>
-          </div>
-        ) : (
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-6">
 
             <Section step={1} title="Basic Details" subtitle="So we know how to reach you">
@@ -269,8 +241,7 @@ export default function RegistrationPage() {
                 🔒 All your information stays private and confidential.
               </p>
             </div>
-          </form>
-        )}
+        </form>
       </main>
 
       <Footer />
