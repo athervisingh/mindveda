@@ -11,6 +11,7 @@ import RegistrationsTab from '../../components/admin/RegistrationsTab'
 import MindCheckTab from '../../components/admin/MindCheckTab'
 import ChallengeTab from '../../components/admin/ChallengeTab'
 import TestQuestionsTab from '../../components/admin/TestQuestionsTab'
+import CatalogTab from '../../components/admin/CatalogTab'
 
 const STATUS_STYLES = {
   confirmed:   'bg-green-100 text-green-700',
@@ -35,6 +36,7 @@ const TABS = [
   { id: 'mind-check', label: 'Mind Check', icon: '🧠' },
   { id: 'challenge',  label: 'Mind Challenge', icon: '🎯' },
   { id: 'questions',  label: 'Test Questions', icon: '✏️' },
+  { id: 'catalog',    label: 'Services & Yoga', icon: '💰' },
 ]
 
 function fmt12(t) {
@@ -980,6 +982,7 @@ export default function AdminDashboard() {
         {activeTab === 'mind-check' && <MindCheckTab />}
         {activeTab === 'challenge' && <ChallengeTab />}
         {activeTab === 'questions' && <TestQuestionsTab />}
+        {activeTab === 'catalog' && <CatalogTab />}
 
       </main>
     </div>

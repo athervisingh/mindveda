@@ -3,7 +3,8 @@ import Footer from '../components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { orderedAllServices as allServices } from '../lib/siteContent'
+import { supabaseAdmin } from '../lib/supabaseAdmin'
+import { fetchServices, STATIC_SERVICES } from '../lib/catalog'
 import { useState } from 'react'
 import SlotPickerModal from '../components/SlotPickerModal'
 import { ServiceCategoryIcon, ArrowRightIcon, PhoneIcon } from '../components/Icons'
@@ -46,7 +47,8 @@ const servicesFaqSchema = {
   })),
 }
 
-export default function Services() {
+export default function Services({ services }) {
+  const allServices = services?.length ? services : STATIC_SERVICES
   const [activeCategory, setActiveCategory] = useState('All')
   const [modalItem, setModalItem] = useState(null)
 
@@ -283,4 +285,10 @@ export default function Services() {
     </div>
     </>
   )
+}
+
+// Services DB se — admin panel me price ya text badalte hi ~1 min me live.
+export async function getStaticProps() {
+  const services = await fetchServices(supabaseAdmin)
+  return { props: { services }, revalidate: 60 }
 }

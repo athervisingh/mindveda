@@ -4,7 +4,8 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { yogaPackages } from '../../lib/siteContent'
+import { supabaseAdmin } from '../../lib/supabaseAdmin'
+import { fetchYogaPackages } from '../../lib/catalog'
 import { useState } from 'react'
 import { NextSeo } from 'next-seo'
 
@@ -143,10 +144,8 @@ function SlotPicker({ pkg, days, selectedDay, onDaySelect, selectedTime, setSele
   )
 }
 
-export default function YogaDetail() {
+export default function YogaDetail({ pkg }) {
   const router = useRouter()
-  const { slug } = router.query
-  const pkg = yogaPackages.find((p) => p.slug === slug) || yogaPackages[0]
 
   const days = getNext14Days()
   const [selectedDay, setSelectedDay] = useState(null)
@@ -389,4 +388,19 @@ export default function YogaDetail() {
       <Footer />
     </div>
   )
+}
+
+export async function getStaticPaths() {
+  const packages = await fetchYogaPackages(supabaseAdmin)
+  return {
+    paths: packages.map(p => ({ params: { slug: p.slug } })),
+    fallback: 'blocking',
+  }
+}
+
+export async function getStaticProps({ params }) {
+  const packages = await fetchYogaPackages(supabaseAdmin)
+  const pkg = packages.find(p => p.slug === params.slug) || null
+  if (!pkg) return { notFound: true, revalidate: 60 }
+  return { props: { pkg }, revalidate: 60 }
 }

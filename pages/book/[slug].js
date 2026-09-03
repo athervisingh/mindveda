@@ -5,7 +5,8 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { allServices } from '../../lib/siteContent'
+import { supabaseAdmin } from '../../lib/supabaseAdmin'
+import { fetchServices, fetchServiceBySlug } from '../../lib/catalog'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 
@@ -427,14 +428,16 @@ export default function BookingPage({ service }) {
 }
 
 export async function getStaticPaths() {
+  const services = await fetchServices(supabaseAdmin)
   return {
-    paths: allServices.map(s => ({ params: { slug: s.slug } })),
-    fallback: false,
+    paths: services.map(s => ({ params: { slug: s.slug } })),
+    // Admin naya service jode to uska page pehli request par ban jaata hai.
+    fallback: 'blocking',
   }
 }
 
 export async function getStaticProps({ params }) {
-  const service = allServices.find(s => s.slug === params.slug) || null
-  if (!service) return { notFound: true }
-  return { props: { service } }
+  const service = await fetchServiceBySlug(supabaseAdmin, params.slug)
+  if (!service) return { notFound: true, revalidate: 60 }
+  return { props: { service }, revalidate: 60 }
 }

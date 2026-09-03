@@ -4,7 +4,9 @@ import Footer from '../../components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 import { LazyMotion, domAnimation, m } from 'framer-motion'
-import { yogaPackages } from '../../lib/siteContent'
+import { supabaseAdmin } from '../../lib/supabaseAdmin'
+import { fetchYogaPackages } from '../../lib/catalog'
+import { yogaPackages as STATIC_YOGA } from '../../lib/siteContent'
 import { useState } from 'react'
 import SlotPickerModal from '../../components/SlotPickerModal'
 import { NextSeo } from 'next-seo'
@@ -69,7 +71,9 @@ const HOW_IT_WORKS = [
   ['3. Join Online', 'Review your cart, pay securely, and join your session.'],
 ]
 
-export default function Yoga() {
+export default function Yoga({ packages }) {
+  const yogaPackages = packages?.length ? packages : STATIC_YOGA
+
   const [modalItem, setModalItem] = useState(null)
 
   return (
@@ -241,4 +245,9 @@ export default function Yoga() {
     </div>
     </LazyMotion>
   )
+}
+
+export async function getStaticProps() {
+  const packages = await fetchYogaPackages(supabaseAdmin)
+  return { props: { packages }, revalidate: 60 }
 }
