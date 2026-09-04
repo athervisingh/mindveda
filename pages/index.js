@@ -429,7 +429,7 @@ export default function Home() {
         </div>
 
         {/* ── NEWS MARQUEE ── admin panel (news_items) se control hota hai ── */}
-        <NewsMarquee />
+        <NewsMarquee placement="all" />
 
         {/* ── QUOTE BANNER ── */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.7 }} viewport={{ once: true }} className="bg-white border-y border-gray-100">

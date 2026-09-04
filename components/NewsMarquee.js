@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { supabase } from '../lib/supabaseClient'
@@ -26,7 +26,7 @@ function loadNews() {
 // Page ne apna "after hero" slot mount kiya hai ya nahi — iske hisaab se _app fallback decide karta hai.
 const HeroSlotContext = createContext(null)
 
-function NewsBar({ placement }) {
+function NewsBar({ placements }) {
   const router = useRouter()
   const [items, setItems] = useState([])
 
@@ -37,7 +37,7 @@ function NewsBar({ placement }) {
   }, [])
 
   const visible = items.filter(item =>
-    (item.placement || 'after_hero') === placement &&
+    placements.includes(item.placement || 'after_hero') &&
     matchesRoute(item.route, router.pathname, router.asPath)
   )
 
@@ -79,23 +79,45 @@ function NewsBar({ placement }) {
   )
 }
 
-/**
- * Page ke andar hero ke turant baad rakho: <NewsMarquee />
- * Jis page me yeh nahi hai wahan "After hero image" wali news
- * NewsProvider automatically page ke top par dikha deta hai.
- */
-export default function NewsMarquee({ placement = 'after_hero' }) {
-  const slot = useContext(HeroSlotContext)
-
-  useEffect(() => {
-    if (!slot || placement !== 'after_hero') return undefined
-    return slot.register()
-  }, [slot, placement])
-
-  return <NewsBar placement={placement} />
+const PLACEMENT_SETS = {
+  top: ['top'],
+  after_hero: ['after_hero'],
+  all: ['top', 'after_hero'],
 }
 
-// _app me poore app ko wrap karta hai: "Top of page" wali news har route par top par.
+/**
+ * Page ke andar hero ke turant baad rakho: <NewsMarquee />
+ * placement="all" (home) dono tarah ki news yahin dikha deta hai.
+ */
+export default function NewsMarquee({ placement = 'after_hero' }) {
+  const register = useContext(HeroSlotContext)?.register
+  const isHeroSlot = placement === 'after_hero' || placement === 'all'
+
+  // register stable hai (useCallback []), isliye yeh effect sirf mount/unmount par chalta hai.
+  useEffect(() => {
+    if (!register || !isHeroSlot) return undefined
+    return register()
+  }, [register, isHeroSlot])
+
+  return <NewsBar placements={PLACEMENT_SETS[placement] || PLACEMENT_SETS.after_hero} />
+}
+
+/**
+ * Header ke andar, navbar ke bilkul neeche render hota hai.
+ * Home par kuch nahi dikhata — wahan news hero image ke baad aati hai.
+ * Jis page me hero slot nahi hai wahan "after hero" wali news bhi yahin aa jati hai.
+ */
+export function HeaderNewsBar() {
+  const { pathname } = useRouter()
+  const slot = useContext(HeroSlotContext)
+
+  if (pathname === '/') return null
+
+  const placements = slot && slot.heroSlots > 0 ? PLACEMENT_SETS.top : PLACEMENT_SETS.all
+  return <NewsBar placements={placements} />
+}
+
+// _app me poore app ko wrap karta hai — batata hai ki page ka apna hero slot hai ya nahi.
 export function NewsProvider({ children }) {
   const [heroSlots, setHeroSlots] = useState(0)
 
@@ -104,10 +126,10 @@ export function NewsProvider({ children }) {
     return () => setHeroSlots(n => Math.max(0, n - 1))
   }, [])
 
+  const value = useMemo(() => ({ heroSlots, register }), [heroSlots, register])
+
   return (
-    <HeroSlotContext.Provider value={{ register }}>
-      <NewsBar placement="top" />
-      {heroSlots === 0 && <NewsBar placement="after_hero" />}
+    <HeroSlotContext.Provider value={value}>
       {children}
     </HeroSlotContext.Provider>
   )

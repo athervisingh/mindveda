@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { orderedAllServices, yogaPackages } from '../lib/siteContent'
+import { HeaderNewsBar } from './NewsMarquee'
 
 function useCartCount() {
   const [count, setCount] = useState(0)
@@ -81,6 +82,7 @@ export default function Header() {
   const { pathname } = useRouter()
 
   return (
+    <>
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -343,5 +345,9 @@ export default function Header() {
         )}
       </AnimatePresence>
     </motion.header>
+
+    {/* ── NEWS MARQUEE — navbar ke bilkul neeche (home ko chhod kar har page par) ── */}
+    <HeaderNewsBar />
+    </>
   )
 }

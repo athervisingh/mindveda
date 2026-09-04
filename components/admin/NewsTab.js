@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { supabase } from '../../lib/supabaseClient'
-import { NEWS_PLACEMENTS, NEWS_ROUTE_OPTIONS, ALL_ROUTES } from '../../lib/newsPlacements'
+import { NEWS_ROUTE_OPTIONS, ALL_ROUTES } from '../../lib/newsPlacements'
 
 const EMPTY_FORM = {
   id: null,
@@ -16,10 +16,6 @@ const EMPTY_FORM = {
 function routeLabel(route) {
   const known = NEWS_ROUTE_OPTIONS.find(o => o.value === route)
   return known ? known.label : route
-}
-
-function placementShort(placement) {
-  return placement === 'top' ? 'Top of page' : 'After hero'
 }
 
 export default function NewsTab() {
@@ -125,14 +121,14 @@ export default function NewsTab() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/70">
-                  {['Headline', 'Page / Route', 'Position', 'Link', 'Order', 'Active', 'Actions'].map(h => (
+                  {['Headline', 'Page / Route', 'Link', 'Order', 'Active', 'Actions'].map(h => (
                     <th key={h} className="text-left text-[11px] font-semibold text-gray-400 px-4 py-3 uppercase tracking-wide whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {items.length === 0 ? (
-                  <tr><td colSpan={7} className="text-center py-16 text-gray-400 text-sm">No headlines yet</td></tr>
+                  <tr><td colSpan={6} className="text-center py-16 text-gray-400 text-sm">No headlines yet</td></tr>
                 ) : items.map(item => (
                   <tr key={item.id} className="border-b border-gray-50 last:border-0 hover:bg-[#f7f5f0] transition-colors">
                     <td className="px-4 py-3 min-w-[260px]">
@@ -142,9 +138,6 @@ export default function NewsTab() {
                       <span className="text-xs font-medium text-[#1a3520] bg-[#f1ebdb] px-2 py-1 rounded-md whitespace-nowrap">
                         {(item.route || ALL_ROUTES) === ALL_ROUTES ? 'All pages' : item.route}
                       </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="text-xs text-gray-500 whitespace-nowrap">{placementShort(item.placement || 'after_hero')}</span>
                     </td>
                     <td className="px-4 py-3">
                       <span className="text-xs text-gray-400 truncate max-w-[180px] inline-block">{item.link || '—'}</span>
@@ -233,24 +226,10 @@ export default function NewsTab() {
                     <p className="mt-1 text-[11px] text-gray-400">* = saare pages · /blog/* = us section ke saare pages</p>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Position</label>
-                    <div className="flex flex-col gap-2">
-                      {NEWS_PLACEMENTS.map(p => (
-                        <label key={p.value} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-                          <input type="radio" name="news-placement" value={p.value}
-                            checked={form.placement === p.value}
-                            onChange={() => setForm(f => ({ ...f, placement: p.value }))} />
-                          {p.label}
-                        </label>
-                      ))}
-                    </div>
-                    {form.placement === 'after_hero' && (
-                      <p className="mt-1 text-[11px] text-gray-400">
-                        Jis page me hero slot nahi hai wahan yeh apne aap page ke top par dikh jayegi.
-                      </p>
-                    )}
-                  </div>
+                  <p className="text-[11px] text-gray-500 leading-5">
+                    <span className="font-semibold text-[#1a3520]">Position:</span> Home page par news hero image ke baad
+                    dikhti hai, baaki har page par navbar ke bilkul neeche — yeh automatic hai.
+                  </p>
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-600 mb-1">Sort Order</label>
