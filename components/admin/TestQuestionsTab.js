@@ -54,6 +54,7 @@ function MindEditor({ groupId }) {
   const [busy, setBusy]       = useState(false)
   const [editing, setEditing] = useState(null)   // { row, isNew }
   const [editingBand, setEditingBand] = useState(null)
+  const [missing, setMissing] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -61,7 +62,8 @@ function MindEditor({ groupId }) {
       supabase.from('mind_check_questions').select('*').eq('age_group', groupId).order('position'),
       supabase.from('mind_check_bands').select('*').eq('age_group', groupId).order('min_score'),
     ])
-    if (q.error) alert('Could not load questions: ' + q.error.message)
+    setMissing(q.error?.code === 'PGRST205' || b.error?.code === 'PGRST205')
+    if (q.error && q.error.code !== 'PGRST205') alert('Could not load questions: ' + q.error.message)
     setQuestions(q.data || [])
     setBands(b.data || [])
     setLoading(false)
@@ -181,6 +183,8 @@ function MindEditor({ groupId }) {
   }
 
   if (loading) return <div className="space-y-2">{[1, 2, 3].map(i => <div key={i} className="h-16 bg-gray-100 rounded-2xl animate-pulse" />)}</div>
+
+  if (missing) return <MigrationNotice />
 
   if (questions.length === 0 && bands.length === 0) {
     return (
@@ -419,11 +423,13 @@ function Pf16Editor() {
   const [busy, setBusy]       = useState(false)
   const [search, setSearch]   = useState('')
   const [editing, setEditing] = useState(null)
+  const [missing, setMissing] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
     const { data, error } = await supabase.from('pf16_questions').select('*').order('position')
-    if (error) alert('Could not load questions: ' + error.message)
+    setMissing(error?.code === 'PGRST205')
+    if (error && error.code !== 'PGRST205') alert('Could not load questions: ' + error.message)
     setRows(data || [])
     setLoading(false)
   }, [])
@@ -495,6 +501,8 @@ function Pf16Editor() {
   }
 
   if (loading) return <div className="space-y-2">{[1, 2, 3].map(i => <div key={i} className="h-14 bg-gray-100 rounded-2xl animate-pulse" />)}</div>
+
+  if (missing) return <MigrationNotice />
 
   if (rows.length === 0) {
     return (
@@ -576,6 +584,20 @@ function Pf16Editor() {
 }
 
 /* ══════════════════ shared ══════════════════ */
+
+function MigrationNotice() {
+  return (
+    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center">
+      <p className="text-3xl mb-3">🗄️</p>
+      <p className="text-sm font-bold text-amber-900">Database setup pending</p>
+      <p className="text-[13px] text-amber-800 leading-6 max-w-lg mx-auto mt-2">
+        The question tables don’t exist yet, so the tests are still running on the built-in default questions
+        — nothing on the site is broken. Run <code className="font-mono bg-amber-100 px-1.5 py-0.5 rounded">db/migrations/008_editable_tests.sql</code> in
+        the Supabase SQL editor, then reload this page to start editing.
+      </p>
+    </div>
+  )
+}
 
 function EmptyState({ children, onImport, onAdd, busy }) {
   return (

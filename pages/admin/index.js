@@ -23,21 +23,37 @@ const STATUS_STYLES = {
 }
 const STATUS_OPTIONS = ['confirmed', 'pending', 'completed', 'cancelled', 'rescheduled', 'no_show']
 
-const TABS = [
-  { id: 'bookings', label: 'Bookings',  icon: '📋' },
-  { id: 'users',    label: 'Users',     icon: '👥' },
-  { id: 'schedule', label: 'Schedule',  icon: '🗓️' },
-  { id: 'chats',    label: 'Live Chats', icon: '💬' },
-  { id: 'retreats', label: 'Retreats',  icon: '🏕️' },
-  { id: 'retreat-packages', label: 'Retreat Packages', icon: '🏔️' },
-  { id: 'shop',     label: 'Shop',      icon: '🛍️' },
-  { id: 'news',     label: 'News',      icon: '📰' },
-  { id: 'registrations', label: 'Registrations', icon: '📝' },
-  { id: 'mind-check', label: 'Mind Check', icon: '🧠' },
-  { id: 'challenge',  label: 'Mind Challenge', icon: '🎯' },
-  { id: 'questions',  label: 'Test Questions', icon: '✏️' },
-  { id: 'catalog',    label: 'Services & Yoga', icon: '💰' },
+const TAB_GROUPS = [
+  {
+    label: 'Daily',
+    tabs: [
+      { id: 'bookings', label: 'Bookings',   icon: '📋' },
+      { id: 'chats',    label: 'Live Chats', icon: '💬' },
+      { id: 'schedule', label: 'Schedule',   icon: '🗓️' },
+      { id: 'users',    label: 'Users',      icon: '👥' },
+    ],
+  },
+  {
+    label: 'Catalogue',
+    tabs: [
+      { id: 'catalog',          label: 'Services & Yoga',  icon: '💰' },
+      { id: 'retreats',         label: 'Retreats',         icon: '🏕️' },
+      { id: 'retreat-packages', label: 'Retreat Packages', icon: '🏔️' },
+      { id: 'shop',             label: 'Shop',             icon: '🛍️' },
+      { id: 'news',             label: 'News',             icon: '📰' },
+    ],
+  },
+  {
+    label: 'Tests & Forms',
+    tabs: [
+      { id: 'registrations', label: 'Registrations',   icon: '📝' },
+      { id: 'mind-check',    label: 'Mind Check',      icon: '🧠' },
+      { id: 'challenge',     label: 'Mind Challenge',  icon: '🎯' },
+      { id: 'questions',     label: 'Test Questions',  icon: '✏️' },
+    ],
+  },
 ]
+
 
 function fmt12(t) {
   if (!t) return ''
@@ -305,30 +321,42 @@ export default function AdminDashboard() {
       <NextSeo noindex nofollow title="Admin — MindVeda" />
 
       {/* ── Sidebar ── */}
-      <aside className="w-56 bg-[#1a3520] min-h-screen p-5 flex flex-col gap-1 flex-shrink-0 sticky top-0 h-screen">
-        <div className="mb-8">
+      <aside className="w-52 xl:w-56 bg-[#1a3520] flex flex-col flex-shrink-0 sticky top-0 h-screen">
+        <div className="px-5 pt-5 pb-4 flex-shrink-0">
           <p className="text-[#f5a623] text-xs font-bold uppercase tracking-widest">Mind Veda</p>
           <p className="text-white/40 text-[11px] mt-1">Admin Panel</p>
         </div>
-        {TABS.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${
-              activeTab === tab.id ? 'bg-white/15 text-white' : 'text-white/50 hover:text-white hover:bg-white/8'
-            }`}
-          >
-            <span className="text-base">{tab.icon}</span>
-            {tab.label}
-            {tab.id === 'chats' && chatSessions.length > 0 && (
-              <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                {chatSessions.length}
-              </span>
-            )}
-          </button>
-        ))}
-        <div className="mt-auto border-t border-white/10 pt-4">
-          <p className="text-white/30 text-[11px] mb-3">{user?.email}</p>
+
+        {/* Nav khud scroll karta hai — tabs badhne par bhi sab tak pahunch rehti hai */}
+        <nav className="flex-1 overflow-y-auto px-3 pb-3 admin-nav">
+          {TAB_GROUPS.map(group => (
+            <div key={group.label} className="mb-3">
+              <p className="text-white/25 text-[10px] font-bold uppercase tracking-[0.15em] px-2 mb-1.5">{group.label}</p>
+              <div className="flex flex-col gap-0.5">
+                {group.tabs.map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-all flex items-center gap-2.5 ${
+                      activeTab === tab.id ? 'bg-white/15 text-white' : 'text-white/50 hover:text-white hover:bg-white/8'
+                    }`}
+                  >
+                    <span className="text-[15px] flex-shrink-0">{tab.icon}</span>
+                    <span className="truncate">{tab.label}</span>
+                    {tab.id === 'chats' && chatSessions.length > 0 && (
+                      <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0">
+                        {chatSessions.length}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        <div className="border-t border-white/10 px-5 py-4 flex-shrink-0">
+          <p className="text-white/30 text-[11px] mb-2 truncate">{user?.email}</p>
           <button
             onClick={() => { logout(); router.push('/') }}
             className="text-white/40 hover:text-white text-xs transition-colors"
@@ -336,6 +364,12 @@ export default function AdminDashboard() {
             Log out
           </button>
         </div>
+
+        <style jsx>{`
+          .admin-nav::-webkit-scrollbar { width: 6px; }
+          .admin-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 3px; }
+          .admin-nav::-webkit-scrollbar-track { background: transparent; }
+        `}</style>
       </aside>
 
       {/* ── Main content ── */}
