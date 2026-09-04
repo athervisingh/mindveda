@@ -1,4 +1,5 @@
 import Header from '../../components/Header'
+import NewsMarquee from '../../components/NewsMarquee'
 import { ArrowRightIcon } from '../../components/Icons'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
@@ -32,6 +33,9 @@ export default function ResourcesIndex() {
             <ImagePlaceholder width="w-full" height="h-[380px]" label="Resources hero image placeholder" />
           </div>
         </section>
+
+        {/* ── NEWS MARQUEE — hero ke baad ── */}
+        <NewsMarquee />
 
         <section className="max-w-6xl mx-auto px-6 pb-20">
           <div className="grid md:grid-cols-3 gap-6">

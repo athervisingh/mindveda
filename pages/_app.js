@@ -3,6 +3,7 @@ import { DefaultSeo } from 'next-seo'
 import { AuthProvider } from '../context/AuthContext'
 import ChatWidget from '../components/ChatWidget'
 import RegistrationWidget from '../components/RegistrationWidget'
+import { NewsProvider } from '../components/NewsMarquee'
 
 const DEFAULT_SEO = {
   titleTemplate: '%s | MindVeda',
@@ -24,7 +25,9 @@ export default function App({ Component, pageProps }) {
     <>
       <DefaultSeo {...DEFAULT_SEO} />
       <AuthProvider>
-        <Component {...pageProps} />
+        <NewsProvider>
+          <Component {...pageProps} />
+        </NewsProvider>
         <ChatWidget />
         <RegistrationWidget />
       </AuthProvider>

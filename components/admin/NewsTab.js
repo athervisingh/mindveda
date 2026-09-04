@@ -1,17 +1,30 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { supabase } from '../../lib/supabaseClient'
+import { NEWS_PLACEMENTS, NEWS_ROUTE_OPTIONS, ALL_ROUTES } from '../../lib/newsPlacements'
 
 const EMPTY_FORM = {
   id: null,
   headline: '',
   link: '',
+  route: ALL_ROUTES,
+  placement: 'top',
   is_active: true,
   sort_order: 0,
 }
 
+function routeLabel(route) {
+  const known = NEWS_ROUTE_OPTIONS.find(o => o.value === route)
+  return known ? known.label : route
+}
+
+function placementShort(placement) {
+  return placement === 'top' ? 'Top of page' : 'After hero'
+}
+
 export default function NewsTab() {
   const [items, setItems] = useState([])
+  const [customRoute, setCustomRoute] = useState(false)
   const [loading, setLoading] = useState(true)
   const [formOpen, setFormOpen] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
@@ -28,17 +41,22 @@ export default function NewsTab() {
 
   function openCreateForm() {
     setForm({ ...EMPTY_FORM, sort_order: items.length })
+    setCustomRoute(false)
     setFormOpen(true)
   }
 
   function openEditForm(item) {
+    const route = item.route || ALL_ROUTES
     setForm({
       id: item.id,
       headline: item.headline,
       link: item.link || '',
+      route,
+      placement: item.placement || 'after_hero',
       is_active: item.is_active,
       sort_order: item.sort_order,
     })
+    setCustomRoute(!NEWS_ROUTE_OPTIONS.some(o => o.value === route))
     setFormOpen(true)
   }
 
@@ -52,6 +70,8 @@ export default function NewsTab() {
       const payload = {
         headline: form.headline.trim(),
         link: form.link.trim() || null,
+        route: form.route.trim() || ALL_ROUTES,
+        placement: form.placement,
         is_active: form.is_active,
         sort_order: parseInt(form.sort_order) || 0,
       }
@@ -105,18 +125,26 @@ export default function NewsTab() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/70">
-                  {['Headline', 'Link', 'Order', 'Active', 'Actions'].map(h => (
+                  {['Headline', 'Page / Route', 'Position', 'Link', 'Order', 'Active', 'Actions'].map(h => (
                     <th key={h} className="text-left text-[11px] font-semibold text-gray-400 px-4 py-3 uppercase tracking-wide whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {items.length === 0 ? (
-                  <tr><td colSpan={5} className="text-center py-16 text-gray-400 text-sm">No headlines yet</td></tr>
+                  <tr><td colSpan={7} className="text-center py-16 text-gray-400 text-sm">No headlines yet</td></tr>
                 ) : items.map(item => (
                   <tr key={item.id} className="border-b border-gray-50 last:border-0 hover:bg-[#f7f5f0] transition-colors">
                     <td className="px-4 py-3 min-w-[260px]">
                       <p className="text-sm font-semibold text-[#1a3520]">{item.headline}</p>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-xs font-medium text-[#1a3520] bg-[#f1ebdb] px-2 py-1 rounded-md whitespace-nowrap">
+                        {(item.route || ALL_ROUTES) === ALL_ROUTES ? 'All pages' : item.route}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-xs text-gray-500 whitespace-nowrap">{placementShort(item.placement || 'after_hero')}</span>
                     </td>
                     <td className="px-4 py-3">
                       <span className="text-xs text-gray-400 truncate max-w-[180px] inline-block">{item.link || '—'}</span>
@@ -175,6 +203,54 @@ export default function NewsTab() {
                   <input type="text" value={form.link} onChange={e => setForm(f => ({ ...f, link: e.target.value }))}
                     placeholder="e.g. /retreat"
                     className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3520]/20" />
+                </div>
+
+                <div className="rounded-xl border border-[#e0d9c4] bg-[#faf8f3] p-4 space-y-3">
+                  <p className="text-xs font-semibold text-[#1a3520] uppercase tracking-wide">Kahan dikhe</p>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Page / Route</label>
+                    <select
+                      value={customRoute ? '__custom__' : form.route}
+                      onChange={e => {
+                        if (e.target.value === '__custom__') {
+                          setCustomRoute(true)
+                          setForm(f => ({ ...f, route: '' }))
+                        } else {
+                          setCustomRoute(false)
+                          setForm(f => ({ ...f, route: e.target.value }))
+                        }
+                      }}
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1a3520]/20">
+                      {NEWS_ROUTE_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                      <option value="__custom__">Custom route…</option>
+                    </select>
+                    {customRoute && (
+                      <input type="text" value={form.route} onChange={e => setForm(f => ({ ...f, route: e.target.value }))}
+                        placeholder="e.g. /yoga/hatha  ya  /blog/* (poora section)"
+                        className="mt-2 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3520]/20" />
+                    )}
+                    <p className="mt-1 text-[11px] text-gray-400">* = saare pages · /blog/* = us section ke saare pages</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Position</label>
+                    <div className="flex flex-col gap-2">
+                      {NEWS_PLACEMENTS.map(p => (
+                        <label key={p.value} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                          <input type="radio" name="news-placement" value={p.value}
+                            checked={form.placement === p.value}
+                            onChange={() => setForm(f => ({ ...f, placement: p.value }))} />
+                          {p.label}
+                        </label>
+                      ))}
+                    </div>
+                    {form.placement === 'after_hero' && (
+                      <p className="mt-1 text-[11px] text-gray-400">
+                        Jis page me hero slot nahi hai wahan yeh apne aap page ke top par dikh jayegi.
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-600 mb-1">Sort Order</label>

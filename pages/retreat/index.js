@@ -1,4 +1,5 @@
 import Header from '../../components/Header'
+import NewsMarquee from '../../components/NewsMarquee'
 import Footer from '../../components/Footer'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -796,6 +797,9 @@ export default function Retreat() {
             <div className="hidden md:block absolute inset-y-0 left-0 w-64 bg-gradient-to-r from-[#2d4f3a] via-[#2d4f3a]/50 to-transparent" />
           </div>
         </section>
+
+        {/* ── NEWS MARQUEE — hero ke baad ── */}
+        <NewsMarquee />
 
         {/* ── PRICING ── */}
         <section className="max-w-6xl mx-auto px-6 py-16" id="pricing">
